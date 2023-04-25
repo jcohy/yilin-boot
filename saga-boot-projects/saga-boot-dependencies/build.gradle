@@ -1,0 +1,19 @@
+plugins {
+	id 'java-platform'
+	id "io.github.jcohy.gradle.convention"
+}
+
+javaPlatform {
+	allowDependencies()
+}
+
+dependencies {
+
+	constraints {
+
+		// saga-boot-projects
+
+		// commons utils
+
+	}
+}

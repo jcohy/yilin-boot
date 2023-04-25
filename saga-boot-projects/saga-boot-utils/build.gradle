@@ -1,0 +1,8 @@
+plugins {
+	id "com.saga.module"
+}
+
+description = "Saga Boot Commons Utils"
+
+dependencies {
+}

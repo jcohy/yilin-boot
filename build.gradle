@@ -1,0 +1,24 @@
+description = "saga-boot"
+
+
+configure(allprojects) { abjects ->
+
+	group = GROUP
+	version = VERSION
+
+	repositories {
+		maven { url = 'https://maven.aliyun.com/repository/public' }
+		mavenCentral()
+	}
+
+	configurations.all {
+		resolutionStrategy {
+			cacheChangingModulesFor 0, "minutes"
+			cacheDynamicVersionsFor 0, "minutes"
+		}
+	}
+
+	configurations {
+		compile.exclude module: 'spring-boot-starter-tomcat'
+	}
+}

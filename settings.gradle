@@ -1,0 +1,5 @@
+rootProject.name = "saga-boot"
+
+include 'saga-boot-projects:saga-boot-dependencies'
+
+include 'saga-boot-projects:saga-boot-utils'
