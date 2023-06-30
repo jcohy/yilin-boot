@@ -1,4 +1,4 @@
-<code_scheme name="SagaCodeStyle" version="173">
+<code_scheme name="YiLinCodeStyle" version="173">
 	<option name="AUTODETECT_INDENTS" value="false"/>
 	<option name="OTHER_INDENT_OPTIONS">
 		<value>
@@ -39,7 +39,7 @@
 				<package name="org.springframework" withSubpackages="true"
 						 static="false"/>
 				<emptyLine/>
-				<package name="com.saga" withSubpackages="true" static="false"/>
+				<package name="com.yilin" withSubpackages="true" static="false"/>
 				<emptyLine/>
 				<package name="" withSubpackages="true" static="true"/>
 			</value>
@@ -64,7 +64,7 @@
 				<package name="org.springframework" withSubpackages="true"
 						 static="false"/>
 				<emptyLine/>
-				<package name="com.saga" withSubpackages="true" static="false"/>
+				<package name="com.yilin" withSubpackages="true" static="false"/>
 				<emptyLine/>
 				<package name="" withSubpackages="true" static="true"/>
 			</value>

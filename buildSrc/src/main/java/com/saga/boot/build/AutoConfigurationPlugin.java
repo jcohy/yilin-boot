@@ -1,4 +1,4 @@
-package com.saga.boot.build;
+package com.yilin.boot.build;
 
 import java.util.Collections;
 
@@ -25,7 +25,7 @@ public class AutoConfigurationPlugin implements Plugin<Project> {
             project.getDependencies().add(JavaPlugin.ANNOTATION_PROCESSOR_CONFIGURATION_NAME, "org.springframework.boot:spring-boot-autoconfigure-processor:" + JcohyVersion.getSpringBootVersion());
             project.getDependencies().add(JavaPlugin.ANNOTATION_PROCESSOR_CONFIGURATION_NAME, "org.springframework.boot:spring-boot-configuration-processor:" + JcohyVersion.getSpringBootVersion());
             project.getDependencies().add(JavaPlugin.ANNOTATION_PROCESSOR_CONFIGURATION_NAME, project.getDependencies().project(Collections.singletonMap("path",
-                    ":saga-boot-projects:saga-boot-configuration-processor")));
+                    ":yilin-boot-projects:yilin-boot-configuration-processor")));
         });
     }
 }

@@ -21,16 +21,16 @@ dependencies {
 gradlePlugin {
 	plugins {
 		docsPlugin {
-			id = "com.saga.docs"
-			implementationClass = "com.saga.boot.build.AsciidoctorDocsPlugins"
+			id = "com.yilin.docs"
+			implementationClass = "com.yilin.boot.build.AsciidoctorDocsPlugins"
 		}
 		deployedPlugin {
-			id = "com.saga.module"
-			implementationClass = "com.saga.boot.build.SaganModulePlugin"
+			id = "com.yilin.module"
+			implementationClass = "com.yilin.boot.build.SaganModulePlugin"
 		}
 		autoConfigurationPlugin {
-			id = "com.saga.auto-configuration"
-			implementationClass = "com.saga.boot.build.AutoConfigurationPlugin"
+			id = "com.yilin.auto-configuration"
+			implementationClass = "com.yilin.boot.build.AutoConfigurationPlugin"
 		}
 	}
 }

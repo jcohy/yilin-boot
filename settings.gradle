@@ -1,5 +1,5 @@
-rootProject.name = "saga-boot"
+rootProject.name = "yilin-boot"
 
-include 'saga-boot-projects:saga-boot-dependencies'
+include 'yilin-boot-projects:yilin-boot-dependencies'
 
-include 'saga-boot-projects:saga-boot-utils'
+include 'yilin-boot-projects:yilin-boot-utils'

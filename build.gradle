@@ -1,4 +1,4 @@
-description = "saga-boot"
+description = "yilin-boot"
 
 
 configure(allprojects) { abjects ->

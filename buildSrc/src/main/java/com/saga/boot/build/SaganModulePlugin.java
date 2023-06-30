@@ -1,4 +1,4 @@
-package com.saga.boot.build;
+package com.yilin.boot.build;
 
 import java.util.Collections;
 
@@ -35,7 +35,7 @@ public class SaganModulePlugin implements Plugin<Project> {
 
     private void configureDependencyManagement(Project project) {
         Dependency sagaParent = project.getDependencies().enforcedPlatform(project.getDependencies()
-                .project(Collections.singletonMap("path", ":saga-boot-projects:saga-boot-dependencies")));
+                .project(Collections.singletonMap("path", ":yilin-boot-projects:yilin-boot-dependencies")));
         project.getConfigurations().getByName("dependencyManagement", (dependencyManagement) -> {
             dependencyManagement.getDependencies().add(sagaParent);
         });
