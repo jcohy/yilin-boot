@@ -1,5 +1,5 @@
 rootProject.name = "yilin-boot"
 
+include 'yilin-boot-projects:yilin-boot-configuration-processor'
 include 'yilin-boot-projects:yilin-boot-dependencies'
-
 include 'yilin-boot-projects:yilin-boot-utils'

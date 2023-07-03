@@ -1,0 +1,8 @@
+plugins {
+	id "com.yilin.module"
+}
+
+description = "YiLin Boot Annotation Processor Generation spring.factories and Java SPI file"
+
+dependencies {
+}

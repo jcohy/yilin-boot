@@ -5,9 +5,7 @@ plugins {
 repositories {
 	//加上阿里云镜像
 	maven { url 'https://maven.aliyun.com/repository/public' }
-	mavenCentral()
-	gradlePluginPortal()
-	maven { url "https://repo.spring.io/release" }
+	maven { url 'https://maven.aliyun.com/repository/gradle-plugin'}
 }
 
 dependencies {
@@ -26,7 +24,7 @@ gradlePlugin {
 		}
 		deployedPlugin {
 			id = "com.yilin.module"
-			implementationClass = "com.yilin.boot.build.SaganModulePlugin"
+			implementationClass = "com.yilin.boot.build.YiLinModulePlugin"
 		}
 		autoConfigurationPlugin {
 			id = "com.yilin.auto-configuration"
@@ -34,7 +32,6 @@ gradlePlugin {
 		}
 	}
 }
-
 
 test {
 	useJUnitPlatform()
