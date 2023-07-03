@@ -5,13 +5,13 @@
 			<option name="USE_TAB_CHARACTER" value="true"/>
 		</value>
 	</option>
-	<option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="50"/>
+	<option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="500"/>
 	<option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="500"/>
 	<option name="IMPORT_LAYOUT_TABLE">
 		<value>
 			<package name="java" withSubpackages="true" static="false"/>
 			<emptyLine/>
-			<package name="javax" withSubpackages="true" static="false"/>
+			<package name="jakarta" withSubpackages="true" static="false"/>
 			<emptyLine/>
 			<package name="" withSubpackages="true" static="false"/>
 			<emptyLine/>
@@ -57,7 +57,7 @@
 			<value>
 				<package name="java" withSubpackages="true" static="false"/>
 				<emptyLine/>
-				<package name="javax" withSubpackages="true" static="false"/>
+				<package name="jakarta" withSubpackages="true" static="false"/>
 				<emptyLine/>
 				<package name="" withSubpackages="true" static="false"/>
 				<emptyLine/>
