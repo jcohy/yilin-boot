@@ -12,9 +12,11 @@ import com.yilin.boot.configuration.processor.YiLinAutoServiceProcessor;
 import com.yilin.boot.configuration.processor.utils.Constants;
 
 /**
- * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
+ * Copyright: Copyright (c) 2023
+ * <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  *
- * <p> Description:
+ * <p>
+ * Description:
  *
  * @author jiac
  * @version 2023.0.1 2023/7/4:17:49
@@ -37,7 +39,8 @@ public class TestYiLinAutoServiceProcessor extends YiLinAutoServiceProcessor {
 			Properties properties = new Properties();
 			properties.load(inputStream);
 			return properties;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -45,4 +48,5 @@ public class TestYiLinAutoServiceProcessor extends YiLinAutoServiceProcessor {
 	public File getWrittenFile() {
 		return new File(this.outputLocation, Constants.SERVICE_RESOURCE_LOCATION);
 	}
+
 }

@@ -8,9 +8,11 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.SimpleElementVisitor8;
 
 /**
- * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
+ * Copyright: Copyright (c) 2023
+ * <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  *
- * <p> Description: {@link Element} 表示一个程序元素，比如包，类或者方法。每个元素都表示一个静态的语言级构造（不表示虚拟机运行时的构造）.
+ * <p>
+ * Description: {@link Element} 表示一个程序元素，比如包，类或者方法。每个元素都表示一个静态的语言级构造（不表示虚拟机运行时的构造）.
  *
  * @author jiac
  * @version 2023.0.1 2023/7/4:17:36

@@ -5,9 +5,11 @@ import java.util.List;
 import javax.lang.model.element.AnnotationMirror;
 
 /**
- * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
+ * Copyright: Copyright (c) 2023
+ * <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  *
- * <p> Description:
+ * <p>
+ * Description:
  *
  * @author jiac
  * @version 2023.0.1 2023/7/4:17:34
@@ -32,4 +34,5 @@ public interface ValueExtractor {
 	 * @return 值
 	 */
 	List<Object> getValues(AnnotationMirror annotation);
+
 }

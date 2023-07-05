@@ -10,15 +10,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-
 import com.yilin.boot.configuration.processor.spi.LauncherServiceOne;
 import com.yilin.boot.configuration.processor.spi.LauncherServiceTwo;
 import com.yilin.boot.configuration.processor.spi.TestYiLinAutoServiceProcessor;
 
 /**
- * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
+ * Copyright: Copyright (c) 2023
+ * <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  *
- * <p> Description:
+ * <p>
+ * Description:
  *
  * @author jiac
  * @version 2023.0.1 2023/7/4:17:46
@@ -39,18 +40,17 @@ class YiLinAutoServiceProcessorTest {
 	@Test
 	void annotatedClass() throws IOException {
 		File file = compile(LauncherServiceOne.class, LauncherServiceTwo.class);
-		File[] files = Optional.ofNullable(file.listFiles())
-				.orElseThrow();
+		File[] files = Optional.ofNullable(file.listFiles()).orElseThrow();
 
 		Assertions.assertTrue(file.exists());
-		Assertions.assertEquals(files.length,1);
-		Arrays.stream(files)
-				.findFirst()
-				.map(TestYiLinAutoServiceProcessor::getWrittenProperties)
+		Assertions.assertEquals(files.length, 1);
+		Arrays.stream(files).findFirst().map(TestYiLinAutoServiceProcessor::getWrittenProperties)
 				.ifPresent((properties) -> {
-					Assertions.assertEquals(properties.size(),2);
-					Assertions.assertTrue(properties.containsKey("com.yilin.boot.configuration.processor.spi.LauncherServiceOne"));
-					Assertions.assertTrue(properties.containsKey("com.yilin.boot.configuration.processor.spi.LauncherServiceTwo"));
+					Assertions.assertEquals(properties.size(), 2);
+					Assertions.assertTrue(
+							properties.containsKey("com.yilin.boot.configuration.processor.spi.LauncherServiceOne"));
+					Assertions.assertTrue(
+							properties.containsKey("com.yilin.boot.configuration.processor.spi.LauncherServiceTwo"));
 				});
 	}
 

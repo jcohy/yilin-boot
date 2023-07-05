@@ -33,9 +33,11 @@ import com.yilin.boot.configuration.processor.utils.MultiMapSet;
 import com.yilin.boot.configuration.processor.value.ValueExtractor;
 
 /**
- * Copyright: Copyright (c) 2022 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
+ * Copyright: Copyright (c) 2022
+ * <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  *
- * <p> Description:
+ * <p>
+ * Description:
  *
  * @author jiac
  * @version 2023.0.1 2023/7/3:23:20
@@ -43,7 +45,6 @@ import com.yilin.boot.configuration.processor.value.ValueExtractor;
  */
 @SupportedAnnotationTypes({ "com.yilin.boot.configuration.processor.annotations.YiLinAutoService" })
 public class YiLinAutoServiceProcessor extends AbstractConfigureAnnotationProcessor {
-
 
 	/**
 	 * 待处理的注解集合.
@@ -78,7 +79,7 @@ public class YiLinAutoServiceProcessor extends AbstractConfigureAnnotationProces
 	}
 
 	@Override
-    protected boolean processImpl(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+	protected boolean processImpl(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 		for (Map.Entry<String, String> entry : this.annotations.entrySet()) {
 			processImpl(roundEnv, entry.getKey(), entry.getValue());
 		}
@@ -91,7 +92,7 @@ public class YiLinAutoServiceProcessor extends AbstractConfigureAnnotationProces
 			}
 		}
 		return false;
-    }
+	}
 
 	private void processImpl(RoundEnvironment roundEnv, String propertyKey, String annotationName) {
 		TypeElement annotationType = this.processingEnv.getElementUtils().getTypeElement(annotationName);
@@ -190,7 +191,7 @@ public class YiLinAutoServiceProcessor extends AbstractConfigureAnnotationProces
 	public static Set<String> readServiceFile(InputStream input) throws IOException {
 		HashSet<String> serviceClasses = new HashSet<String>();
 		try (InputStreamReader isr = new InputStreamReader(input, StandardCharsets.UTF_8);
-			 BufferedReader r = new BufferedReader(isr)) {
+				BufferedReader r = new BufferedReader(isr)) {
 			String line;
 			while ((line = r.readLine()) != null) {
 				int commentStart = line.indexOf('#');
@@ -220,4 +221,5 @@ public class YiLinAutoServiceProcessor extends AbstractConfigureAnnotationProces
 		}
 		writer.flush();
 	}
+
 }
