@@ -43,7 +43,8 @@ import com.yilin.boot.configuration.processor.value.ValueExtractor;
  * @version 2023.0.1 2023/7/3:23:20
  * @since 2023.0.1
  */
-@SupportedAnnotationTypes({ "com.yilin.boot.configuration.processor.annotations.YiLinAutoService" })
+@SupportedAnnotationTypes({ "com.yilin.boot.configuration.processor.annotations.YiLinAutoService",
+		"org.springframework.boot.autoconfigure.AutoConfiguration" })
 public class YiLinAutoServiceProcessor extends AbstractConfigureAnnotationProcessor {
 
 	/**
@@ -72,10 +73,12 @@ public class YiLinAutoServiceProcessor extends AbstractConfigureAnnotationProces
 
 	private void addAnnotations(Map<String, String> annotations) {
 		annotations.put("YiLinAutoService", "com.yilin.boot.configuration.processor.annotations.YiLinAutoService");
+		annotations.put("AutoConfiguration","org.springframework.boot.autoconfigure.AutoConfiguration");
 	}
 
 	private void addValueExtractors(Map<String, ValueExtractor> attributes) {
 		attributes.put("YiLinAutoService", ValueExtractor.allFrom("value"));
+		attributes.put("AutoConfiguration", ValueExtractor.allFrom("value"));
 	}
 
 	@Override
@@ -144,6 +147,7 @@ public class YiLinAutoServiceProcessor extends AbstractConfigureAnnotationProces
 	 */
 	private void writeProperties() throws IOException {
 		Filer filer = processingEnv.getFiler();
+
 		for (String providerInterface : this.providers.keySet()) {
 			String resourceFile = Constants.SERVICE_RESOURCE_LOCATION + providerInterface;
 			log("Working on resource file: " + resourceFile);
