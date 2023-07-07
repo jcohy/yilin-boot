@@ -1,1 +1,2 @@
 com.yilin.boot.configuration.processor.YiLinAutoServiceProcessor
+com.yilin.boot.configuration.processor.SpringAutoConfigurationProcessor

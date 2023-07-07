@@ -21,6 +21,7 @@ public interface ValueExtractor {
 
 	/**
 	 * 指定注解的属性列表，后续会从此属性中提取值.
+	 *
 	 * @param names 属性列表
 	 * @return valueExtractor
 	 */
@@ -30,6 +31,7 @@ public interface ValueExtractor {
 
 	/**
 	 * 获取注解的值.
+	 *
 	 * @param annotation 注解
 	 * @return 值
 	 */

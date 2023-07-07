@@ -31,12 +31,14 @@ public @interface YiLinAutoService {
 
 	/**
 	 * 接口名称.
+	 *
 	 * @return /
 	 */
 	Class<?>[] value();
 
 	/**
 	 * 接口实现类名称.
+	 *
 	 * @return /
 	 */
 	String name() default "";

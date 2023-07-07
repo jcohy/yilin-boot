@@ -13,19 +13,20 @@ package com.yilin.boot.configuration.processor.utils;
  */
 public class Constants {
 
-	/**
-	 * META-INF/services/.
-	 */
-	public static final String SERVICE_RESOURCE_LOCATION = "META-INF/services/";
+    /**
+     * Java SPI 加载路径. META-INF/services/.
+     */
+    public static final String SERVICE_RESOURCE_LOCATION = "META-INF/services/";
 
-	/**
-	 * META-INF/services/.
-	 */
-	public static final String SPRING_FACTORY_RESOURCE_LOCATION = "META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports";
+    /**
+     * Spring 自动配置资源路径.
+     * META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports.
+     */
+    public static final String SPRING_AUTO_CONFIGURATION_RESOURCE_LOCATION = "META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports";
 
-	/**
-	 * META-INF/spring-devtools.properties.
-	 */
-	public static final String DEVTOOLS_RESOURCE_LOCATION = "META-INF/spring-devtools.properties";
+    /**
+     * Spring 热部署资源路径. META-INF/spring-devtools.properties.
+     */
+    public static final String DEVTOOLS_RESOURCE_LOCATION = "META-INF/spring-devtools.properties";
 
 }

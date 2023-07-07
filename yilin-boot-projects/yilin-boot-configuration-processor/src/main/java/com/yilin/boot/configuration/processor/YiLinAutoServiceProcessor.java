@@ -1,31 +1,16 @@
 package com.yilin.boot.configuration.processor;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
-import javax.annotation.processing.Filer;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.tools.FileObject;
-import javax.tools.StandardLocation;
 
 import com.yilin.boot.configuration.processor.utils.Constants;
 import com.yilin.boot.configuration.processor.utils.Elements;
@@ -37,14 +22,14 @@ import com.yilin.boot.configuration.processor.value.ValueExtractor;
  * <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  *
  * <p>
- * Description:
+ * Description: 处理 @YiLinAutoService 注解，并将其作为 {@link java.util.ServiceLoader#load(Class)}
+ * 服务类文件.
  *
  * @author jiac
  * @version 2023.0.1 2023/7/3:23:20
  * @since 2023.0.1
  */
-@SupportedAnnotationTypes({ "com.yilin.boot.configuration.processor.annotations.YiLinAutoService",
-		"org.springframework.boot.autoconfigure.AutoConfiguration" })
+@SupportedAnnotationTypes({ "com.yilin.boot.configuration.processor.annotations.YiLinAutoService" })
 public class YiLinAutoServiceProcessor extends AbstractConfigureAnnotationProcessor {
 
 	/**
@@ -73,12 +58,10 @@ public class YiLinAutoServiceProcessor extends AbstractConfigureAnnotationProces
 
 	private void addAnnotations(Map<String, String> annotations) {
 		annotations.put("YiLinAutoService", "com.yilin.boot.configuration.processor.annotations.YiLinAutoService");
-		annotations.put("AutoConfiguration","org.springframework.boot.autoconfigure.AutoConfiguration");
 	}
 
 	private void addValueExtractors(Map<String, ValueExtractor> attributes) {
 		attributes.put("YiLinAutoService", ValueExtractor.allFrom("value"));
-		attributes.put("AutoConfiguration", ValueExtractor.allFrom("value"));
 	}
 
 	@Override
@@ -143,87 +126,12 @@ public class YiLinAutoServiceProcessor extends AbstractConfigureAnnotationProces
 
 	/**
 	 * 输出文件.
-	 * @throws IOException /
 	 */
-	private void writeProperties() throws IOException {
-		Filer filer = processingEnv.getFiler();
-
-		for (String providerInterface : this.providers.keySet()) {
+	private void writeProperties() {
+		this.providers.keySet().forEach(providerInterface -> {
 			String resourceFile = Constants.SERVICE_RESOURCE_LOCATION + providerInterface;
-			log("Working on resource file: " + resourceFile);
-			try {
-				SortedSet<String> allServices = new TreeSet<>();
-				try {
-					FileObject existingFile = filer.getResource(StandardLocation.CLASS_OUTPUT, "", resourceFile);
-					log("Looking for existing resource file at " + existingFile.toUri());
-					Set<String> oldServices = readServiceFile(existingFile.openInputStream());
-					log("Existing service entries: " + oldServices);
-					allServices.addAll(oldServices);
-				}
-				catch (IOException ex) {
-					log("Resource file did not already exist.");
-				}
-
-				Set<String> newServices = new HashSet<>(this.providers.get(providerInterface));
-				if (allServices.containsAll(newServices)) {
-					log("No new service entries being added.");
-					return;
-				}
-
-				allServices.addAll(newServices);
-				log("New service file contents: " + allServices);
-				FileObject fileObject = filer.createResource(StandardLocation.CLASS_OUTPUT, "", resourceFile);
-				OutputStream out = fileObject.openOutputStream();
-				writeServiceFile(allServices, out);
-				out.close();
-				log("Wrote to: " + fileObject.toUri());
-			}
-			catch (IOException ex) {
-				fatalError("Unable to create " + resourceFile + ", " + ex);
-				return;
-			}
-
-		}
-	}
-
-	/**
-	 * 从服务文件中读取 服务类.
-	 * @param input not {@code null}. Closed after use.
-	 * @return a not {@code null Set} of service class names.
-	 * @throws IOException ex
-	 */
-	public static Set<String> readServiceFile(InputStream input) throws IOException {
-		HashSet<String> serviceClasses = new HashSet<String>();
-		try (InputStreamReader isr = new InputStreamReader(input, StandardCharsets.UTF_8);
-				BufferedReader r = new BufferedReader(isr)) {
-			String line;
-			while ((line = r.readLine()) != null) {
-				int commentStart = line.indexOf('#');
-				if (commentStart >= 0) {
-					line = line.substring(0, commentStart);
-				}
-				line = line.trim();
-				if (!line.isEmpty()) {
-					serviceClasses.add(line);
-				}
-			}
-			return serviceClasses;
-		}
-	}
-
-	/**
-	 * 将服务类编写进服务文件中.
-	 * @param output not {@code null}. Not closed after use.
-	 * @param services a not {@code null Collection} of service class names.
-	 * @throws IOException ex
-	 */
-	public static void writeServiceFile(Collection<String> services, OutputStream output) throws IOException {
-		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(output, StandardCharsets.UTF_8));
-		for (String service : services) {
-			writer.write(service);
-			writer.newLine();
-		}
-		writer.flush();
+			writeResourcesFile(resourceFile, this.providers.get(providerInterface));
+		});
 	}
 
 }

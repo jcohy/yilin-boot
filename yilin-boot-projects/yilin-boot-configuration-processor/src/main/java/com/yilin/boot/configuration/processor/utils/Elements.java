@@ -25,6 +25,7 @@ public final class Elements {
 
 	/**
 	 * 获取此元素类型的完全限定名.
+	 *
 	 * @param element element
 	 * @return /
 	 */
@@ -54,6 +55,7 @@ public final class Elements {
 
 	/**
 	 * 将 Element 转为 TypeElement.
+	 *
 	 * @param element element
 	 * @return 类元素
 	 */
@@ -63,6 +65,7 @@ public final class Elements {
 
 	/**
 	 * 根据 TypeElement 获取元素的全类名.
+	 *
 	 * @param element element
 	 * @return string 全类名
 	 */
@@ -72,7 +75,8 @@ public final class Elements {
 
 	/**
 	 * 根据 TypeElement 获取元素的全类名.
-	 * @param element element
+	 *
+	 * @param element   element
 	 * @param className 类名(不含包名)
 	 * @return string 全类名
 	 */

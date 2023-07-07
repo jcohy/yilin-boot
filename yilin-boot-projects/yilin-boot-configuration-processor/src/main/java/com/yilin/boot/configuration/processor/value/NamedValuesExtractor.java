@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.lang.model.element.AnnotationMirror;
-import javax.lang.model.element.AnnotationValue;
-import javax.lang.model.element.ExecutableElement;
 
 /**
  * Copyright: Copyright (c) 2023
@@ -33,7 +30,6 @@ public class NamedValuesExtractor extends AbstractValueExtractor {
 	@Override
 	public List<Object> getValues(AnnotationMirror annotation) {
 		List<Object> result = new ArrayList<>();
-		Map<? extends ExecutableElement, ? extends AnnotationValue> elementValues = annotation.getElementValues();
 		annotation.getElementValues().forEach((key, value) -> {
 			if (this.names.contains(key.getSimpleName().toString())) {
 				extractValues(value).forEach(result::add);

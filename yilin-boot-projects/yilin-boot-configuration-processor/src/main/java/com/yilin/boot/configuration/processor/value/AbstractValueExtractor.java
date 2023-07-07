@@ -23,6 +23,7 @@ public abstract class AbstractValueExtractor implements ValueExtractor {
 
 	/**
 	 * 提取值.
+	 *
 	 * @param annotationValue 表示注解类型元素的值。
 	 * @return /
 	 */

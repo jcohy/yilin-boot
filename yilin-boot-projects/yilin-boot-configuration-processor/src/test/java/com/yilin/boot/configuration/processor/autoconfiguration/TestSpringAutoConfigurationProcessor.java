@@ -1,4 +1,4 @@
-package com.yilin.boot.configuration.processor.spi;
+package com.yilin.boot.configuration.processor.autoconfiguration;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,7 +6,7 @@ import java.util.Properties;
 
 import javax.annotation.processing.SupportedAnnotationTypes;
 
-import com.yilin.boot.configuration.processor.YiLinAutoServiceProcessor;
+import com.yilin.boot.configuration.processor.SpringAutoConfigurationProcessor;
 import com.yilin.boot.configuration.processor.utils.Constants;
 
 /**
@@ -17,15 +17,15 @@ import com.yilin.boot.configuration.processor.utils.Constants;
  * Description:
  *
  * @author jiac
- * @version 2023.0.1 2023/7/4:17:49
+ * @version 2023.0.1 2023/7/7:10:11
  * @since 2023.0.1
  */
-@SupportedAnnotationTypes({ "com.yilin.boot.configuration.processor.annotations.YiLinAutoService" })
-public class TestYiLinAutoServiceProcessor extends YiLinAutoServiceProcessor {
+@SupportedAnnotationTypes({ "org.springframework.boot.autoconfigure.AutoConfiguration" })
+public class TestSpringAutoConfigurationProcessor extends SpringAutoConfigurationProcessor {
 
 	private final File outputLocation;
 
-	public TestYiLinAutoServiceProcessor(File outputLocation) {
+	public TestSpringAutoConfigurationProcessor(File outputLocation) {
 		this.outputLocation = outputLocation;
 	}
 
@@ -44,7 +44,7 @@ public class TestYiLinAutoServiceProcessor extends YiLinAutoServiceProcessor {
 	}
 
 	public File getWrittenFile() {
-		return new File(this.outputLocation, Constants.SERVICE_RESOURCE_LOCATION);
+		return new File(this.outputLocation, Constants.SPRING_AUTO_CONFIGURATION_RESOURCE_LOCATION);
 	}
 
 }

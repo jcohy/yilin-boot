@@ -5,4 +5,5 @@ plugins {
 description = "YiLin Boot Annotation Processor Generation spring.factories and Java SPI file"
 
 dependencies {
+	testImplementation("org.springframework.boot:spring-boot-starter-web")
 }

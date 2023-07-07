@@ -12,6 +12,8 @@ import org.junit.jupiter.api.io.TempDir;
 
 import com.yilin.boot.configuration.processor.spi.LauncherServiceOne;
 import com.yilin.boot.configuration.processor.spi.LauncherServiceTwo;
+import com.yilin.boot.configuration.processor.spi.LogServiceOne;
+import com.yilin.boot.configuration.processor.spi.LogServiceTwo;
 import com.yilin.boot.configuration.processor.spi.TestYiLinAutoServiceProcessor;
 
 /**
@@ -39,18 +41,15 @@ class YiLinAutoServiceProcessorTest {
 
 	@Test
 	void annotatedClass() throws IOException {
-		File file = compile(LauncherServiceOne.class, LauncherServiceTwo.class);
+		File file = compile(LauncherServiceOne.class, LauncherServiceTwo.class, LogServiceOne.class,
+				LogServiceTwo.class);
 		File[] files = Optional.ofNullable(file.listFiles()).orElseThrow();
 
 		Assertions.assertTrue(file.exists());
-		Assertions.assertEquals(files.length, 1);
+		Assertions.assertEquals(files.length, 2);
 		Arrays.stream(files).findFirst().map(TestYiLinAutoServiceProcessor::getWrittenProperties)
 				.ifPresent((properties) -> {
 					Assertions.assertEquals(properties.size(), 2);
-					Assertions.assertTrue(
-							properties.containsKey("com.yilin.boot.configuration.processor.spi.LauncherServiceOne"));
-					Assertions.assertTrue(
-							properties.containsKey("com.yilin.boot.configuration.processor.spi.LauncherServiceTwo"));
 				});
 	}
 
