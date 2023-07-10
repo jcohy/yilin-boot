@@ -1,20 +1,15 @@
 package com.yilin.boot.configuration.processor;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
@@ -41,24 +36,24 @@ import javax.tools.StandardLocation;
  */
 public abstract class AbstractConfigureAnnotationProcessor extends AbstractProcessor {
 
-	public static Set<String> readResourcesFile(InputStream input) throws IOException {
-		HashSet<String> serviceClasses = new HashSet<>();
-		try (InputStreamReader isr = new InputStreamReader(input, StandardCharsets.UTF_8);
-			 BufferedReader r = new BufferedReader(isr)) {
-			String line;
-			while ((line = r.readLine()) != null) {
-				int commentStart = line.indexOf('#');
-				if (commentStart >= 0) {
-					line = line.substring(0, commentStart);
-				}
-				line = line.trim();
-				if (!line.isEmpty()) {
-					serviceClasses.add(line);
-				}
-			}
-			return serviceClasses;
-		}
-	}
+//	public static Set<String> readResourcesFile(InputStream input) throws IOException {
+//		HashSet<String> serviceClasses = new HashSet<>();
+//		try (InputStreamReader isr = new InputStreamReader(input, StandardCharsets.UTF_8);
+//			 BufferedReader r = new BufferedReader(isr)) {
+//			String line;
+//			while ((line = r.readLine()) != null) {
+//				int commentStart = line.indexOf('#');
+//				if (commentStart >= 0) {
+//					line = line.substring(0, commentStart);
+//				}
+//				line = line.trim();
+//				if (!line.isEmpty()) {
+//					serviceClasses.add(line);
+//				}
+//			}
+//			return serviceClasses;
+//		}
+//	}
 
 	/**
 	 * 将类编写进文件中.
@@ -170,41 +165,25 @@ public abstract class AbstractConfigureAnnotationProcessor extends AbstractProce
 	 * 文件写入.
 	 *
 	 * @param resourceFile 资源文件路径.
-	 * @param services     内容
+	 * @param providers     内容
 	 */
-	public void writeResourcesFile(String resourceFile, Set<String> services) {
-		Filer filer = processingEnv.getFiler();
-		log("Working on resource file: " + resourceFile);
-		try {
-			SortedSet<String> allServices = new TreeSet<>();
+	public void writeResourcesFile(String resourceFile, Set<String> providers) {
+
+		if(!providers.isEmpty()) {
 			try {
-				FileObject existingFile = filer.getResource(StandardLocation.CLASS_OUTPUT, "", resourceFile);
-				log("Looking for existing resource file at " + existingFile.toUri());
-				Set<String> oldServices = readResourcesFile(existingFile.openInputStream());
-				log("Existing service entries: " + oldServices);
-				allServices.addAll(oldServices);
+				Filer filer = processingEnv.getFiler();
+				FileObject file = filer.createResource(StandardLocation.CLASS_OUTPUT, "", resourceFile);
+				try (Writer writer = new OutputStreamWriter(file.openOutputStream(),StandardCharsets.UTF_8)){
+					for (String provider: providers) {
+						writer.append(provider);
+						writer.append(System.lineSeparator());
+					}
+				}
 			}
-			catch (IOException ex) {
-				log("Resource file did not already exist.");
-			}
-
-			Set<String> newServices = new HashSet<>(services);
-			if (allServices.containsAll(newServices)) {
-				log("No new service entries being added.");
-				return;
+			catch (IOException e) {
+				throw new RuntimeException(e);
 			}
 
-			allServices.addAll(newServices);
-			log("New service file contents: " + allServices);
-			FileObject fileObject = filer.createResource(StandardLocation.CLASS_OUTPUT, "", resourceFile);
-			OutputStream out = fileObject.openOutputStream();
-			writeResourcesFile(allServices, out);
-			out.close();
-			log("Wrote to: " + fileObject.toUri());
-		}
-		catch (IOException ex) {
-			fatalError("Unable to create " + resourceFile + ", " + ex);
-			return;
 		}
 	}
 
