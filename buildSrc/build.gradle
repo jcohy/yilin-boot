@@ -20,15 +20,15 @@ gradlePlugin {
 	plugins {
 		docsPlugin {
 			id = "com.yilin.docs"
-			implementationClass = "com.yilin.boot.build.AsciidoctorDocsPlugins"
+			implementationClass = "com.yilin.reactive.build.AsciidoctorDocsPlugins"
 		}
 		deployedPlugin {
 			id = "com.yilin.module"
-			implementationClass = "com.yilin.boot.build.YiLinModulePlugin"
+			implementationClass = "com.yilin.reactive.build.YiLinModulePlugin"
 		}
 		autoConfigurationPlugin {
 			id = "com.yilin.auto-configuration"
-			implementationClass = "com.yilin.boot.build.AutoConfigurationPlugin"
+			implementationClass = "com.yilin.reactive.build.AutoConfigurationPlugin"
 		}
 	}
 }

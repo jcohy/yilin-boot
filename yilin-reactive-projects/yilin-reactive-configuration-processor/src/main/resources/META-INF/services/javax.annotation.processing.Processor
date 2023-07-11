@@ -1,0 +1,2 @@
+com.yilin.reactive.configuration.processor.YiLinAutoServiceProcessor
+com.yilin.reactive.configuration.processor.SpringComponentProcessor

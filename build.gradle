@@ -1,4 +1,4 @@
-description = "yilin-boot"
+description = "yilin-reactive"
 
 
 configure(allprojects) { abjects ->

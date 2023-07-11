@@ -9,9 +9,9 @@
 |===
 | 模块           | 说明
 
-| yilin-boot-project     | 项目组件
+| yilin-reactive-project     | 项目组件
 
-| yilin-boot-starter | 起步依赖
+| yilin-reactive-starter | 起步依赖
 |===
 
 [[yilin-mysql]]
@@ -74,7 +74,7 @@ IDEA codestyle 在 idea 目录下
 [[yilin-run]]
 == 项目运行
 
-. 创建 yilin-boot 数据库
+. 创建 yilin-reactive 数据库
 . 修改 `yilin-main` 模块下的 `application.yml` 数据库,redis 等配置信息
 . `./gradlew bootrun`
 
