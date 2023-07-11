@@ -10,9 +10,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import org.springframework.stereotype.Service;
+
 import com.yilin.boot.configuration.processor.autoconfiguration.SpringAutoConfigurationOne;
 import com.yilin.boot.configuration.processor.autoconfiguration.SpringAutoConfigurationTwo;
-import com.yilin.boot.configuration.processor.autoconfiguration.TestSpringAutoConfigurationProcessor;
+import com.yilin.boot.configuration.processor.autoconfiguration.SpringComponentOne;
+import com.yilin.boot.configuration.processor.autoconfiguration.SpringComponentTwo;
+import com.yilin.boot.configuration.processor.autoconfiguration.SpringConfiguration;
+import com.yilin.boot.configuration.processor.autoconfiguration.SpringControllerOne;
+import com.yilin.boot.configuration.processor.autoconfiguration.SpringControllerTwo;
+import com.yilin.boot.configuration.processor.autoconfiguration.SpringRepositoryOne;
+import com.yilin.boot.configuration.processor.autoconfiguration.SpringRepositoryTwo;
+import com.yilin.boot.configuration.processor.autoconfiguration.SpringServiceOne;
+import com.yilin.boot.configuration.processor.autoconfiguration.SpringServiceTwo;
+import com.yilin.boot.configuration.processor.autoconfiguration.TestSpringComponentProcessor;
 
 /**
  * Copyright: Copyright (c) 2023
@@ -25,6 +36,7 @@ import com.yilin.boot.configuration.processor.autoconfiguration.TestSpringAutoCo
  * @version 2023.0.1 2023/7/7:10:04
  * @since 2023.0.1
  */
+@Service
 public class SpringAutoConfigurationTest {
 
 	@TempDir
@@ -40,22 +52,48 @@ public class SpringAutoConfigurationTest {
 	@Test
 	void annotatedClass() throws IOException {
 		Optional<File> file = Optional
-				.ofNullable(compile(SpringAutoConfigurationOne.class, SpringAutoConfigurationTwo.class));
+				.ofNullable(compile(SpringAutoConfigurationOne.class,
+						SpringAutoConfigurationTwo.class,
+						SpringComponentOne.class,
+						SpringComponentTwo.class,
+						SpringConfiguration.class,
+						SpringControllerOne.class,
+						SpringControllerTwo.class,
+						SpringRepositoryOne.class,
+						SpringRepositoryTwo.class,
+						SpringServiceOne.class,
+						SpringServiceTwo.class));
 		Assertions.assertTrue(file.isPresent());
-		Properties properties = TestSpringAutoConfigurationProcessor.getWrittenProperties(file.get());
-		Assertions.assertEquals(properties.size(), 2);
+		Properties properties = TestSpringComponentProcessor.getWrittenProperties(file.get());
+		Assertions.assertEquals(properties.size(), 10);
 		Assertions.assertTrue(
 				properties.containsKey("com.yilin.boot.configuration.processor.autoconfiguration.SpringAutoConfigurationOne"));
 		Assertions.assertTrue(
 				properties.containsKey("com.yilin.boot.configuration.processor.autoconfiguration.SpringAutoConfigurationTwo"));
+		Assertions.assertTrue(
+				properties.containsKey("com.yilin.boot.configuration.processor.autoconfiguration.SpringComponentOne"));
+		Assertions.assertTrue(
+				properties.containsKey("com.yilin.boot.configuration.processor.autoconfiguration.SpringComponentTwo"));
+		Assertions.assertTrue(
+				properties.containsKey("com.yilin.boot.configuration.processor.autoconfiguration.SpringControllerOne"));
+		Assertions.assertTrue(
+				properties.containsKey("com.yilin.boot.configuration.processor.autoconfiguration.SpringControllerTwo"));
+		Assertions.assertTrue(
+				properties.containsKey("com.yilin.boot.configuration.processor.autoconfiguration.SpringRepositoryOne"));
+		Assertions.assertTrue(
+				properties.containsKey("com.yilin.boot.configuration.processor.autoconfiguration.SpringRepositoryTwo"));
+		Assertions.assertTrue(
+				properties.containsKey("com.yilin.boot.configuration.processor.autoconfiguration.SpringServiceOne"));
+		Assertions.assertTrue(
+				properties.containsKey("com.yilin.boot.configuration.processor.autoconfiguration.SpringServiceTwo"));
 	}
 
 	private File compile(Class<?>... types) throws IOException {
 		return process(types).getWrittenFile();
 	}
 
-	private TestSpringAutoConfigurationProcessor process(Class<?>... types) {
-		TestSpringAutoConfigurationProcessor processor = new TestSpringAutoConfigurationProcessor(
+	private TestSpringComponentProcessor process(Class<?>... types) {
+		TestSpringComponentProcessor processor = new TestSpringComponentProcessor(
 				this.compiler.getOutputLocation());
 		this.compiler.getTask(types).call(processor);
 		return processor;

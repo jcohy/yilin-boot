@@ -6,7 +6,7 @@ import java.util.Properties;
 
 import javax.annotation.processing.SupportedAnnotationTypes;
 
-import com.yilin.boot.configuration.processor.SpringAutoConfigurationProcessor;
+import com.yilin.boot.configuration.processor.SpringComponentProcessor;
 import com.yilin.boot.configuration.processor.utils.Constants;
 
 /**
@@ -20,12 +20,17 @@ import com.yilin.boot.configuration.processor.utils.Constants;
  * @version 2023.0.1 2023/7/7:10:11
  * @since 2023.0.1
  */
-@SupportedAnnotationTypes({ "org.springframework.boot.autoconfigure.AutoConfiguration" })
-public class TestSpringAutoConfigurationProcessor extends SpringAutoConfigurationProcessor {
+@SupportedAnnotationTypes({
+		"org.springframework.boot.autoconfigure.AutoConfiguration",
+		"org.springframework.stereotype.Service",
+		"org.springframework.stereotype.Component",
+		"org.springframework.stereotype.Controller",
+		"org.springframework.stereotype.Repository"})
+public class TestSpringComponentProcessor extends SpringComponentProcessor {
 
 	private final File outputLocation;
 
-	public TestSpringAutoConfigurationProcessor(File outputLocation) {
+	public TestSpringComponentProcessor(File outputLocation) {
 		this.outputLocation = outputLocation;
 	}
 
