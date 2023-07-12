@@ -12,7 +12,7 @@ dependencies {
 	constraints {
 
 		// yilin-reactive-projects
-
+		api 'io.asyncer:r2dbc-mysql:1.0.0'
 		// commons utils
 
 	}

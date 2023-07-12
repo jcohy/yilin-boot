@@ -1,0 +1,8 @@
+spring:
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/yilin-reactive?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
+    username: root
+    password: jcohy1203
+
+  flyway:
+    baseline-on-migrate: true
