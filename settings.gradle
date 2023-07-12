@@ -4,9 +4,9 @@ include 'yilin-reactive-projects:yilin-reactive-configuration-processor'
 include 'yilin-reactive-projects:yilin-reactive-dependencies'
 include 'yilin-reactive-projects:yilin-reactive-utils'
 
-file("${rootDir}/yilin-reactive-starters").eachDirMatch(~/yilin-reactive-starter.*/) {
-	include "yilin-reactive-starters:${it.name}"
-}
+//file("${rootDir}/yilin-reactive-starters").eachDirMatch(~/yilin-reactive-starter.*/) {
+//	include "yilin-reactive-starters:${it.name}"
+//}
 
 file("${rootDir}/yilin-reactive-site").eachDirMatch(~/yilin-reactive.*/) {
 	include "yilin-reactive-site:${it.name}"

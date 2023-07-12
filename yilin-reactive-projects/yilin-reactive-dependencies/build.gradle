@@ -1,6 +1,5 @@
 plugins {
 	id 'java-platform'
-	id "io.github.jcohy.gradle.convention"
 }
 
 javaPlatform {
@@ -8,6 +7,8 @@ javaPlatform {
 }
 
 dependencies {
+
+	api platform("org.springframework.security:spring-security-bom:6.0.0")
 
 	constraints {
 
