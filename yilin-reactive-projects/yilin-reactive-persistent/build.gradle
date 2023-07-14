@@ -1,0 +1,8 @@
+plugins {
+    id "com.yilin.module"
+}
+
+description = "yilin Boot Persistent"
+
+dependencies {
+}
