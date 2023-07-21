@@ -12,23 +12,30 @@ package com.yilin.reactive.persistent.enums;
  */
 public enum ServiceStatus {
 
-    /**
-     * 禁止.
-     */
-    DISABLE("false"),
+	/**
+	 * 禁止.
+	 */
+	DISABLE(0, "false"),
 
-    /**
-     * 启用.
-     */
-    ENABLE("true");
+	/**
+	 * 启用.
+	 */
+	ENABLE(1, "true");
 
-    private final String label;
+	private final int status;
 
-    ServiceStatus(String label) {
-        this.label = label;
-    }
+	private final String label;
 
-    public String getLabel() {
-        return label;
-    }
+	ServiceStatus(int status, String label) {
+		this.status = status;
+		this.label = label;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public int getStatus() {
+		return status;
+	}
 }

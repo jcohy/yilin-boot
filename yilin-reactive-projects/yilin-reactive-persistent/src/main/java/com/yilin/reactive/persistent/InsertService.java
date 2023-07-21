@@ -1,9 +1,9 @@
 package com.yilin.reactive.persistent;
 
-import java.util.Optional;
+import org.reactivestreams.Publisher;
 
 /**
- * 描述: .
+ * 描述: 插入.
  *
  * <p>
  * Copyright © 2023 <a href="https://www.jcohy.com" target= "_blank">https://www.jcohy.com</a>
@@ -14,10 +14,10 @@ import java.util.Optional;
  */
 public interface InsertService<T,ID> {
 
-    /**
-     * 添加一条数据.
-     * @param domain
-     * @return
-     */
-    Optional<T> insert(T domain);
+	/**
+	 * 添加一条数据.
+	 * @param domain
+	 * @return
+	 */
+	Publisher<T> insert(T domain);
 }

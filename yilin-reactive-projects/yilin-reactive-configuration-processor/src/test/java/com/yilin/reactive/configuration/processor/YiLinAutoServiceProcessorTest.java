@@ -15,6 +15,7 @@ import com.yilin.reactive.configuration.processor.spi.LauncherServiceTwo;
 import com.yilin.reactive.configuration.processor.spi.LogServiceOne;
 import com.yilin.reactive.configuration.processor.spi.LogServiceTwo;
 import com.yilin.reactive.configuration.processor.spi.TestYiLinAutoServiceProcessor;
+import com.yilin.reactive.test.TestCompiler;
 
 /**
  * Copyright: Copyright (c) 2023

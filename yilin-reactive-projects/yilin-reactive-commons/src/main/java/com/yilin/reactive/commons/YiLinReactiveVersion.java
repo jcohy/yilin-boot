@@ -1,18 +1,14 @@
-package com.yilin.reactive.utils;
+package com.yilin.reactive.commons;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.JarURLConnection;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.security.CodeSource;
 import java.util.Optional;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 
 /**
- * 描述: .
+ * 描述: 获取框架版本号.
  *
  * <p>
  * Copyright © 2023 <a href="https://www.jcohy.com" target= "_blank">https://www.jcohy.com</a>
@@ -44,7 +40,7 @@ public class YiLinReactiveVersion {
                 if (urlConnection instanceof JarURLConnection connection) {
                     return getImplementationVersion(connection.getJarFile());
                 }
-                JarFile jarFile = new JarFile(new File(location.toURI()));
+				var jarFile = new JarFile(new File(location.toURI()));
                 return getImplementationVersion(jarFile);
             } catch (Exception ex) {
                 return "";

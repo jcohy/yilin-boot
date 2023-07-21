@@ -1,0 +1,9 @@
+plugins {
+	id "com.yilin.module"
+}
+
+description = "YiLin Reactive Test Utils"
+
+dependencies {
+	implementation("dev.gradleplugins:gradle-test-kit:7.6")
+}

@@ -1,6 +1,6 @@
 package com.yilin.reactive.persistent;
 
-import java.util.Optional;
+import org.reactivestreams.Publisher;
 
 /**
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
@@ -18,13 +18,13 @@ public interface LogicCrudService<T, ID> extends CrudService<T, ID> {
 	 * @param id 主键
 	 * @return 查询结果, 无结果时返回{@code null}
 	 */
-	Optional<T> getNotDeleted(ID id);
+	Publisher<T> getNotDeleted(ID id);
 
 	/**
 	 * 根据所有未被逻辑删除的实体.
 	 * @return 查询结果, 无结果时返回{@code null}
 	 */
-	Iterable<T> getAllNotDeleted();
+	Publisher<T> getAllNotDeleted();
 
 	/**
 	 * 根据主键删除记录,逻辑删除.

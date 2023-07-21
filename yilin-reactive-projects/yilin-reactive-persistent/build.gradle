@@ -2,7 +2,8 @@ plugins {
     id "com.yilin.module"
 }
 
-description = "yilin Boot Persistent"
+description = "yilin Boot Common Persistent"
 
 dependencies {
+	api("org.reactivestreams:reactive-streams")
 }

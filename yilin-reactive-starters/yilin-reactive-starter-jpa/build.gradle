@@ -1,0 +1,11 @@
+plugins {
+	id "com.yilin.module"
+}
+
+description = "YiLin Reactive Jpa"
+
+dependencies {
+	api(project(":yilin-reactive-projects:yilin-reactive-persistent"))
+	api("org.springframework.boot:spring-boot-starter-data-jpa")
+	testImplementation(project(":yilin-reactive-tests"))
+}

@@ -1,6 +1,6 @@
 package com.yilin.reactive.persistent;
 
-import java.util.Optional;
+import org.reactivestreams.Publisher;
 
 /**
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
@@ -18,6 +18,6 @@ public interface UpdateService<T, ID> {
 	 * @param domain 要修改的对象
 	 * @return 返回修改的记录
 	 */
-	Optional<T> update(T domain);
+	Publisher<T> update(T domain);
 
 }

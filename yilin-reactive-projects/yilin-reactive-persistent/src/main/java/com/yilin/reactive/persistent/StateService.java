@@ -2,6 +2,8 @@ package com.yilin.reactive.persistent;
 
 import java.util.List;
 
+import org.reactivestreams.Publisher;
+
 /**
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  *
@@ -19,6 +21,6 @@ public interface StateService<T, ID> {
 	 * @param status state
 	 * @return /
 	 */
-	boolean changeState(List<Long> ids, Integer status);
+	Publisher<Boolean> changeState(List<Long> ids, Integer status);
 
 }

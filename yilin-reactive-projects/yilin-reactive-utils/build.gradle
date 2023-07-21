@@ -2,7 +2,7 @@ plugins {
 	id "com.yilin.module"
 }
 
-description = "yilin Boot Commons Utils"
+description = "yilin Boot Utils"
 
 dependencies {
 }
