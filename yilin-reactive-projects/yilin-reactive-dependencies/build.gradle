@@ -14,6 +14,7 @@ dependencies {
 
 		// yilin-reactive-projects
 		api 'io.asyncer:r2dbc-mysql:1.0.0'
+		api 'io.r2dbc:r2dbc-mssql:1.0.0.RELEASE'
 		// commons utils
 
 	}
