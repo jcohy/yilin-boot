@@ -39,7 +39,9 @@ public class YiLinModulePlugin implements Plugin<Project> {
 		project.getConfigurations().getByName("dependencyManagement", (dependencyManagement) -> {
 			dependencyManagement.getDependencies().add(parent);
 		});
-		project.getDependencies().add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, project.getDependencies().project(Collections.singletonMap("path",
-				":yilin-reactive-projects:yilin-reactive-commons")));
+		if (!project.getName().equals("yilin-reactive-commons")) {
+			project.getDependencies().add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, project.getDependencies().project(Collections.singletonMap("path",
+					":yilin-reactive-projects:yilin-reactive-commons")));
+		}
 	}
 }

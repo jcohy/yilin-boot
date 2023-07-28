@@ -4,6 +4,7 @@ include 'yilin-reactive-projects:yilin-reactive-commons'
 include 'yilin-reactive-projects:yilin-reactive-configuration-processor'
 include 'yilin-reactive-projects:yilin-reactive-dependencies'
 include 'yilin-reactive-projects:yilin-reactive-utils'
+include 'yilin-reactive-projects:yilin-reactive-r2dbc'
 include 'yilin-reactive-projects:yilin-reactive-persistent'
 
 file("${rootDir}/yilin-reactive-starters").eachDirMatch(~/yilin-reactive-starter.*/) {

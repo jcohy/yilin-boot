@@ -12,23 +12,23 @@ package com.yilin.reactive.persistent.enums;
  */
 public enum DeleteStatus {
 
-    /**
-     * 正常状态.
-     */
-    NORMAL(0),
+	/**
+	 * 正常状态.
+	 */
+	NORMAL(1),
 
-    /**
-     * 删除状态.
-     */
-    DELETED(1);
+	/**
+	 * 删除状态.
+	 */
+	DELETED(0);
 
-    private final int code;
+	private final int status;
 
-    DeleteStatus(int code) {
-        this.code = code;
-    }
+	DeleteStatus(int status) {
+		this.status = status;
+	}
 
-    public int getCode() {
-        return this.code;
-    }
+	public int getStatus() {
+		return this.status;
+	}
 }

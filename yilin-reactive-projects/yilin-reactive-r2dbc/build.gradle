@@ -8,6 +8,12 @@ dependencies {
 //	api(project(":yilin-reactive-projects:yilin-reactive-commons"))
 	api(project(":yilin-reactive-projects:yilin-reactive-persistent"))
 	api("org.springframework.boot:spring-boot-starter-data-r2dbc")
-	runtimeOnly("io.r2dbc:r2dbc-h2")
+//	R2DBC Drivers
+	testImplementation("io.r2dbc:r2dbc-h2")
+	testImplementation("io.r2dbc:r2dbc-mssql")
+//	testImplementation("io.r2dbc:oracle-r2dbc")
+//	testImplementation("io.r2dbc:r2dbc-spi-test")
+	//
 	testImplementation(project(":yilin-reactive-tests"))
+	testImplementation("io.projectreactor:reactor-test")
 }
