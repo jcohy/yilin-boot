@@ -1,4 +1,4 @@
-package com.yilin.reactive.r2dbc.support;
+package com.yilin.reactive.r2dbc.repository.support;
 
 import java.util.Optional;
 
@@ -9,7 +9,10 @@ import org.springframework.data.r2dbc.core.ReactiveDataAccessStrategy;
 import org.springframework.data.r2dbc.repository.support.R2dbcRepositoryFactory;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.query.QueryLookupStrategy;
+import org.springframework.data.repository.query.QueryLookupStrategy.Key;
 import org.springframework.data.repository.query.QueryMethodEvaluationContextProvider;
+import org.springframework.data.repository.query.ReactiveQueryMethodEvaluationContextProvider;
+import org.springframework.lang.Nullable;
 import org.springframework.r2dbc.core.DatabaseClient;
 
 import com.yilin.reactive.r2dbc.repository.ReactiveRepositoryImpl;
@@ -24,7 +27,7 @@ import com.yilin.reactive.r2dbc.repository.ReactiveRepositoryImpl;
  * @since 2023.0.1
  */
 @SuppressWarnings("deprecation")
-public class ReactiveR2dbcRepositoryFactory extends R2dbcRepositoryFactory {
+public class YiLinR2dbcRepositoryFactory extends R2dbcRepositoryFactory {
 
 	private final ReactiveDataAccessStrategy dataAccessStrategy;
 
@@ -32,11 +35,11 @@ public class ReactiveR2dbcRepositoryFactory extends R2dbcRepositoryFactory {
 
 	private final R2dbcEntityOperations operations;
 
-	public ReactiveR2dbcRepositoryFactory(DatabaseClient databaseClient, ReactiveDataAccessStrategy dataAccessStrategy) {
+	public YiLinR2dbcRepositoryFactory(DatabaseClient databaseClient, ReactiveDataAccessStrategy dataAccessStrategy) {
 		this(new R2dbcEntityTemplate(databaseClient, dataAccessStrategy));
 	}
 
-	public ReactiveR2dbcRepositoryFactory(R2dbcEntityOperations operations) {
+	public YiLinR2dbcRepositoryFactory(R2dbcEntityOperations operations) {
 		super(operations);
 		this.dataAccessStrategy = operations.getDataAccessStrategy();
 		this.converter = dataAccessStrategy.getConverter();
@@ -44,14 +47,9 @@ public class ReactiveR2dbcRepositoryFactory extends R2dbcRepositoryFactory {
 	}
 
 	@Override
-	protected Optional<QueryLookupStrategy> getQueryLookupStrategy(
-			QueryLookupStrategy.Key key, QueryMethodEvaluationContextProvider evaluationContextProvider) {
-		Optional<QueryLookupStrategy> optStrategy = super.getQueryLookupStrategy(key, evaluationContextProvider);
-		return optStrategy.map(this::createSoftDeleteQueryLookupStrategy);
-	}
-
-	private SoftDeleteMongoQueryLookupStrategy createSoftDeleteQueryLookupStrategy(QueryLookupStrategy strategy) {
-		return new SoftDeleteMongoQueryLookupStrategy(strategy, mongoOperations);
+	protected Optional<QueryLookupStrategy> getQueryLookupStrategy(@Nullable Key key, QueryMethodEvaluationContextProvider evaluationContextProvider) {
+		Optional<QueryLookupStrategy> strategy = super.getQueryLookupStrategy(key, evaluationContextProvider);
+		return Optional.of(new YiLinQueryLookupStrategy(this.operations, (ReactiveQueryMethodEvaluationContextProvider) evaluationContextProvider, this.converter, strategy));
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package com.yilin.reactive.r2dbc.support;
+package com.yilin.reactive.r2dbc.repository.support;
 
 import java.io.Serializable;
 
@@ -18,7 +18,7 @@ import org.springframework.r2dbc.core.DatabaseClient;
  * @version 2023.0.1 2023/7/31:16:46
  * @since 2023.0.1
  */
-public class ReactiveR2dbcRepositoryFactoryBean<T extends Repository<S, ID>, S, ID extends Serializable> extends R2dbcRepositoryFactoryBean<T, S, ID> {
+public class YiLinR2dbcRepositoryFactoryBean<T extends Repository<S, ID>, S, ID extends Serializable> extends R2dbcRepositoryFactoryBean<T, S, ID> {
 
 
 	/**
@@ -26,18 +26,18 @@ public class ReactiveR2dbcRepositoryFactoryBean<T extends Repository<S, ID>, S, 
 	 *
 	 * @param repositoryInterface must not be {@literal null}.
 	 */
-	public ReactiveR2dbcRepositoryFactoryBean(Class<? extends T> repositoryInterface) {
+	public YiLinR2dbcRepositoryFactoryBean(Class<? extends T> repositoryInterface) {
 		super(repositoryInterface);
 	}
 
 	@Override
 	@SuppressWarnings("deprecation")
 	protected RepositoryFactorySupport getFactoryInstance(DatabaseClient client, ReactiveDataAccessStrategy dataAccessStrategy) {
-		return new ReactiveR2dbcRepositoryFactory(client, dataAccessStrategy);
+		return new YiLinR2dbcRepositoryFactory(client, dataAccessStrategy);
 	}
 
 	@Override
 	protected RepositoryFactorySupport getFactoryInstance(R2dbcEntityOperations operations) {
-		return new ReactiveR2dbcRepositoryFactory(operations);
+		return new YiLinR2dbcRepositoryFactory(operations);
 	}
 }
