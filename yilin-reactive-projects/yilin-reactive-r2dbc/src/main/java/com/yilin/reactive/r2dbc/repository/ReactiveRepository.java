@@ -19,6 +19,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface ReactiveRepository<T, ID> extends R2dbcRepository<T, ID> {
 
+
 	Mono<Void> logicDeleteById(ID id);
 
 	Mono<Void> logicDeleteById(Publisher<ID> idPublisher);
