@@ -15,7 +15,7 @@ import org.springframework.data.repository.query.ReactiveQueryMethodEvaluationCo
 import org.springframework.lang.Nullable;
 import org.springframework.r2dbc.core.DatabaseClient;
 
-import com.yilin.reactive.r2dbc.repository.ReactiveRepositoryImpl;
+import com.yilin.reactive.r2dbc.repository.YiLinR2dbcRepositoryImpl;
 
 /**
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
@@ -54,6 +54,6 @@ public class YiLinR2dbcRepositoryFactory extends R2dbcRepositoryFactory {
 
 	@Override
 	protected Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
-		return ReactiveRepositoryImpl.class;
+		return YiLinR2dbcRepositoryImpl.class;
 	}
 }

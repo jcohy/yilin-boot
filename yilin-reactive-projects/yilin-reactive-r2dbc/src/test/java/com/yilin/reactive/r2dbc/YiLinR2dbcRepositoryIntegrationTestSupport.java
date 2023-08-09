@@ -1,7 +1,9 @@
-package com.yilin.reactive.r2dbc.testing;
+package com.yilin.reactive.r2dbc;
 
 import javax.sql.DataSource;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
@@ -13,7 +15,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @version 2023.0.1 2023/7/27:10:06
  * @since 2023.0.1
  */
-public abstract class R2dbcIntegrationTestSupport {
+@DataR2dbcTest
+@EnableAutoConfiguration
+public abstract class YiLinR2dbcRepositoryIntegrationTestSupport {
 
 	/**
 	 * 使用 {@link DataSource} 创建一个新的 {@link JdbcTemplate} 实例.

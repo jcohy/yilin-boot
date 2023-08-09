@@ -17,7 +17,7 @@ import org.springframework.data.repository.NoRepositoryBean;
  * @since 2023.0.1
  */
 @NoRepositoryBean
-public interface ReactiveRepository<T, ID> extends R2dbcRepository<T, ID> {
+public interface YiLinR2dbcRepository<T, ID> extends R2dbcRepository<T, ID> {
 
 
 	Mono<Void> logicDeleteById(ID id);

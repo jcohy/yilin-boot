@@ -28,7 +28,7 @@ import com.yilin.reactive.persistent.enums.DeleteStatus;
  * @version 2023.0.1 2023/7/27:17:14
  * @since 2023.0.1
  */
-public class ReactiveRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID> implements ReactiveRepository<T, ID> {
+public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID> implements YiLinR2dbcRepository<T, ID> {
 
 	private final R2dbcEntityOperations entityOperations;
 
@@ -36,7 +36,7 @@ public class ReactiveRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID> 
 
 	private final Lazy<RelationalPersistentProperty> idProperty;
 
-	public ReactiveRepositoryImpl(RelationalEntityInformation<T, ID> entity, R2dbcEntityOperations entityOperations,
+	public YiLinR2dbcRepositoryImpl(RelationalEntityInformation<T, ID> entity, R2dbcEntityOperations entityOperations,
 			R2dbcConverter converter) {
 		super(entity, entityOperations, converter);
 
