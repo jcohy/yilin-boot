@@ -42,7 +42,7 @@ public class LogicDeleteR2dbcQuery extends AbstractR2dbcQuery {
 	@Override
 	protected Mono<PreparedOperation<?>> createQuery(RelationalParameterAccessor accessor) {
 		var entityMetadata = getQueryMethod().getEntityInformation();
-
+		entityMetadata.getTableEntity().getPersistentProperty("deleted");
 		return null;
 	}
 }

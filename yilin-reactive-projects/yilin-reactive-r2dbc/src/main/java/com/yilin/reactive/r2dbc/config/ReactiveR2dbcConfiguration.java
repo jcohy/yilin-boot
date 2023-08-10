@@ -1,7 +1,6 @@
 package com.yilin.reactive.r2dbc.config;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 
 import com.yilin.reactive.r2dbc.repository.support.YiLinR2dbcRepositoryFactoryBean;
@@ -15,7 +14,7 @@ import com.yilin.reactive.r2dbc.repository.support.YiLinR2dbcRepositoryFactoryBe
  * @version 2023.0.1 2023/7/31:10:10
  * @since 2023.0.1
  */
-@AutoConfiguration(after = R2dbcAutoConfiguration.class)
+@AutoConfiguration
 @EnableR2dbcRepositories(considerNestedRepositories = true, basePackages = { "com.yilin.reactive.r2dbc" },
 		repositoryFactoryBeanClass = YiLinR2dbcRepositoryFactoryBean.class)
 public class ReactiveR2dbcConfiguration {

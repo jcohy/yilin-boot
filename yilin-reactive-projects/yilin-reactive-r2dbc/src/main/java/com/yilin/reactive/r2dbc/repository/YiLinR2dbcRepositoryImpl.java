@@ -50,16 +50,18 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 
 	@Override
 	@Transactional
-	public Mono<Void> logicDeleteById(ID id) {
+	public Mono<Long> logicDeleteById(ID id) {
+
 		Assert.notNull(id, "Id must not be null");
 
+
 		return this.entityOperations
-				.update(getIdQuery(id), Update.update("deleted", DeleteStatus.DELETED.getStatus()), this.entity.getJavaType()).then();
+				.update(getIdQuery(id), Update.update("deleted", DeleteStatus.DELETED.getStatus()), this.entity.getJavaType());
 	}
 
 	@Override
 	@Transactional
-	public Mono<Void> logicDeleteById(Publisher<ID> idPublisher) {
+	public Flux<Long> logicDeleteById(Publisher<ID> idPublisher) {
 
 		Assert.notNull(idPublisher, "The Id Publisher must not be null");
 
@@ -72,12 +74,12 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 			return this.entityOperations.update(Query.query(Criteria.where(idProperty).in(ids)),
 					Update.update("deleted", DeleteStatus.DELETED.getStatus()),
 					this.entity.getJavaType());
-		}).then();
+		});
 	}
 
 	@Override
 	@Transactional
-	public Mono<Void> logicDelete(T objectToDelete) {
+	public Mono<Long> logicDelete(T objectToDelete) {
 		Assert.notNull(objectToDelete, "object to delete must not be null");
 
 		return logicDeleteById(this.entity.getRequiredId(objectToDelete));
@@ -104,7 +106,7 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 
 	@Override
 	@Transactional
-	public Mono<Void> logicDeleteAll(Publisher<? extends T> objectPublisher) {
+	public Mono<Long> logicDeleteAll(Publisher<? extends T> objectPublisher) {
 		Assert.notNull(objectPublisher, "the object publisher must not be null");
 		var idPublisher = Flux.from(objectPublisher)
 				.map(this.entity::getRequiredId);

@@ -11,7 +11,10 @@ dependencies {
 	api("org.springframework.boot:spring-boot-starter-data-r2dbc")
 //	R2DBC Drivers
 	testImplementation("io.r2dbc:r2dbc-h2")
+	implementation("io.r2dbc:r2dbc-spi:1.0.0.RELEASE")
+	testImplementation("io.r2dbc:r2dbc-spi-test:1.0.0.RELEASE")
 	testImplementation("io.r2dbc:r2dbc-mssql")
+	testImplementation("com.github.jasync-sql:jasync-mysql:2.2.0")
 //	testImplementation("io.r2dbc:oracle-r2dbc")
 //	testImplementation("io.r2dbc:r2dbc-spi-test")
 	//
