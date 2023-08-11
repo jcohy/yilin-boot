@@ -15,7 +15,7 @@ import com.yilin.reactive.r2dbc.repository.support.YiLinR2dbcRepositoryFactoryBe
  * @since 2023.0.1
  */
 @AutoConfiguration
-@EnableR2dbcRepositories(considerNestedRepositories = true, basePackages = { "com.yilin.reactive.r2dbc" },
+@EnableR2dbcRepositories(considerNestedRepositories = true, basePackages = { "com.yilin.reactive" },
 		repositoryFactoryBeanClass = YiLinR2dbcRepositoryFactoryBean.class)
 public class ReactiveR2dbcConfiguration {
 

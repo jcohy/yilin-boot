@@ -4,12 +4,12 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 import org.springframework.r2dbc.core.DatabaseClient;
 
@@ -35,9 +35,6 @@ public abstract class AbstractYiLinYiLinR2DbcRepositoryRepositoryIntegrationTest
 
 	@Autowired
 	PersonRepository repository;
-
-	@Autowired
-	private R2dbcEntityTemplate entityTemplate;
 
 	@Autowired
 	private DatabaseClient databaseClient;
@@ -106,34 +103,151 @@ public abstract class AbstractYiLinYiLinR2DbcRepositoryRepositoryIntegrationTest
 				.verifyComplete();
 	}
 
+	@Test
+	void shouldLogicDelete() {
+		Person person = new Person(null, "Jcohy", 12, 0L, 1, 1);
 
-//	@Test
-//	void shouldLogicDelete() {
-//		jdbc.execute("INSERT INTO person (name,age,version,deleted,status) values ('Jcohy', 12 , 0L, 1, 1)");
-//		Long id = jdbc.queryForObject("SELECT id FROM person", Long.class);
-//
-//		var person = new Person(id, "Jcohy", 12, 0L, 0, 0);
-//
-//		repository.logicDelete(person)
-//				.as(StepVerifier::create)
-//				.verifyComplete();
-//
-//		Long deleted = jdbc.queryForObject("SELECT deleted FROM person", Long.class);
-//		assertThat(deleted).isEqualTo(DeleteStatus.DELETED.getStatus());
-//	}
+		insertPersons(person);
 
-//	@Override
-//	protected JdbcTemplate createJdbcTemplate(DataSource dataSource) {
-//		return super.createJdbcTemplate(dataSource);
-//	}
+		this.repository.logicDelete(person)
+				.as(StepVerifier::create)
+				.expectNextCount(1)
+				.verifyComplete();
+
+		this.repository.findById(person.getId())
+				.as(StepVerifier::create)
+				.assertNext(actual -> {
+					assertThat(actual.getDeleted()).isEqualTo(0);
+				})
+				.verifyComplete();
+	}
+
+	@Test
+	void shouldLogicDeleteAllById() {
+		Person person = new Person(null, "Jcohy", 12, 0L, 1, 1);
+		Person person2 = new Person(null, "YiLin", 1, 0L, 1, 1);
+
+		insertPersons(person, person2);
+
+		this.repository.logicDeleteAllById(Arrays.asList(person.getId(), person2.getId()))
+				.as(StepVerifier::create)
+				.expectNextCount(1)
+				.verifyComplete();
+
+		this.repository.findAllById(Arrays.asList(person.getId(), person2.getId()))
+				.collectList()
+				.as(StepVerifier::create)
+				.consumeNextWith(actual -> {
+					assertThat(actual).hasSize(2).extracting(Person::getDeleted).containsSequence(0, 0);
+				})
+				.verifyComplete();
+	}
 
 
-//	@NoRepositoryBean
-//	interface PersonRepository extends YiLinR2dbcRepository<Person, Long> {
-//
-//		@Lock(LockMode.PESSIMISTIC_WRITE)
-//		Flux<Person> getAllByName(String name);
-//	}
+	@Test
+	void shouldLogicDeleteAllWithObject() {
+		Person person = new Person(null, "Jcohy", 12, 0L, 1, 1);
+		Person person2 = new Person(null, "YiLin", 1, 0L, 1, 1);
+
+		insertPersons(person, person2);
+
+		this.repository.logicDeleteAll(Arrays.asList(person, person2))
+				.as(StepVerifier::create)
+				.expectNextCount(1)
+				.verifyComplete();
+
+		this.repository.findAllById(Arrays.asList(person.getId(), person2.getId()))
+				.collectList()
+				.as(StepVerifier::create)
+				.consumeNextWith(actual -> {
+					assertThat(actual).hasSize(2).extracting(Person::getDeleted).containsSequence(0, 0);
+				})
+				.verifyComplete();
+	}
+
+	@Test
+	void shouldLogicDeleteAllWithPublisher() {
+		Person person = new Person(null, "Jcohy", 12, 0L, 1, 1);
+		Person person2 = new Person(null, "YiLin", 1, 0L, 1, 1);
+
+		insertPersons(person, person2);
+
+		this.repository.logicDeleteAll(Flux.just(person, person2))
+				.as(StepVerifier::create)
+				.expectNextCount(1)
+				.verifyComplete();
+
+		this.repository.findAllById(Arrays.asList(person.getId(), person2.getId()))
+				.collectList()
+				.as(StepVerifier::create)
+				.consumeNextWith(actual -> {
+					assertThat(actual).hasSize(2).extracting(Person::getDeleted).containsSequence(0, 0);
+				})
+				.verifyComplete();
+	}
+
+
+	@Test
+	void shouldLogicDeleteAll() {
+
+		shouldInsertNewItems();
+
+		this.repository.logicDeleteAll()
+				.as(StepVerifier::create)
+				.expectNextCount(1)
+				.verifyComplete();
+
+		this.repository.findAll()
+				.collectList()
+				.as(StepVerifier::create)
+				.consumeNextWith(actual -> {
+					assertThat(actual).hasSize(2).extracting(Person::getDeleted).containsSequence(0, 0);
+				})
+				.verifyComplete();
+	}
+
+	@Test
+	void shouldChangeStatusWithId() {
+
+		Person person = new Person(null, "Jcohy", 12, 0L, 1, 1);
+
+		insertPersons(person);
+
+		this.repository.changeStatus(person.getId(), 2)
+				.as(StepVerifier::create)
+				.expectNextCount(1)
+				.verifyComplete();
+
+		this.repository.findById(person.getId())
+				.as(StepVerifier::create)
+				.assertNext(actual -> {
+					assertThat(actual.getStatus()).isEqualTo(2);
+				})
+				.verifyComplete();
+	}
+
+	@Test
+	void shouldChangeStatusWithPublisher() {
+
+		Person person = new Person(null, "Jcohy", 12, 0L, 1, 1);
+		Person person2 = new Person(null, "YiLin", 1, 0L, 1, 1);
+
+		insertPersons(person, person2);
+
+		this.repository.changeStatus(Flux.just(person.getId(), person2.getId()), 2)
+				.as(StepVerifier::create)
+				.expectNextCount(1)
+				.verifyComplete();
+
+		this.repository.findAll()
+				.collectList()
+				.as(StepVerifier::create)
+				.consumeNextWith(actual -> {
+					assertThat(actual).hasSize(2).extracting(Person::getStatus).containsSequence(2, 2);
+				})
+				.verifyComplete();
+	}
+
 
 	private void insertPersons(Person... persons) {
 		this.repository

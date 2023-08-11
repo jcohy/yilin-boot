@@ -51,7 +51,7 @@ public interface YiLinR2dbcRepository<T, ID> extends R2dbcRepository<T, ID> {
 	 * @param id id 集合
 	 * @return /
 	 */
-	Flux<Long> logicDeleteAllById(Iterable<? extends ID> id);
+	Mono<Long> logicDeleteAllById(Iterable<? extends ID> id);
 
 	/**
 	 * 根据实体进行逻辑删除.
@@ -72,7 +72,7 @@ public interface YiLinR2dbcRepository<T, ID> extends R2dbcRepository<T, ID> {
 	 *
 	 * @return /
 	 */
-	Flux<Long> logicDeleteAll();
+	Mono<Long> logicDeleteAll();
 
 	/**
 	 * 更改状态.
@@ -88,5 +88,5 @@ public interface YiLinR2dbcRepository<T, ID> extends R2dbcRepository<T, ID> {
 	 * @param status status
 	 * @return /
 	 */
-	Flux<Long> changeStatus(Publisher<ID> id, Integer status);
+	Mono<Long> changeStatus(Publisher<ID> id, Integer status);
 }

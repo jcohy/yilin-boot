@@ -51,9 +51,7 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 	@Override
 	@Transactional
 	public Mono<Long> logicDeleteById(ID id) {
-
 		Assert.notNull(id, "Id must not be null");
-
 
 		return this.entityOperations
 				.update(getIdQuery(id), Update.update("deleted", DeleteStatus.DELETED.getStatus()), this.entity.getJavaType());
@@ -86,7 +84,7 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 	}
 
 	@Override
-	public Mono<Void> logicDeleteAllById(Iterable<? extends ID> ids) {
+	public Mono<Long> logicDeleteAllById(Iterable<? extends ID> ids) {
 		Assert.notNull(ids, "the iterable of Id's must not be null");
 
 		var idList = Streamable.of(ids).toList();
@@ -94,19 +92,19 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 		return this.entityOperations
 				.update(Query.query(Criteria.where(idProperty).in(idList)),
 						Update.update("deleted", DeleteStatus.DELETED.getStatus()),
-						this.entity.getJavaType()).then();
+						this.entity.getJavaType());
 	}
 
 	@Override
 	@Transactional
-	public Mono<Void> logicDeleteAll(Iterable<? extends T> iterable) {
+	public Flux<Long> logicDeleteAll(Iterable<? extends T> iterable) {
 		Assert.notNull(iterable, "the iterable of Id's must not be null");
 		return logicDeleteAll(Flux.fromIterable(iterable));
 	}
 
 	@Override
 	@Transactional
-	public Mono<Long> logicDeleteAll(Publisher<? extends T> objectPublisher) {
+	public Flux<Long> logicDeleteAll(Publisher<? extends T> objectPublisher) {
 		Assert.notNull(objectPublisher, "the object publisher must not be null");
 		var idPublisher = Flux.from(objectPublisher)
 				.map(this.entity::getRequiredId);
@@ -115,35 +113,34 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 
 	@Override
 	@Transactional
-	public Mono<Void> logicDeleteAll() {
+	public Mono<Long> logicDeleteAll() {
 		return this.entityOperations.update(Query.empty(),
 				Update.update("deleted", DeleteStatus.DELETED.getStatus()),
-				this.entity.getJavaType()).then();
+				this.entity.getJavaType());
 	}
 
 	@Override
-	public Mono<Void> changeStatus(ID id, Integer status) {
+	public Mono<Long> changeStatus(ID id, Integer status) {
 
 		Assert.notNull(id, "Id must not be null");
 
 		return this.entityOperations
-				.update(getIdQuery(id), Update.update("status", status), this.entity.getClass()).then();
+				.update(getIdQuery(id), Update.update("status", status), this.entity.getJavaType());
 	}
 
 	@Override
-	public Mono<Void> changeStatus(Publisher<ID> idPublisher, Integer status) {
+	public Mono<Long> changeStatus(Publisher<ID> idPublisher, Integer status) {
 		Assert.notNull(idPublisher, "The Id Publisher must not be null");
 
-		return Flux.from(idPublisher).buffer().filter(ids -> !ids.isEmpty()).concatMap(ids -> {
+		return Mono.from(Flux.from(idPublisher).buffer().filter(ids -> !ids.isEmpty()).concatMap(ids -> {
 			if (ids.isEmpty()) {
 				return Flux.empty();
 			}
-
 			String idProperty = getIdProperty().getName();
 			return this.entityOperations.update(Query.query(Criteria.where(idProperty).in(ids)),
 					Update.update("status", status),
 					this.entity.getJavaType());
-		}).then();
+		}));
 	}
 
 	private RelationalPersistentProperty getIdProperty() {
