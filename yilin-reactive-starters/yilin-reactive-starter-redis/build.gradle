@@ -13,5 +13,9 @@ dependencies {
 	api("io.protostuff:protostuff-core")
 	api("io.protostuff:protostuff-runtime")
 	api("com.google.code.gson:gson")
-	testImplementation(project(":yilin-reactive-tests"))
+//	api("org.springframework.boot:spring-boot-starter-logging")
+	testImplementation("org.testcontainers:junit-jupiter")
+	testImplementation("org.testcontainers:testcontainers")
+	testImplementation("io.projectreactor:reactor-test")
+//	testImplementation(project(":yilin-reactive-tests"))
 }

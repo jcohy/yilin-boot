@@ -9,7 +9,7 @@ javaPlatform {
 dependencies {
 
 	api platform("org.springframework.security:spring-security-bom:6.0.0")
-
+	api platform("org.testcontainers:testcontainers-bom:1.18.3")
 	constraints {
 
 		// yilin-reactive-projects
