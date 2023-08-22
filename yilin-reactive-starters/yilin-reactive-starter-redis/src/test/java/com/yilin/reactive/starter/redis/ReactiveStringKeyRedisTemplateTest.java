@@ -11,6 +11,13 @@ import reactor.test.StepVerifier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
+import org.springframework.data.redis.connection.BitFieldSubCommands;
+import org.springframework.data.redis.connection.BitFieldSubCommands.BitFieldGet;
+import org.springframework.data.redis.connection.BitFieldSubCommands.BitFieldIncrBy;
+import org.springframework.data.redis.connection.BitFieldSubCommands.BitFieldIncrBy.Overflow;
+import org.springframework.data.redis.connection.BitFieldSubCommands.BitFieldSet;
+import org.springframework.data.redis.connection.BitFieldSubCommands.BitFieldType;
+import org.springframework.data.redis.connection.BitFieldSubCommands.Offset;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -66,6 +73,25 @@ public class ReactiveStringKeyRedisTemplateTest {
 //				.as(StepVerifier::create)
 //				.expectNextCount(5)
 //				.verifyComplete();
+	}
+
+	@Test
+	void bitField() {
+		BitFieldType type = BitFieldType.unsigned(1);
+		Offset offset = Offset.offset(1);
+
+		// method1 createWithCreate
+		BitFieldGet subGetCommand = BitFieldGet.create(type, offset);
+		BitFieldSet subSetCommand = BitFieldSet.create(type, offset, 1);
+		BitFieldIncrBy subIncrByCommand = BitFieldIncrBy.create(type, offset, 1);
+		BitFieldIncrBy subIncrByCommand2 = BitFieldIncrBy.create(type, offset, 1, Overflow.FAIL);
+		BitFieldSubCommands createWithCreate = BitFieldSubCommands.create(subGetCommand, subSetCommand, subIncrByCommand, subIncrByCommand2);
+		// method2 createWithBuilder
+		BitFieldSubCommands createWithBuilder = BitFieldSubCommands.create()
+				.get(type).valueAt(offset)
+				.set(type).valueAt(offset).to(1)
+				.incr(type).valueAt(offset).by(1);
+
 	}
 
 }
