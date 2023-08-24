@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
@@ -22,11 +23,14 @@ import org.springframework.data.geo.Point;
 import org.springframework.data.redis.connection.BitFieldSubCommands;
 import org.springframework.data.redis.connection.BitFieldSubCommands.BitFieldSubCommand;
 import org.springframework.data.redis.connection.DataType;
+import org.springframework.data.redis.connection.ReactiveListCommands.Direction;
 import org.springframework.data.redis.connection.ReactiveRedisConnection;
 import org.springframework.data.redis.connection.RedisGeoCommands.GeoLocation;
 import org.springframework.data.redis.connection.RedisGeoCommands.GeoRadiusCommandArgs;
 import org.springframework.data.redis.connection.RedisGeoCommands.GeoSearchCommandArgs;
 import org.springframework.data.redis.connection.RedisGeoCommands.GeoSearchStoreCommandArgs;
+import org.springframework.data.redis.core.ListOperations.MoveFrom;
+import org.springframework.data.redis.core.ListOperations.MoveTo;
 import org.springframework.data.redis.core.ReactiveGeoOperations;
 import org.springframework.data.redis.core.ReactiveHashOperations;
 import org.springframework.data.redis.core.ReactiveHyperLogLogOperations;
@@ -399,8 +403,6 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 //		return result;
 //	}
 
-	// ============================ String 字符串 =============================
-
 	// ============================ String 类型的获取与设置 =============================
 
 	/**
@@ -412,7 +414,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/append">Redis Documentation: APPEND</a>
 	 * @see <a href="http://doc.redisfans.com/string/append.html">Redis 命令中文文档: APPEND</a>
 	 */
-	public Mono<Long> append(String key, String value) {
+	public Mono<Long> stringAppend(String key, String value) {
 		return (key != null) ? this.valueOps.append(key, value) : Mono.empty();
 	}
 
@@ -426,7 +428,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="http://doc.redisfans.com/string/decr.html">Redis Documentation:
 	 * DECR</a>
 	 */
-	public Mono<Long> decr(String key) {
+	public Mono<Long> stringDecr(String key) {
 		return this.valueOps.decrement(key);
 	}
 
@@ -441,7 +443,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="http://doc.redisfans.com/string/decrby.html">Redis Documentation:
 	 * DECRBY</a>
 	 */
-	public Mono<Long> decrBy(String key, long decrement) {
+	public Mono<Long> stringDecrBy(String key, long decrement) {
 		return this.valueOps.decrement(key, decrement);
 	}
 
@@ -453,7 +455,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/get">Redis Documentation: GET</a>
 	 * @see <a href="http://doc.redisfans.com/string/get.html">Redis 命令中文文档: GET</a>
 	 */
-	public Mono<V> get(String key) {
+	public Mono<V> stringGet(String key) {
 		return this.valueOps.get(key);
 	}
 
@@ -465,7 +467,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/getdel">Redis Documentation: GETDEL</a>
 	 * @see <a href="http://doc.redisfans.com/string/GETDEL.html">Redis 命令中文文档: GETDEL</a>
 	 */
-	public Mono<V> getDel(String key) {
+	public Mono<V> stringGetDel(String key) {
 		return this.valueOps.getAndDelete(key);
 	}
 
@@ -477,7 +479,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/getex">Redis Documentation: GETEX</a>
 	 * @see <a href="http://doc.redisfans.com/string/GETEX.html">Redis 命令中文文档: GETEX</a>
 	 */
-	public Mono<V> getEx(String key, Duration duration) {
+	public Mono<V> stringGetEx(String key, Duration duration) {
 		return this.valueOps.getAndExpire(key, duration);
 	}
 
@@ -489,7 +491,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/getrange">Redis Documentation: GETRANGE</a>
 	 * @see <a href="http://doc.redisfans.com/string/GETRANGE.html">Redis 命令中文文档: GETRANGE</a>
 	 */
-	public Mono<String> getRange(String key, long start, long end) {
+	public Mono<String> stringGetRange(String key, long start, long end) {
 		return this.valueOps.get(key, start, end);
 	}
 
@@ -501,7 +503,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/getset">Redis Documentation: GETSET</a>
 	 * @see <a href="http://doc.redisfans.com/string/getset.html">Redis 命令中文文档: GETSET</a>
 	 */
-	public Mono<V> getSet(String key, V value) {
+	public Mono<V> stringGetSet(String key, V value) {
 		return this.valueOps.getAndSet(key, value);
 	}
 
@@ -515,7 +517,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="http://doc.redisfans.com/string/incr.html">Redis Documentation:
 	 * INCR</a>
 	 */
-	public Mono<Long> incr(String key) {
+	public Mono<Long> stringIncr(String key) {
 		return this.valueOps.increment(key);
 	}
 
@@ -529,7 +531,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/incrby">Redis Documentation: INCRBY</a>
 	 * @see <a href="http://doc.redisfans.com/string/incrby.html">Redis Documentation: INCRBY</a>
 	 */
-	public Mono<Long> incrBy(String key, long decrement) {
+	public Mono<Long> stringIncrBy(String key, long decrement) {
 		return this.valueOps.increment(key, decrement);
 	}
 
@@ -542,7 +544,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/incrbyfloat">Redis Documentation: INCRBYFLOAT</a>
 	 * @see <a href="http://doc.redisfans.com/string/incrbyfloat.html">Redis Documentation: INCRBYFLOAT</a>
 	 */
-	public Mono<Double> incrByFloat(String key, Double decrement) {
+	public Mono<Double> stringIncrByFloat(String key, Double decrement) {
 		return this.valueOps.increment(key, decrement);
 	}
 
@@ -554,7 +556,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/mget">Redis Documentation: MGET</a>
 	 * @see <a href="http://doc.redisfans.com/string/mget.html">Redis 命令中文文档: MGET</a>
 	 */
-	public Mono<List<V>> multiGet(String... keys) {
+	public Mono<List<V>> stringMultiGet(String... keys) {
 		return this.valueOps.multiGet(Arrays.asList(keys));
 	}
 
@@ -566,7 +568,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/mget">Redis Documentation: MGET</a>
 	 * @see <a href="http://doc.redisfans.com/string/mget.html">Redis 命令中文文档: MGET</a>
 	 */
-	public Mono<List<V>> multiGet(Collection<String> keys) {
+	public Mono<List<V>> stringMultiGet(Collection<String> keys) {
 		return this.valueOps.multiGet(keys);
 	}
 
@@ -579,7 +581,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/mset">Redis Documentation: MSET</a>
 	 * @see <a href="http://doc.redisfans.com/string/mset.html">Redis 命令中文文档: MGET</a>
 	 */
-	public final Mono<Boolean> multiSet(Map<String, V> keysValues) {
+	public final Mono<Boolean> stringMultiSet(Map<String, V> keysValues) {
 		return this.valueOps.multiSet(keysValues);
 	}
 
@@ -592,8 +594,8 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/mset">Redis Documentation: MSET</a>
 	 * @see <a href="http://doc.redisfans.com/string/mset.html">Redis 命令中文文档: MGET</a>
 	 */
-	public final Mono<Boolean> multiSet(Object... keysValues) {
-		return this.multiSet(Maps.toMap(keysValues));
+	public final Mono<Boolean> stringMultiSet(Object... keysValues) {
+		return this.stringMultiSet(Maps.toMap(keysValues));
 	}
 
 	/**
@@ -603,7 +605,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/msetnx">Redis Documentation: MSETNX</a>
 	 * @see <a href="http://doc.redisfans.com/string/msetnx.html">Redis 命令中文文档: MSETNX</a>
 	 */
-	public final Mono<Boolean> multiSetNx(Map<String, V> maps) {
+	public final Mono<Boolean> stringMultiSetNx(Map<String, V> maps) {
 		return this.valueOps.multiSetIfAbsent(maps);
 	}
 
@@ -617,7 +619,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/set">Redis Documentation: SET</a>
 	 * @see <a href="http://doc.redisfans.com/string/set.html">Redis 命令中文文档: SET</a>
 	 */
-	public Mono<Boolean> set(String key, V value) {
+	public Mono<Boolean> stringSet(String key, V value) {
 		Assert.notNull(key, "key must not be null.");
 		try {
 			return this.valueOps.set(key, value);
@@ -625,6 +627,10 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 		catch (Exception ex) {
 			return Mono.just(false);
 		}
+	}
+
+	public Mono<Boolean> stringSet(Supplier<String> key, V value) {
+		return this.valueOps.set(key.get(), value);
 	}
 
 	/**
@@ -636,7 +642,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/set">Redis Documentation: SET</a>
 	 * @see <a href="http://doc.redisfans.com/string/set.html">Redis Documentation: SET</a>
 	 */
-	public Mono<Boolean> setIfPresent(String key, V value) {
+	public Mono<Boolean> stringSetIfPresent(String key, V value) {
 		Assert.notNull(key, "key must not be null.");
 		return this.valueOps.setIfPresent(key, value);
 	}
@@ -650,7 +656,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/set">Redis Documentation: SET</a>
 	 * @see <a href="http://doc.redisfans.com/string/set.html">Redis Documentation: SET</a>
 	 */
-	public Mono<Boolean> setIfPresent(String key, V value, Duration duration) {
+	public Mono<Boolean> stringSetIfPresent(String key, V value, Duration duration) {
 		Assert.notNull(key, "key must not be null.");
 		return this.valueOps.setIfPresent(key, value, duration);
 	}
@@ -664,7 +670,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/set">Redis Documentation: SET</a>
 	 * @see <a href="http://doc.redisfans.com/string/set.html">Redis Documentation: SET</a>
 	 */
-	public Mono<Boolean> setIfAbsent(String key, V value, Duration duration) {
+	public Mono<Boolean> stringSetIfAbsent(String key, V value, Duration duration) {
 		Assert.notNull(key, "key must not be null.");
 		return this.valueOps.setIfAbsent(key, value, duration);
 	}
@@ -679,7 +685,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/setex">Redis Documentation: SETEX</a>
 	 * @see <a href="http://doc.redisfans.com/string/setex.html">Redis 命令中文文档: SETEX</a>
 	 */
-	public Mono<Boolean> setEx(String key, V value, long duration) {
+	public Mono<Boolean> stringSetEx(String key, V value, long duration) {
 		Assert.notNull(key, "key must not be null.");
 		return this.valueOps.set(key, value, Duration.ofSeconds(duration));
 	}
@@ -695,7 +701,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/setex">Redis Documentation: SETEX</a>
 	 * @see <a href="http://doc.redisfans.com/string/setex.html">Redis 命令中文文档: SETEX</a>
 	 */
-	public Mono<Boolean> setEx(String key, V value, Duration duration) {
+	public Mono<Boolean> stringSetEx(String key, V value, Duration duration) {
 		Assert.notNull(key, "key must not be null.");
 		return this.valueOps.set(key, value, duration);
 	}
@@ -711,7 +717,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="http://doc.redisfans.com/string/setnx.html">Redis Documentation:
 	 * SETNX</a>
 	 */
-	public Mono<Boolean> setNx(String key, V value) {
+	public Mono<Boolean> stringSetNx(String key, V value) {
 		Assert.notNull(key, "key must not be null.");
 		return this.valueOps.setIfAbsent(key, value);
 	}
@@ -725,7 +731,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/setrange">Redis Documentation: SETRANGE</a>
 	 * @see <a href="http://doc.redisfans.com/string/setrange.html">Redis Documentation: SETRANGE</a>
 	 */
-	public Mono<Long> setRange(String key, V value, long offset) {
+	public Mono<Long> stringSetRange(String key, V value, long offset) {
 		Assert.notNull(key, "key must not be null.");
 		return this.valueOps.set(key, value, offset);
 	}
@@ -738,8 +744,18 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/strlen">Redis Documentation: STRLEN</a>
 	 * @see <a href="http://doc.redisfans.com/string/strlen.html">Redis Documentation: STRLEN</a>
 	 */
-	public Mono<Long> strLen(String key) {
+	public Mono<Long> stringLen(String key) {
 		return this.valueOps.size(key);
+	}
+
+	/**
+	 * 删除 key.
+	 *
+	 * @param key 键
+	 * @return {@code true} 成功, {@code false} 失败
+	 */
+	public Mono<Boolean> stringDelete(String key) {
+		return this.valueOps.delete(key);
 	}
 
 	// ============================ BitMap 类型的获取与设置 =============================
@@ -931,7 +947,9 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/geohash">Redis Documentation: GEOHASH</a>
 	 * @see <a href="http://doc.redisfans.com/string/geohash.html">Redis 命令中文文档: GEOHASH</a>
 	 */
-	public Mono<List<String>> geoHash(String key, V... members) {
+
+	@SafeVarargs
+	public final Mono<List<String>> geoHash(String key, V... members) {
 		return this.geoOps.hash(key, members);
 	}
 
@@ -957,7 +975,8 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/geopos">Redis Documentation: GEOPOS</a>
 	 * @see <a href="http://doc.redisfans.com/string/geopos.html">Redis 命令中文文档: GEOPOS</a>
 	 */
-	public Mono<List<Point>> geoPos(String key, V... members) {
+	@SafeVarargs
+	public final Mono<List<Point>> geoPos(String key, V... members) {
 		return this.geoOps.position(key, members);
 	}
 
@@ -1038,7 +1057,8 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @param members must not be {@literal null}.
 	 * @return Number of elements removed.
 	 */
-	public Mono<Long> geoRemove(String key, V... members) {
+	@SafeVarargs
+	public final Mono<Long> geoRemove(String key, V... members) {
 		return this.geoOps.remove(key, members);
 	}
 
@@ -1047,7 +1067,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 *
 	 * @param key must not be {@literal null}.
 	 */
-	public Mono<Boolean> delete(String key) {
+	public Mono<Boolean> geoDelete(String key) {
 		return this.geoOps.delete(key);
 	}
 
@@ -1233,7 +1253,35 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 		return this.geoOps.searchAndStore(key, destKey, reference, geoPredicate, args);
 	}
 
-	// ============================ Map 类型的获取与设置 =============================
+	// ============================ Hash 类型的获取与设置 =============================
+
+	/**
+	 * 删除哈希表 key 中的一个或多个指定字段,不存在的字段将被忽略.
+	 *
+	 * @param key 键 不能为 {@code null}
+	 * @param item 项 可以使多个,不能为 {@code null}
+	 * @return 被成功移除的字段的数量, 不包括被忽略的字段.
+	 * @see <a href="https://redis.io/commands/hdel">Redis Documentation: HDEL</a>
+	 * @see <a href="http://doc.redisfans.com/hash/hdel.html">Redis 命令中文文档: HDEL</a>
+	 */
+	public Mono<Long> hashDel(String key, Object... item) {
+		Assert.notNull(key, "key must not be null.");
+		return this.hashOps.remove(key, item);
+	}
+
+	/**
+	 * 查看哈希表 key 中,给定 field 是否存在.
+	 *
+	 * @param key 键 不能为 {@code null}
+	 * @param field 项 不能为 {@code null}
+	 * @return {@code true} 成功, {@code false} 失败
+	 * @see <a href="https://redis.io/commands/hexists">Redis Documentation: HEXISTS</a>
+	 * @see <a href="http://doc.redisfans.com/hash/hexists.html">Redis 命令中文文档: HEXISTS</a>
+	 */
+	public Mono<Boolean> hashExists(String key, K field) {
+		Assert.notNull(key, "key must not be null.");
+		return this.hashOps.hasKey(key, field);
+	}
 
 	/**
 	 * 返回哈希表 key 中给定域 field 的值.
@@ -1244,8 +1292,82 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/hget">Redis Documentation: HGET</a>
 	 * @see <a href="http://doc.redisfans.com/hash/hget.html">Redis 命令中文文档: HGET</a>
 	 */
-	public Object hashGet(String key, String field) {
+	public Mono<V> hashGet(String key, K field) {
 		return this.hashOps.get(key, field);
+	}
+
+	/**
+	 * 返回存储在 key 处的哈希的所有字段和值。 在返回值中，每个字段名称后面都跟着它的值，因此返回值的长度是哈希大小的两倍.
+	 *
+	 * @param key 键 不能为 {@code null}
+	 * @return 存储在哈希中的字段及其值的列表，或者当 key 不存在时为空列表 .
+	 * @see <a href="https://redis.io/commands/hgetall">Redis Documentation: HGETALL</a>
+	 * @see <a href="http://doc.redisfans.com/hash/hgetall.html">Redis 命令中文文档: HGETALL</a>
+	 */
+	public Flux<Map.Entry<K, V>> hashGetAll(String key) {
+		return this.hashOps.entries(key);
+	}
+
+	/**
+	 * 为哈希表 key 中的域 field 的值加上增量 increment . 增量也可以为负数,相当于对给定域进行减法操作 参考
+	 * {@link ReactiveStringKeyRedisTemplate#hashDecrBy(String, Object, double)} . 如果 key 不存在,一个新的哈希表被创建并执行
+	 * HINCRBY 命令. 如果域 field 不存在,那么在执行命令前,域的值被初始化为 0 . 对一个储存字符串值的域 field 执行 HINCRBY
+	 * 命令将造成一个错误. 本操作的值被限制在 64 位(bit)有符号数字表示之内.
+	 *
+	 * @param key 键
+	 * @param field 项
+	 * @param increment 要增加几(大于0)
+	 * @return 哈希表 key 中域 field 的值
+	 * @see <a href="https://redis.io/commands/hincrby">Redis Documentation: HINCRBY</a>
+	 * @see <a href="http://doc.redisfans.com/hash/hincrby.html">Redis 命令中文文档: HINCRBY</a>
+	 */
+	public Mono<Double> hashIncrBy(String key, K field, double increment) {
+		Assert.notNull(key, "key must not be null.");
+		return this.hashOps.increment(key, field, increment);
+	}
+
+	/**
+	 * 为哈希表 key 中的域 field 的值加上增量 increment . 增量也可以为正数,相当于对给定域进行加法操作 参考
+	 * {@link ReactiveStringKeyRedisTemplate#hashIncrBy(String, Object, double)}. 如果 key 不存在,一个新的哈希表被创建并执行
+	 * HINCRBY 命令. 如果域 field 不存在,那么在执行命令前,域的值被初始化为 0 . 对一个储存字符串值的域 field 执行 HINCRBY
+	 * 命令将造成一个错误. 本操作的值被限制在 64 位(bit)有符号数字表示之内.
+	 *
+	 * @param key 键
+	 * @param item 项
+	 * @param increment 要减少记(小于0)
+	 * @return 哈希表 key 中域 field 的值
+	 * @see <a href="https://redis.io/commands/hincrby">Redis Documentation: HINCRBY</a>
+	 * @see <a href="http://doc.redisfans.com/hash/hincrby.html">Redis 命令中文文档: HINCRBY</a>
+	 */
+	public Mono<Double> hashDecrBy(String key, K item, double increment) {
+		Assert.notNull(key, "key must not be null.");
+		return this.hashOps.increment(key, item, -increment);
+	}
+
+	/**
+	 * 返回存储在 key 处的哈希表中的所有字段名称.
+	 *
+	 * @param key 键
+	 * @return 哈希表 key 中 field 的名称
+	 * @see <a href="https://redis.io/commands/hkeys">Redis Documentation: HKEYS</a>
+	 * @see <a href="http://doc.redisfans.com/hash/hkeys.html">Redis 命令中文文档: HKEYS</a>
+	 */
+	public Flux<K> hashKeys(String key) {
+		Assert.notNull(key, "key must not be null.");
+		return this.hashOps.keys(key);
+	}
+
+	/**
+	 * 返回存储在 key 处的哈希中包含的字段数.
+	 *
+	 * @param key 键
+	 * @return 哈希中的字段数，如果 key 不存在，则为 0.
+	 * @see <a href="https://redis.io/commands/hlen">Redis Documentation: HLEN</a>
+	 * @see <a href="http://doc.redisfans.com/hash/hlen.html">Redis 命令中文文档: HLEN</a>
+	 */
+	public Mono<Long> hashLen(String key) {
+		Assert.notNull(key, "key must not be null.");
+		return this.hashOps.size(key);
 	}
 
 	/**
@@ -1256,8 +1378,8 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/hmget">Redis Documentation: HMGET</a>
 	 * @see <a href="http://doc.redisfans.com/hash/hmget.html">Redis 命令中文文档: HMGET</a>
 	 */
-	public Map<K, V> hashMGet(String key) {
-		return this.hashOps.entries(key);
+	public Mono<List<V>> hashMGet(String key, Collection<K> hashKeys) {
+		return this.hashOps.multiGet(key,hashKeys);
 	}
 
 	/**
@@ -1269,15 +1391,13 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/hmset">Redis Documentation: HMSET</a>
 	 * @see <a href="http://doc.redisfans.com/hash/hmset.html">Redis 命令中文文档: HMSET</a>
 	 */
-	public boolean hashMSet(String key, Map<? extends K, ? extends V> map) {
+	public Mono<Boolean> hashMSet(String key, Map<? extends K, ? extends V> map) {
 		Assert.notNull(key, "key must not be null.");
 		try {
-			this.hashOps.putAll(key, map);
-			return true;
+			return this.hashOps.putAll(key, map);
 		}
 		catch (Exception ex) {
-			ex.printStackTrace();
-			return false;
+			return Mono.just(false);
 		}
 	}
 
@@ -1293,19 +1413,92 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="http://doc.redisfans.com/hash/hmset.html">Redis 命令中文文档: HMSET</a>
 	 * @see <a href="http://doc.redisfans.com/key/expire.html">Redis 命令中文文档: EXPIRE</a>
 	 */
-	public boolean hashMSet(String key, Map<? extends K, ? extends V> map, long time) {
+	public Mono<Boolean> hashMSet(String key, Map<? extends K, ? extends V> map, long time) {
 		Assert.notNull(key, "key must not be null.");
-		try {
-			this.hashOps.putAll(key, map);
-			if (time > 0) {
-				expire(key, time);
-			}
-			return true;
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-			return false;
-		}
+		Assert.isTrue(time > 0, "time must not be null.");
+		return this.hashOps.putAll(key, map)
+				.then(this.expire(key, time));
+	}
+
+	/**
+	 * 从存储在 {@code key} 的哈希值返回一个随机哈希键（也称为字段）.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @return /
+	 * @see <a href="https://redis.io/commands/hrandfield">Redis Documentation: HRANDFIELD</a>
+	 * @see <a href="http://doc.redisfans.com/key/hrandfield.html">Redis 命令中文文档: HRANDFIELD</a>
+	 */
+	public Mono<K> hashRandFieldKey(String key) {
+		return this.hashOps.randomKey(key);
+	}
+
+	/**
+	 * 从存储在 {@code key} 的哈希中返回一个随机 entity.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @return /
+	 * @see <a href="https://redis.io/commands/hrandfield">Redis Documentation: HRANDFIELD</a>
+	 * @see <a href="http://doc.redisfans.com/key/hrandfield.html">Redis 命令中文文档: HRANDFIELD</a>
+	 */
+	public Mono<Map.Entry<K, V>> hashRandFieldEntity(String key) {
+		return this.hashOps.randomEntry(key);
+	}
+
+	/**
+	 * 从存储在 {@code key} 的哈希中返回随机哈希键（也称为字段）。 如果提供的 {@code count} 参数为正，则返回不同哈希键的列表，上限为 {@code count} 或哈希大小。
+	 * 如果 {@code count} 为负数，则行为会发生变化，并且允许该命令多次返回相同的哈希键。 在这种情况下，返回的字段数是指定计数的绝对值。
+	 *
+	 * @param key must not be {@literal null}.
+	 * @param count number of fields to return.
+	 * @return /
+	 * @see <a href="https://redis.io/commands/hrandfield">Redis Documentation: HRANDFIELD</a>
+	 * @see <a href="http://doc.redisfans.com/key/hrandfield.html">Redis 命令中文文档: HRANDFIELD</a>
+	 */
+	public Flux<K> hashRandFieldKeys(String key, long count) {
+		return this.hashOps.randomKeys(key, count);
+	}
+
+	/**
+	 * 从存储在 {@code key} 的哈希中返回随机条目。 如果提供的 {@code count} 参数为正，则返回不同条目的列表，上限为 {@code count} 或哈希大小。
+	 * 如果 {@code count} 为负数，则行为会发生变化，并且允许命令多次返回相同的条目。 在这种情况下，返回的字段数是指定计数的绝对值.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @param count number of fields to return.
+	 * @return {@literal null} 如果 key 不存在或在 管道/事务 中使用时。
+	 * @see <a href="https://redis.io/commands/hrandfield">Redis Documentation: HRANDFIELD</a>
+	 * @see <a href="http://doc.redisfans.com/key/hrandfield.html">Redis 命令中文文档: HRANDFIELD</a>
+	 */
+	public Flux<Map.Entry<K, V>> hashRandFieldEntries(String key, long count) {
+		return this.hashOps.randomEntries(key, count);
+	}
+
+	/**
+	 * 使用 {@link Flux} 迭代 {@code key} 处哈希中的条目。
+	 * 由此产生的 {@link Flux} 充当游标，只要订阅者发出请求信号，它就会自行发出 {@code HSCAN} 命令.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @return 如果键不存在，则通过一个或一个 {@link Flux#empty() empty flux} 发出 {@link java.util.Map.Entry }.
+	 * @throws IllegalArgumentException {@code key} is {@literal null}.
+	 * @see <a href="https://redis.io/commands/hscan">Redis Documentation: HSCAN</a>
+	 * @see <a href="http://doc.redisfans.com/key/hscan.html">Redis 命令中文文档: HSCAN</a>
+	 */
+	public Flux<Map.Entry<K, V>> hashScan(String key) {
+		return this.hashOps.scan(key);
+	}
+
+	/**
+	 * 使用 {@link Flux} 在给定 {@link ScanOptions} 的情况下迭代 {@code key} 处的哈希中的 Entry。
+	 * 由此产生的 {@link Flux} 充当游标，只要订阅者发出请求信号，它就会自行发出 {@code HSCAN} 命令.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @param options must not be {@literal null}. Use {@link ScanOptions#NONE} instead.
+	 * @return 如果键不存在，则通过一个或一个 {@link Flux#empty() empty flux} 发出 {@link java.util.Map.Entry}。.
+	 * @throws IllegalArgumentException when one of the required arguments is {@literal null}.
+	 * @see <a href="https://redis.io/commands/hscan">Redis Documentation: HSCAN</a>
+	 * @see <a href="http://doc.redisfans.com/key/hscan.html">Redis 命令中文文档: HSCAN</a>
+	 */
+	public Flux<Map.Entry<K, V>> hashScan(String key, ScanOptions options) {
+		return this.hashOps.scan(key,options);
 	}
 
 	/**
@@ -1318,16 +1511,8 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="https://redis.io/commands/hset">Redis Documentation: HSET</a>
 	 * @see <a href="http://doc.redisfans.com/hash/hset.html">Redis 命令中文文档: HSET</a>
 	 */
-	public boolean hashSet(String key, K field, V value) {
-		Assert.notNull(key, "key must not be null.");
-		try {
-			this.hashOps.put(key, field, value);
-			return true;
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-			return false;
-		}
+	public Mono<Boolean> hashSet(String key, K field, V value) {
+		return this.hashOps.put(key, field, value);
 	}
 
 	/**
@@ -1343,89 +1528,540 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 	 * @see <a href="http://doc.redisfans.com/hash/hset.html">Redis 命令中文文档: HSET</a>
 	 * @see <a href="http://doc.redisfans.com/key/expire.html">Redis 命令中文文档: EXPIRE</a>
 	 */
-	public boolean hashSet(String key, K item, V value, long time) {
+	public Mono<Boolean> hashSet(String key, K item, V value, long time) {
 		Assert.notNull(key, "key must not be null.");
-		try {
-			this.hashOps.put(key, item, value);
-			if (time > 0) {
-				expire(key, time);
-			}
-			return true;
-		}
-		catch (Exception ex) {
-			ex.printStackTrace();
-			return false;
-		}
+		Assert.isTrue(time > 0, "time must not be null.");
+		return this.hashOps.put(key, item, value)
+				.then(this.expire(key, time));
 	}
 
 	/**
-	 * 删除哈希表 key 中的一个或多个指定域,不存在的域将被忽略.
-	 *
-	 * @param key 键 不能为 {@code null}
-	 * @param item 项 可以使多个,不能为 {@code null}
-	 * @return 被成功移除的域的数量, 不包括被忽略的域.
-	 * @see <a href="https://redis.io/commands/hdel">Redis Documentation: HDEL</a>
-	 * @see <a href="http://doc.redisfans.com/hash/hdel.html">Redis 命令中文文档: HDEL</a>
-	 */
-	public Long hashDel(String key, Object... item) {
-		Assert.notNull(key, "key must not be null.");
-		return this.hashOps.delete(key, item);
-	}
-
-	/**
-	 * 查看哈希表 key 中,给定域 field 是否存在.
-	 *
-	 * @param key 键 不能为 {@code null}
-	 * @param field 项 不能为 {@code null}
-	 * @return {@code true} 成功, {@code false} 失败
-	 * @see <a href="https://redis.io/commands/hexists">Redis Documentation: HEXISTS</a>
-	 * @see <a href="http://doc.redisfans.com/hash/hexists.html">Redis 命令中文文档: HEXISTS</a>
-	 */
-	public boolean hashHasKey(String key, String field) {
-		Assert.notNull(key, "key must not be null.");
-		return this.hashOps.hasKey(key, field);
-	}
-
-	/**
-	 * 为哈希表 key 中的域 field 的值加上增量 increment . 增量也可以为负数,相当于对给定域进行减法操作 参考
-	 * {@link SagaRedis#hashDecrBy(String, Object, double)} . 如果 key 不存在,一个新的哈希表被创建并执行
-	 * HINCRBY 命令. 如果域 field 不存在,那么在执行命令前,域的值被初始化为 0 . 对一个储存字符串值的域 field 执行 HINCRBY
-	 * 命令将造成一个错误. 本操作的值被限制在 64 位(bit)有符号数字表示之内.
-	 *
-	 * @param key 键
-	 * @param field 项
-	 * @param increment 要增加几(大于0)
-	 * @return 哈希表 key 中域 field 的值
-	 * @see <a href="https://redis.io/commands/hincrby">Redis Documentation: HINCRBY</a>
-	 * @see <a href="http://doc.redisfans.com/hash/hincrby.html">Redis 命令中文文档: HINCRBY</a>
-	 */
-	public double hashIncrBy(String key, K field, double increment) {
-		Assert.notNull(key, "key must not be null.");
-		return this.hashOps.increment(key, field, increment);
-	}
-
-	/**
-	 * 为哈希表 key 中的域 field 的值加上增量 increment . 增量也可以为正数,相当于对给定域进行加法操作 参考
-	 * {@link SagaRedis#hashIncrBy(String, Object, double)}. 如果 key 不存在,一个新的哈希表被创建并执行
-	 * HINCRBY 命令. 如果域 field 不存在,那么在执行命令前,域的值被初始化为 0 . 对一个储存字符串值的域 field 执行 HINCRBY
-	 * 命令将造成一个错误. 本操作的值被限制在 64 位(bit)有符号数字表示之内.
+	 * 仅当 hashKey 不存在时才设置哈希 hashKey 的值.
 	 *
 	 * @param key 键
 	 * @param item 项
-	 * @param increment 要减少记(小于0)
-	 * @return 哈希表 key 中域 field 的值
-	 * @see <a href="https://redis.io/commands/hincrby">Redis Documentation: HINCRBY</a>
-	 * @see <a href="http://doc.redisfans.com/hash/hincrby.html">Redis 命令中文文档: HINCRBY</a>
+	 * @param value 值
+	 * @return {@code true} 成功, {@code false} 失败
+	 * @see <a href="https://redis.io/commands/hsetnx">Redis Documentation: HSETNX</a>
+	 * @see <a href="http://doc.redisfans.com/key/hsetnx.html">Redis 命令中文文档: HSETNX</a>
 	 */
-	public double hashDecrBy(String key, K item, double increment) {
+	public Mono<Boolean> hashSetNx(String key, K item, V value) {
 		Assert.notNull(key, "key must not be null.");
-		return this.hashOps.increment(key, item, -increment);
+		return this.hashOps.putIfAbsent(key, item, value);
 	}
 
+	/**
+	 * 返回存储在 key 处的哈希表中的所有值.
+	 *
+	 * @param key 键
+	 * @return {@code true} 成功, {@code false} 失败
+	 * @see <a href="https://redis.io/commands/hvals">Redis Documentation: HVALS</a>
+	 * @see <a href="http://doc.redisfans.com/key/hvals.html">Redis 命令中文文档: HVALS</a>
+	 */
+	public Flux<V> hashValues(String key) {
+		return this.hashOps.values(key);
+	}
 
+	/**
+	 * 删除 key.
+	 *
+	 * @param key 键
+	 * @return {@code true} 成功, {@code false} 失败
+	 */
+	public Mono<Boolean> hashDelete(String key) {
+		return this.hashOps.delete(key);
+	}
 
+	// =============================== HyperLogLog =================================
 
+	/**
+	 * 将给定的 {@literal value} 添加到 {@literal key}.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @param values must not be {@literal null}.
+	 * @return 1 至少有一个值被添加到键中； 否则为 0.
+	 * @see <a href="https://redis.io/commands/pfadd">Redis Documentation: PFADD</a>
+	 * @see <a href="http://doc.redisfans.com/key/pfadd.html">Redis 命令中文文档: PFADD</a>
+	 */
+	@SafeVarargs
+	public final Mono<Long> pfAdd(String key, V... values) {
+		return this.hllOps.add(key, values);
+	}
 
+	/**
+	 * 获取 {@literal key} 中当前元素的数量.
+	 *
+	 * @param keys must not be {@literal null} or {@literal empty}.
+	 * @return
+	 * @see <a href="https://redis.io/commands/pfcount">Redis Documentation: PFCOUNT</a>
+	 * @see <a href="http://doc.redisfans.com/key/pfcount.html">Redis 命令中文文档: PFCOUNT</a>
+	 */
+	public Mono<Long> pfCount(String... keys) {
+		return this.hllOps.size(keys);
+	}
+
+	/**
+	 * 将给定的 {@literal source Keys} 的所有值合并到 {@literal destination} key.
+	 *
+	 * @param destination key of HyperLogLog to move source keys into.
+	 * @param sourceKeys must not be {@literal null} or {@literal empty}.
+	 * @see <a href="https://redis.io/commands/pfmerge">Redis Documentation: PFMERGE</a>
+	 * @see <a href="http://doc.redisfans.com/key/pfmerge.html">Redis 命令中文文档: PFMERGE</a>
+	 */
+	public Mono<Boolean> pfMerge(String destination, String... sourceKeys) {
+		return this.hllOps.union(destination, sourceKeys);
+	}
+
+	/**
+	 * 删除 key.
+	 *
+	 * @param key 键
+	 * @return {@code true} 成功, {@code false} 失败
+	 */
+	public Mono<Boolean> pfDelete(String key) {
+		return this.hllOps.delete(key);
+	}
+
+	// =============================== list =================================
+
+	/**
+	 * 原子地返回并删除存储在 {@code sourceKey} 的列表的第一个/最后一个元素（头/尾取决于 {@code from} 参数），
+	 * 并将元素推送到第一个/最后一个元素（头/尾取决于 {@code from} 参数） 存储在 {@code destinationKey} 的列表的 {@code to} 参数）.
+	 * <p>
+	 * <b>阻塞连接</b> 直到元素可用或达到 {@code timeout}.
+	 *
+	 * @param sourceKey must not be {@literal null}.
+	 * @param from must not be {@literal null}.
+	 * @param destinationKey must not be {@literal null}.
+	 * @param to must not be {@literal null}.
+	 * @param timeout 超时
+	 * @return {@literal null} when used in pipeline / transaction.
+	 * @see <a href="https://redis.io/commands/blmove">Redis Documentation: BLMOVE</a>
+	 * @see <a href="http://doc.redisfans.com/list/blmove.html">Redis 命令中文文档: BLMOVE</a>
+	 */
+	public Mono<V> listBlockLeftMove(String sourceKey, Direction from, String destinationKey, Direction to, Duration timeout) {
+		return this.listOps.move(sourceKey, from, destinationKey, to, timeout);
+	}
+
+	/**
+	 * 原子地返回并删除存储在 {@code sourceKey} 的列表的第一个/最后一个元素（头/尾取决于 {@code from} 参数），
+	 * 并将元素推送到第一个/最后一个元素（头/尾取决于 {@code from} 参数） 存储在 {@code destinationKey} 的列表的 {@code to} 参数）.
+	 * <p>
+	 * <b>阻塞连接</b> 直到元素可用或达到 {@code timeout}.
+	 *
+	 * @param from 不能为 {@literal null}.
+	 * @param to must not be {@literal null}.
+	 * @param timeout 超时
+	 * @return {@literal null} when used in pipeline / transaction.
+	 * @see <a href="https://redis.io/commands/blmove">Redis Documentation: BLMOVE</a>
+	 * @see <a href="http://doc.redisfans.com/list/blmove.html">Redis 命令中文文档: BLMOVE</a>
+	 */
+	public Mono<V> listBlockLeftMove(MoveFrom<String> from, MoveTo<String> to, Duration timeout) {
+		return this.listOps.move(from, to, timeout);
+	}
+
+	/**
+	 * 原子地返回并删除存储在 {@code sourceKey} 的列表的第一个/最后一个元素（头/尾取决于 {@code from} 参数），
+	 * 并将元素推送到第一个/最后一个元素（头/尾取决于 {@code from} 参数） 存储在 {@code destinationKey} 的列表的 {@code to} 参数）.
+	 *
+	 * @param from must not be {@literal null}.
+	 * @param to must not be {@literal null}.
+	 * @return
+	 * @see <a href="https://redis.io/commands/lmove">Redis Documentation: LMOVE</a>
+	 * @see <a href="http://doc.redisfans.com/list/lmove.html">Redis 命令中文文档: LMOVE</a>
+	 */
+	public Mono<V> listLeftMove(MoveFrom<String> from, MoveTo<String> to) {
+		return this.listOps.move(from, to);
+	}
+
+	/**
+	 * 原子地返回并删除存储在 {@code sourceKey} 的列表的第一个/最后一个元素（头/尾取决于 {@code from} 参数），
+	 * 并将元素推送到第一个/最后一个元素（头/尾取决于 {@code from} 参数） 存储在 {@code destinationKey} 的列表的 {@code to} 参数）.
+	 *
+	 * @param sourceKey must not be {@literal null}.
+	 * @param from must not be {@literal null}.
+	 * @param destinationKey must not be {@literal null}.
+	 * @param to must not be {@literal null}.
+	 * @return
+	 * @see <a href="https://redis.io/commands/lmove">Redis Documentation: LMOVE</a>
+	 * @see <a href="http://doc.redisfans.com/list/lmove.html">Redis 命令中文文档: LMOVE</a>
+	 */
+	public Mono<V> listLeftMove(String sourceKey, Direction from, String destinationKey, Direction to) {
+		return this.listOps.move(sourceKey, from, destinationKey, to);
+	}
+
+	/**
+	 * 从存储在 {@code key} 的列表中删除并返回第一个元素。 <br> <b>一旦元素可用或达到 {@code timeout}，结果就会返回。</b>.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @param timeout 等待列表中 {@code key} 处的 entry 可用的最长持续时间。 必须为 {@link Duration#ZERO} 或更大的 {@link 1 秒}，不能为 {@literal null}。 超时为零可用于无限期等待。 不支持零到一秒之间的持续时间。
+	 * @return
+	 * @see <a href="https://redis.io/commands/blpop">Redis Documentation: BLPOP</a>
+	 * @see <a href="http://doc.redisfans.com/list/blpop.html">Redis 命令中文文档: BLPOP</a>
+	 */
+	public Mono<V> listBlockLeftPop(String key, Duration timeout) {
+		return this.listOps.leftPop(key, timeout);
+	}
+
+	/**
+	 * 删除并返回存储在 {@code key} 的列表中的第一个元素.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @return
+	 * @see <a href="https://redis.io/commands/lpop">Redis Documentation: LPOP</a>
+	 * @see <a href="http://doc.redisfans.com/list/lpop.html">Redis 命令中文文档: LPOP</a>
+	 */
+	public Mono<V> listLeftPop(String key) {
+		return this.listOps.leftPop(key);
+	}
+
+	/**
+	 * 删除并返回存储在 {@code key} 的列表中的最后一个元素. <br>
+	 * <b>一旦元素可用或达到{@code timeout}，结果就会返回.</b>
+	 *
+	 * @param key must not be {@literal null}.
+	 * @param timeout 等待列表中 {@code key} 处的 entry 可用的最长持续时间。 必须为 {@link Duration#ZERO} 或更大的 {@link 1 秒}，不能为 {@literal null}.  超时为零可用于无限期等待。 不支持零到一秒之间的持续时间。
+	 * @return
+	 * @see <a href="https://redis.io/commands/brpop">Redis Documentation: BRPOP</a>
+	 * @see <a href="http://doc.redisfans.com/list/brpop.html">Redis 命令中文文档: BRPOP</a>
+	 */
+	public Mono<V> listBlockRightPop(String key, Duration timeout) {
+		return this.listOps.rightPop(key, timeout);
+	}
+
+	/**
+	 * 删除并返回存储在 {@code key} 的列表中的最后一个元素.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @return
+	 * @see <a href="https://redis.io/commands/rpop">Redis Documentation: RPOP</a>
+	 * @see <a href="http://doc.redisfans.com/list/rpop.html">Redis 命令中文文档: RPOP</a>
+	 */
+	public Mono<V> listRightPop(String key) {
+		return this.listOps.rightPop(key);
+	}
+
+	/**
+	 * 从 {@code srcKey} 处的列表中删除最后一个元素，将其附加到 {@code dstKey} 并返回其值.
+	 * <b>一旦元素可用或达到 {@code timeout}，结果就会返回。</b>
+	 *
+	 * @param sourceKey 源 key
+	 * @param destinationKey 目标 key
+	 * @param timeout 等待列表中 {@code key} 处的 entry 可用的最长持续时间。 必须为 {@link Duration#ZERO} 或更大的 {@link 1 秒}，不能为 {@literal null}.  超时为零可用于无限期等待。 不支持零到一秒之间的持续时间。
+	 * @return 被弹出的元素.
+	 * @see <a href="https://redis.io/commands/brpoplpush">Redis Documentation: BRPOPLPUSH</a>
+	 * @see <a href="http://doc.redisfans.com/list/brpoplpush.html">Redis 命令中文文档: BRPOPLPUSH</a>
+	 */
+	public Mono<V> listBlockRightPopLeftPush(String sourceKey, String destinationKey, Duration timeout) {
+		return this.listOps.rightPopAndLeftPush(sourceKey, destinationKey, timeout);
+	}
+
+	/**
+	 * 命令 RPOPLPUSH 在一个原子时间内,执行以下两个动作：
+	 * <ul>
+	 * <li>将列表 source 中的最后一个元素(尾元素)弹出,并返回给客户端.</li>
+	 * <li>将 source 弹出的元素插入到列表 destination ,作为 destination 列表的的头元素.</li>
+	 * </ul>
+	 * 如果 source 不存在,值 {@code null} 被返回,并且不执行其他动作. 如果 source 和 destination
+	 * 相同,则列表中的表尾元素被移动到表头,并返回该元素,可以把这种特殊情况视作列表的旋转(rotation)操作.
+	 *
+	 * @param sourceKey 源 key
+	 * @param destinationKey 目标 key
+	 * @return 被弹出的元素.
+	 * @see <a href="https://redis.io/commands/rpoplpush">Redis Documentation: RPOPLPUSH</a>
+	 * @see <a href="http://doc.redisfans.com/list/rpoplpush.html">Redis 命令中文文档: RPOPLPUSH</a>
+	 */
+	public Mono<V> listRightPopLeftPush(String sourceKey, String destinationKey) {
+		return this.listOps.rightPopAndLeftPush(sourceKey, destinationKey);
+	}
+
+	/**
+	 * 返回列表 key 中,下标为 index 的元素.
+	 *
+	 * @param key 键
+	 * @param index 索引 {@code index >= 0 } 时, 0 表头,1
+	 * 第二个元素,依次类推;{@code index<0}时,-1,表尾,-2倒数第二个元素,依次类推
+	 * @return 列表中下标为 index 的元素.如果 index 参数的值不在列表的区间范围内(out of range),返回 {@code null} .
+	 * @see <a href="https://redis.io/commands/lindex">Redis Documentation: LINDEX</a>
+	 * @see <a href="http://doc.redisfans.com/list/lindex.html">Redis 命令中文文档: LINDEX</a>
+	 */
+	public Mono<V> listIndex(String key, long index) {
+		return this.listOps.index(key, index);
+	}
+
+	/**
+	 * 用于把 value 插入到列表 key 中参考值 pivot 的前面或后面。.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @param pivot must not be {@literal null}.
+	 * @param value must not be {@literal null}.
+	 * @return 执行操作后的列表长度，列表中 pivot 参考值不存在的时候返回 -1
+	 * @see <a href="https://redis.io/commands/linsert">Redis Documentation: LINSERT</a>
+	 * @see <a href="http://doc.redisfans.com/list/linsert.html">Redis 命令中文文档: LINSERT</a>
+	 */
+	public Mono<Long> listInsert(String key, V pivot, V value) {
+		return this.listOps.leftPush(key, pivot, value);
+	}
+
+	/**
+	 * 返回列表 key 的长度.如果 key 不存在,则 key 被解释为一个空列表,返回 0 .如果 key 不是列表类型,返回一个错误.
+	 *
+	 * @param key 键
+	 * @return 列表 key 的长度.
+	 * @see <a href="https://redis.io/commands/llen">Redis Documentation: LLEN</a>
+	 * @see <a href="http://doc.redisfans.com/list/llen.html">Redis 命令中文文档: LLEN</a>
+	 */
+	public Mono<Long> listLen(String key) {
+		return this.listOps.size(key);
+	}
+
+	/**
+	 * 返回列表中 {@code key} 处指定值第一次出现的索引。 <br /> 需要 Redis 6.0.6 或更高版本.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @param value must not be {@literal null}.
+	 * @return
+	 * @see <a href="https://redis.io/commands/lpos">Redis Documentation: LPOS</a>
+	 * @see <a href="http://doc.redisfans.com/list/lpos.html">Redis 命令中文文档: LPOS</a>
+	 */
+	public Mono<Long> listLeftPos(String key, V value) {
+		return this.listOps.indexOf(key, value);
+	}
+
+	/**
+	 * 将 {@code value} 添加到 {@code key} 之前.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @param value
+	 * @return
+	 * @see <a href="https://redis.io/commands/lpush">Redis Documentation: LPUSH</a>
+	 * @see <a href="http://doc.redisfans.com/list/lpush.html">Redis 命令中文文档: LPUSH</a>
+	 */
+	public Mono<Long> listLeftPush(String key, V value) {
+		return this.listOps.leftPush(key, value);
+	}
+
+	/**
+	 * 将 {@code values} 添加到 {@code key} 之前.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @param values must not be {@literal null}.
+	 * @return
+	 * @see <a href="https://redis.io/commands/lpush">Redis Documentation: LPUSH</a>
+	 * @see <a href="http://doc.redisfans.com/list/lpush.html">Redis 命令中文文档: LPUSH</a>
+	 */
+	@SafeVarargs
+	public final Mono<Long> listLeftPush(String key, V... values) {
+		return this.listOps.leftPushAll(key, values);
+	}
+
+	/**
+	 * 将 {@code values} 添加到 {@code key} 之前.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @param values must not be {@literal null}.
+	 * @return
+	 * @see <a href="https://redis.io/commands/lpush">Redis Documentation: LPUSH</a>
+	 * @see <a href="http://doc.redisfans.com/list/lpush.html">Redis 命令中文文档: LPUSH</a>
+	 */
+	public Mono<Long> listLeftPush(String key, Collection<V> values) {
+		return this.listOps.leftPushAll(key, values);
+	}
+
+	/**
+	 * 仅当列表存在时才将 {@code value} 添加到 {@code key}.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @param value
+	 * @return
+	 * @see <a href="https://redis.io/commands/lpushx">Redis Documentation: LPUSHX</a>
+	 * @see <a href="http://doc.redisfans.com/list/lpushx.html">Redis 命令中文文档: LPUSHX</a>
+	 */
+	public Mono<Long> listLeftPushIfPresent(String key, V value) {
+		return this.listOps.leftPushIfPresent(key, value);
+	}
+
+	/**
+	 * 返回列表 key 中指定区间内的元素,区间以偏移量 start 和 stop 指定. 标(index)参数 {@code index >= 0 } 时, 0
+	 * 表示列表的第一个元素,1 表示列表的第二个元素,依次类推;{@code index<0}时, -1 表示列表的最后一个元素, -2
+	 * 表示列表的倒数第二个元素,以此类推.
+	 *
+	 * @param key 键
+	 * @param start 开始
+	 * @param stop 结束 0 到 -1代表所有值
+	 * @return 一个列表, 包含指定区间内的元素.
+	 * @see <a href="https://redis.io/commands/lrange">Redis Documentation: LRANGE</a>
+	 * @see <a href="http://doc.redisfans.com/list/lrange.html">Redis 命令中文文档: LRANGE</a>
+	 */
+	public Flux<V> listRange(String key, long start, long stop) {
+		return this.listOps.range(key, start, stop);
+	}
+
+	/**
+	 * 根据参数 count 的值,移除列表中与参数 value 相等的元素. count 的值可以是以下几种：
+	 * <ul>
+	 * <li>count &gt; 0 : 从表头开始向表尾搜索,移除与 value 相等的元素,数量为 count .</li>
+	 * <li>count &lt; 0 : 从表尾开始向表头搜索,移除与 value 相等的元素,数量为 count 的绝对值.</li>
+	 * <li>count = 0 : 移除表中所有与 value 相等的值.</li>
+	 * </ul>
+	 * .
+	 *
+	 * @param key 键
+	 * @param count 移除多少个
+	 * @param value 值
+	 * @return 被移除元素的数量.因为不存在的 key 被视作空表(empty list),所以当 key 不存在时, LREM 命令总是返回 0 .
+	 * @see <a href="https://redis.io/commands/lrem">Redis Documentation: LREM</a>
+	 * @see <a href="http://doc.redisfans.com/list/lrem.html">Redis 命令中文文档: LREM</a>
+	 */
+	public Mono<Long> listRemove(String key, long count, V value) {
+		return this.listOps.remove(key, count, value);
+	}
+
+	/**
+	 * 将列表 key 下标为 index 的元素的值设置为 value . 当 index 参数超出范围,或对一个空列表( key 不存在)进行 LSET
+	 * 时,返回一个错误.
+	 *
+	 * @param key 键
+	 * @param index 索引
+	 * @param value 值
+	 * @return {@code true} 成功, {@code false} 失败
+	 * @see <a href="https://redis.io/commands/lset">Redis Documentation: LSET</a>
+	 * @see <a href="http://doc.redisfans.com/list/lset.html">Redis 命令中文文档: LSET</a>
+	 */
+	public Mono<Boolean> listSet(String key, long index, V value) {
+		return this.listOps.set(key, index, value);
+	}
+
+	/**
+	 * 将 {@code key} 处的列表修剪为 {@code start} 和 {@code end} 之间的元素.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @param start
+	 * @param end
+	 * @see <a href="https://redis.io/commands/ltrim">Redis Documentation: LTRIM</a>
+	 * @see <a href="http://doc.redisfans.com/list/ltrim.html">Redis 命令中文文档: LTRIM</a>
+	 */
+	public Mono<Boolean> listLeftTrim(String key, long start, long end) {
+		return this.listOps.trim(key, start, end);
+	}
+
+	/**
+	 * 将一个值 value 插入到列表 key 的表尾(最右边).
+	 *
+	 * @param key 键
+	 * @param value 值
+	 * @return {@code true} 成功, {@code false} 失败
+	 * @see <a href="https://redis.io/commands/rpush">Redis Documentation: RPUSH</a>
+	 * @see <a href="http://doc.redisfans.com/list/rpush.html">Redis 命令中文文档: RPUSH</a>
+	 */
+	public Mono<Long> listRightPush(String key, V value) {
+		return this.listOps.rightPush(key, value);
+	}
+
+	/**
+	 * 将一个或多个值 value 插入到列表 key 的表尾(最右边).
+	 *
+	 * @param key 键
+	 * @param value 值
+	 * @return {@code true} 成功, {@code false} 失败
+	 * @see <a href="https://redis.io/commands/rpush">Redis Documentation: RPUSH</a>
+	 * @see <a href="http://doc.redisfans.com/list/rpush.html">Redis 命令中文文档: RPUSH</a>
+	 */
+	public Mono<Long> listRightPushAll(String key, List<V> value) {
+		return this.listOps.rightPushAll(key, value);
+	}
+
+	/**
+	 * 将一个或多个值 value 插入到列表 key 的表尾(最右边).
+	 *
+	 * @param key 键
+	 * @param value 值
+	 * @return {@code true} 成功, {@code false} 失败
+	 * @see <a href="https://redis.io/commands/rpush">Redis Documentation: RPUSH</a>
+	 * @see <a href="http://doc.redisfans.com/list/rpush.html">Redis 命令中文文档: RPUSH</a>
+	 */
+	@SafeVarargs
+	public final Mono<Long> listRightPushAll(String key, V... value) {
+		return this.listOps.rightPushAll(key, value);
+	}
+
+	/**
+	 * 仅当列表存在时才将 {@code value} 附加到 {@code key}.
+	 *
+	 * @param key must not be {@literal null}.
+	 * @param value
+	 * @return
+	 * @see <a href="https://redis.io/commands/rpushx">Redis Documentation: RPUSHX</a>
+	 * @see <a href="http://doc.redisfans.com/list/rpushx.html">Redis 命令中文文档: RPUSHX</a>
+	 */
+	public Mono<Long> listRightPushIfPresent(String key, V value) {
+		return this.listOps.rightPushIfPresent(key, value);
+	}
+
+	/**
+	 * 将一个值 value 插入到列表 key 的表尾(最右边).并设置过期时间.
+	 *
+	 * @param key 键
+	 * @param value 值
+	 * @param time 时间(秒)
+	 * @return {@code true} 成功, {@code false} 失败
+	 * @see <a href="https://redis.io/commands/rpush">Redis Documentation: RPUSH</a>
+	 * @see <a href="https://redis.io/commands/expire">Redis Documentation: EXPIRE</a>
+	 * @see <a href="http://doc.redisfans.com/list/rpush.html">Redis 命令中文文档: RPUSH</a>
+	 * @see <a href="http://doc.redisfans.com/key/expire.html">Redis 命令中文文档: EXPIRE</a>
+	 */
+	public Mono<Boolean> listRightPushExpire(String key, V value, long time) {
+		return this.listRightPush(key, value)
+				.then(this.expire(key, time));
+	}
+
+	/**
+	 * 将一个或多个值 value 插入到列表 key 的表尾(最右边).并设置过期时间.
+	 *
+	 * @param key 键
+	 * @param value 值
+	 * @param time 时间(秒)
+	 * @return {@code true} 成功, {@code false} 失败
+	 * @see <a href="https://redis.io/commands/hexists">Redis Documentation: HEXISTS</a>
+	 * @see <a href="https://redis.io/commands/expire">Redis Documentation: EXPIRE</a>
+	 * @see <a href="http://doc.redisfans.com/hash/hexists.html">Redis 命令中文文档: HEXISTS</a>
+	 * @see <a href="http://doc.redisfans.com/key/expire.html">Redis 命令中文文档: EXPIRE</a>
+	 */
+	public Mono<Boolean> listRightPushAllExpire(String key, List<V> value, long time) {
+		return this.listRightPushAll(key,value)
+				.then(this.expire(key,time));
+	}
+
+	/**
+	 * 删除 key.
+	 *
+	 * @param key 键
+	 * @return {@code true} 成功, {@code false} 失败
+	 */
+	public Mono<Boolean> listDelete(String key) {
+		return this.listOps.delete(key);
+	}
+
+//	/**
+//	 * 根据key删除.
+//	 *
+//	 * @param prefix 前缀
+//	 * @param ids id
+//	 * @see <a href="https://redis.io/commands/hexists">Redis Documentation: HEXISTS</a>
+//	 * @see <a href="http://doc.redisfans.com/hash/hexists.html">Redis 命令中文文档: HEXISTS</a>
+//	 */
+//	public void delByKeys(String prefix, Set<Long> ids) {
+//		Set<String> keys = new HashSet<>();
+//		for (Long id : ids) {
+//			keys.addAll(Objects.requireNonNull(keys(prefix + id)));
+//		}
+//		Long count = this.del(keys);
+//		// 此处提示可自行删除
+//		logger.debug("--------------------------------------------");
+//		logger.debug("成功删除缓存：" + keys.toString());
+//		logger.debug("缓存删除数量：" + count + "个");
+//		logger.debug("--------------------------------------------");
+//	}
 //
 //	// ============================ set =============================
 //
@@ -1769,259 +2405,8 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 //		return this.zSetOps.score(key, member);
 //	}
 //
-//	// =============================== list =================================
-//
-//	/**
-//	 * 返回列表 key 中指定区间内的元素,区间以偏移量 start 和 stop 指定. 标(index)参数 {@code index >= 0 } 时, 0
-//	 * 表示列表的第一个元素,1 表示列表的第二个元素,依次类推;{@code index<0}时, -1 表示列表的最后一个元素, -2
-//	 * 表示列表的倒数第二个元素,以此类推.
-//	 *
-//	 * @param key 键
-//	 * @param start 开始
-//	 * @param stop 结束 0 到 -1代表所有值
-//	 * @return 一个列表, 包含指定区间内的元素.
-//	 * @see <a href="https://redis.io/commands/lrange">Redis Documentation: LRANGE</a>
-//	 * @see <a href="http://doc.redisfans.com/list/lrange.html">Redis 命令中文文档: LRANGE</a>
-//	 */
-//	public List<V> listGet(String key, long start, long stop) {
-//		Assert.notNull(key, "key must not be null.");
-//		try {
-//			return this.listOps.range(key, start, stop);
-//		}
-//		catch (Exception ex) {
-//			ex.printStackTrace();
-//			return null;
-//		}
-//	}
-//
-//	/**
-//	 * 返回列表 key 的长度.如果 key 不存在,则 key 被解释为一个空列表,返回 0 .如果 key 不是列表类型,返回一个错误.
-//	 *
-//	 * @param key 键
-//	 * @return 列表 key 的长度.
-//	 * @see <a href="https://redis.io/commands/llen">Redis Documentation: LLEN</a>
-//	 * @see <a href="http://doc.redisfans.com/list/llen.html">Redis 命令中文文档: LLEN</a>
-//	 */
-//	public Long listLen(String key) {
-//		Assert.notNull(key, "key must not be null.");
-//		try {
-//			return this.listOps.size(key);
-//		}
-//		catch (Exception ex) {
-//			ex.printStackTrace();
-//			return 0L;
-//		}
-//	}
-//
-//	/**
-//	 * 返回列表 key 中,下标为 index 的元素.
-//	 *
-//	 * @param key 键
-//	 * @param index 索引 {@code index >= 0 } 时, 0 表头,1
-//	 * 第二个元素,依次类推;{@code index<0}时,-1,表尾,-2倒数第二个元素,依次类推
-//	 * @return 列表中下标为 index 的元素.如果 index 参数的值不在列表的区间范围内(out of range),返回 {@code null} .
-//	 * @see <a href="https://redis.io/commands/lindex">Redis Documentation: LINDEX</a>
-//	 * @see <a href="http://doc.redisfans.com/list/lindex.html">Redis 命令中文文档: LINDEX</a>
-//	 */
-//	public Object listIndex(String key, long index) {
-//		Assert.notNull(key, "key must not be null.");
-//		try {
-//			return this.listOps.index(key, index);
-//		}
-//		catch (Exception ex) {
-//			ex.printStackTrace();
-//			return null;
-//		}
-//	}
-//
-//	/**
-//	 * 将一个值 value 插入到列表 key 的表尾(最右边).
-//	 *
-//	 * @param key 键
-//	 * @param value 值
-//	 * @return {@code true} 成功, {@code false} 失败
-//	 * @see <a href="https://redis.io/commands/rpush">Redis Documentation: RPUSH</a>
-//	 * @see <a href="http://doc.redisfans.com/list/rpush.html">Redis 命令中文文档: RPUSH</a>
-//	 */
-//	public boolean listRightPush(String key, V value) {
-//		Assert.notNull(key, "key must not be null.");
-//		try {
-//			this.listOps.rightPush(key, value);
-//			return true;
-//		}
-//		catch (Exception ex) {
-//			ex.printStackTrace();
-//			return false;
-//		}
-//	}
-//
-//	/**
-//	 * 将一个值 value 插入到列表 key 的表尾(最右边).并设置过期时间.
-//	 *
-//	 * @param key 键
-//	 * @param value 值
-//	 * @param time 时间(秒)
-//	 * @return {@code true} 成功, {@code false} 失败
-//	 * @see <a href="https://redis.io/commands/rpush">Redis Documentation: RPUSH</a>
-//	 * @see <a href="https://redis.io/commands/expire">Redis Documentation: EXPIRE</a>
-//	 * @see <a href="http://doc.redisfans.com/list/rpush.html">Redis 命令中文文档: RPUSH</a>
-//	 * @see <a href="http://doc.redisfans.com/key/expire.html">Redis 命令中文文档: EXPIRE</a>
-//	 */
-//	public boolean listRightPushAndExpire(String key, V value, long time) {
-//		Assert.notNull(key, "key must not be null.");
-//		try {
-//			this.listOps.rightPush(key, value);
-//			if (time > 0) {
-//				expire(key, time);
-//			}
-//			return true;
-//		}
-//		catch (Exception ex) {
-//			ex.printStackTrace();
-//			return false;
-//		}
-//	}
-//
-//	/**
-//	 * 将一个或多个值 value 插入到列表 key 的表尾(最右边).
-//	 *
-//	 * @param key 键
-//	 * @param value 值
-//	 * @return {@code true} 成功, {@code false} 失败
-//	 * @see <a href="https://redis.io/commands/rpush">Redis Documentation: RPUSH</a>
-//	 * @see <a href="http://doc.redisfans.com/list/rpush.html">Redis 命令中文文档: RPUSH</a>
-//	 */
-//	public boolean listRightPushAll(String key, List<V> value) {
-//		Assert.notNull(key, "key must not be null.");
-//		try {
-//			this.listOps.rightPushAll(key, value);
-//			return true;
-//		}
-//		catch (Exception ex) {
-//			ex.printStackTrace();
-//			return false;
-//		}
-//	}
-//
-//	/**
-//	 * 将一个或多个值 value 插入到列表 key 的表尾(最右边).并设置过期时间.
-//	 *
-//	 * @param key 键
-//	 * @param value 值
-//	 * @param time 时间(秒)
-//	 * @return {@code true} 成功, {@code false} 失败
-//	 * @see <a href="https://redis.io/commands/hexists">Redis Documentation: HEXISTS</a>
-//	 * @see <a href="https://redis.io/commands/expire">Redis Documentation: EXPIRE</a>
-//	 * @see <a href="http://doc.redisfans.com/hash/hexists.html">Redis 命令中文文档: HEXISTS</a>
-//	 * @see <a href="http://doc.redisfans.com/key/expire.html">Redis 命令中文文档: EXPIRE</a>
-//	 */
-//	public boolean listRightPushAllAndExpire(String key, List<V> value, long time) {
-//		Assert.notNull(key, "key must not be null.");
-//		try {
-//			this.listOps.rightPushAll(key, value);
-//			if (time > 0) {
-//				expire(key, time);
-//			}
-//			return true;
-//		}
-//		catch (Exception ex) {
-//			ex.printStackTrace();
-//			return false;
-//		}
-//	}
-//
-//	/**
-//	 * 将列表 key 下标为 index 的元素的值设置为 value . 当 index 参数超出范围,或对一个空列表( key 不存在)进行 LSET
-//	 * 时,返回一个错误.
-//	 *
-//	 * @param key 键
-//	 * @param index 索引
-//	 * @param value 值
-//	 * @return {@code true} 成功, {@code false} 失败
-//	 * @see <a href="https://redis.io/commands/lset">Redis Documentation: LSET</a>
-//	 * @see <a href="http://doc.redisfans.com/list/lset.html">Redis 命令中文文档: LSET</a>
-//	 */
-//	public boolean listSet(String key, long index, V value) {
-//		Assert.notNull(key, "key must not be null.");
-//		try {
-//			this.listOps.set(key, index, value);
-//			return true;
-//		}
-//		catch (Exception ex) {
-//			ex.printStackTrace();
-//			return false;
-//		}
-//	}
-//
-//	/**
-//	 * 根据参数 count 的值,移除列表中与参数 value 相等的元素. count 的值可以是以下几种：
-//	 * <ul>
-//	 * <li>count &gt; 0 : 从表头开始向表尾搜索,移除与 value 相等的元素,数量为 count .</li>
-//	 * <li>count &lt; 0 : 从表尾开始向表头搜索,移除与 value 相等的元素,数量为 count 的绝对值.</li>
-//	 * <li>count = 0 : 移除表中所有与 value 相等的值.</li>
-//	 * </ul>
-//	 * .
-//	 *
-//	 * @param key 键
-//	 * @param count 移除多少个
-//	 * @param value 值
-//	 * @return 被移除元素的数量.因为不存在的 key 被视作空表(empty list),所以当 key 不存在时, LREM 命令总是返回 0 .
-//	 * @see <a href="https://redis.io/commands/lrem">Redis Documentation: LREM</a>
-//	 * @see <a href="http://doc.redisfans.com/list/lrem.html">Redis 命令中文文档: LREM</a>
-//	 */
-//	public Long listRemove(String key, long count, V value) {
-//		Assert.notNull(key, "key must not be null.");
-//		try {
-//			return this.listOps.remove(key, count, value);
-//		}
-//		catch (Exception ex) {
-//			ex.printStackTrace();
-//			return 0L;
-//		}
-//	}
-//
-//	/**
-//	 * 命令 RPOPLPUSH 在一个原子时间内,执行以下两个动作：
-//	 * <ul>
-//	 * <li>将列表 source 中的最后一个元素(尾元素)弹出,并返回给客户端.</li>
-//	 * <li>将 source 弹出的元素插入到列表 destination ,作为 destination 列表的的头元素.</li>
-//	 * </ul>
-//	 * 如果 source 不存在,值 {@code null} 被返回,并且不执行其他动作. 如果 source 和 destination
-//	 * 相同,则列表中的表尾元素被移动到表头,并返回该元素,可以把这种特殊情况视作列表的旋转(rotation)操作.
-//	 *
-//	 * @param source 源 key
-//	 * @param destination 目标 key
-//	 * @return 被弹出的元素.
-//	 * @see <a href="https://redis.io/commands/rpoplpush">Redis Documentation:
-//	 * RPOPLPUSH</a>
-//	 * @see <a href="http://doc.redisfans.com/list/rpoplpush.html">Redis 命令中文文档:
-//	 * RPOPLPUSH</a>
-//	 */
-//	public Object listRightPopLeftPush(String source, String destination) {
-//		return this.listOps.rightPopAndLeftPush(source, destination);
-//	}
-//
-//	/**
-//	 * 根据key删除.
-//	 *
-//	 * @param prefix 前缀
-//	 * @param ids id
-//	 * @see <a href="https://redis.io/commands/hexists">Redis Documentation: HEXISTS</a>
-//	 * @see <a href="http://doc.redisfans.com/hash/hexists.html">Redis 命令中文文档: HEXISTS</a>
-//	 */
-//	public void delByKeys(String prefix, Set<Long> ids) {
-//		Set<String> keys = new HashSet<>();
-//		for (Long id : ids) {
-//			keys.addAll(Objects.requireNonNull(keys(prefix + id)));
-//		}
-//		Long count = this.del(keys);
-//		// 此处提示可自行删除
-//		logger.debug("--------------------------------------------");
-//		logger.debug("成功删除缓存：" + keys.toString());
-//		logger.debug("缓存删除数量：" + count + "个");
-//		logger.debug("--------------------------------------------");
-//	}
-//
+
+	//
 	public ReactiveGeoOperations<String, V> getGeoOps() {
 		return this.geoOps;
 	}
