@@ -24,6 +24,7 @@ import org.springframework.data.redis.connection.stream.StreamInfo.XInfoStream;
 import org.springframework.data.redis.connection.stream.StreamOffset;
 import org.springframework.data.redis.connection.stream.StreamReadOptions;
 import org.springframework.data.redis.connection.stream.StreamRecords;
+import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.data.redis.core.ReactiveStreamOperations;
 import org.springframework.util.Assert;
 
@@ -39,8 +40,8 @@ public class RedisStreamOperations<K, V> {
 
 	private final ReactiveStreamOperations<String, K, V> streamOps;
 
-	public RedisStreamOperations(ReactiveStreamOperations<String, K, V> streamOps) {
-		this.streamOps = streamOps;
+	public RedisStreamOperations(ReactiveRedisTemplate<String, V> reactiveRedisTemplate) {
+		this.streamOps = reactiveRedisTemplate.opsForStream();
 	}
 
 	/**
