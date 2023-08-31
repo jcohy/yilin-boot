@@ -24,8 +24,8 @@ public class RedisHyperLogLogOperations<V> {
 	/**
 	 * 将给定的 {@literal value} 添加到 {@literal key}.
 	 *
-	 * @param key must not be {@literal null}.
-	 * @param values must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
+	 * @param values 不能为 {@literal null}.
 	 * @return 1 至少有一个值被添加到键中； 否则为 0.
 	 * @see <a href="https://redis.io/commands/pfadd">Redis Documentation: PFADD</a>
 	 * @see <a href="http://doc.redisfans.com/key/pfadd.html">Redis 命令中文文档: PFADD</a>
@@ -38,7 +38,7 @@ public class RedisHyperLogLogOperations<V> {
 	/**
 	 * 获取 {@literal key} 中当前元素的数量.
 	 *
-	 * @param keys must not be {@literal null} or {@literal empty}.
+	 * @param keys 不能为 {@literal null} 或 {@literal empty}.
 	 * @return
 	 * @see <a href="https://redis.io/commands/pfcount">Redis Documentation: PFCOUNT</a>
 	 * @see <a href="http://doc.redisfans.com/key/pfcount.html">Redis 命令中文文档: PFCOUNT</a>
@@ -51,7 +51,7 @@ public class RedisHyperLogLogOperations<V> {
 	 * 将给定的 {@literal source Keys} 的所有值合并到 {@literal destination} key.
 	 *
 	 * @param destination key of HyperLogLog to move source keys into.
-	 * @param sourceKeys must not be {@literal null} or {@literal empty}.
+	 * @param sourceKeys 不能为 {@literal null} 或 {@literal empty}.
 	 * @see <a href="https://redis.io/commands/pfmerge">Redis Documentation: PFMERGE</a>
 	 * @see <a href="http://doc.redisfans.com/key/pfmerge.html">Redis 命令中文文档: PFMERGE</a>
 	 */

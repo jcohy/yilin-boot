@@ -36,10 +36,10 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	 * <p>
 	 * <b>阻塞连接</b> 直到元素可用或达到 {@code timeout}.
 	 *
-	 * @param sourceKey must not be {@literal null}.
-	 * @param from must not be {@literal null}.
-	 * @param destinationKey must not be {@literal null}.
-	 * @param to must not be {@literal null}.
+	 * @param sourceKey 不能为 {@literal null}.
+	 * @param from 不能为 {@literal null}.
+	 * @param destinationKey 不能为 {@literal null}.
+	 * @param to 不能为 {@literal null}.
 	 * @param timeout 超时
 	 * @return {@literal null} when used in pipeline / transaction.
 	 * @see <a href="https://redis.io/commands/blmove">Redis Documentation: BLMOVE</a>
@@ -56,7 +56,7 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	 * <b>阻塞连接</b> 直到元素可用或达到 {@code timeout}.
 	 *
 	 * @param from 不能为 {@literal null}.
-	 * @param to must not be {@literal null}.
+	 * @param to 不能为 {@literal null}.
 	 * @param timeout 超时
 	 * @return {@literal null} when used in pipeline / transaction.
 	 * @see <a href="https://redis.io/commands/blmove">Redis Documentation: BLMOVE</a>
@@ -70,8 +70,8 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	 * 原子地返回并删除存储在 {@code sourceKey} 的列表的第一个/最后一个元素（头/尾取决于 {@code from} 参数），
 	 * 并将元素推送到第一个/最后一个元素（头/尾取决于 {@code from} 参数） 存储在 {@code destinationKey} 的列表的 {@code to} 参数）.
 	 *
-	 * @param from must not be {@literal null}.
-	 * @param to must not be {@literal null}.
+	 * @param from 不能为 {@literal null}.
+	 * @param to 不能为 {@literal null}.
 	 * @return
 	 * @see <a href="https://redis.io/commands/lmove">Redis Documentation: LMOVE</a>
 	 * @see <a href="http://doc.redisfans.com/list/lmove.html">Redis 命令中文文档: LMOVE</a>
@@ -84,10 +84,10 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	 * 原子地返回并删除存储在 {@code sourceKey} 的列表的第一个/最后一个元素（头/尾取决于 {@code from} 参数），
 	 * 并将元素推送到第一个/最后一个元素（头/尾取决于 {@code from} 参数） 存储在 {@code destinationKey} 的列表的 {@code to} 参数）.
 	 *
-	 * @param sourceKey must not be {@literal null}.
-	 * @param from must not be {@literal null}.
-	 * @param destinationKey must not be {@literal null}.
-	 * @param to must not be {@literal null}.
+	 * @param sourceKey 不能为 {@literal null}.
+	 * @param from 不能为 {@literal null}.
+	 * @param destinationKey 不能为 {@literal null}.
+	 * @param to 不能为 {@literal null}.
 	 * @return
 	 * @see <a href="https://redis.io/commands/lmove">Redis Documentation: LMOVE</a>
 	 * @see <a href="http://doc.redisfans.com/list/lmove.html">Redis 命令中文文档: LMOVE</a>
@@ -99,7 +99,7 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	/**
 	 * 从存储在 {@code key} 的列表中删除并返回第一个元素。 <br> <b>一旦元素可用或达到 {@code timeout}，结果就会返回。</b>.
 	 *
-	 * @param key must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
 	 * @param timeout 等待列表中 {@code key} 处的 entry 可用的最长持续时间。 必须为 {@link Duration#ZERO} 或更大的 {@link 1 秒}，不能为 {@literal null}。 超时为零可用于无限期等待。 不支持零到一秒之间的持续时间。
 	 * @return
 	 * @see <a href="https://redis.io/commands/blpop">Redis Documentation: BLPOP</a>
@@ -112,7 +112,7 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	/**
 	 * 删除并返回存储在 {@code key} 的列表中的第一个元素.
 	 *
-	 * @param key must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
 	 * @return
 	 * @see <a href="https://redis.io/commands/lpop">Redis Documentation: LPOP</a>
 	 * @see <a href="http://doc.redisfans.com/list/lpop.html">Redis 命令中文文档: LPOP</a>
@@ -125,7 +125,7 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	 * 删除并返回存储在 {@code key} 的列表中的最后一个元素. <br>
 	 * <b>一旦元素可用或达到{@code timeout}，结果就会返回.</b>
 	 *
-	 * @param key must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
 	 * @param timeout 等待列表中 {@code key} 处的 entry 可用的最长持续时间。 必须为 {@link Duration#ZERO} 或更大的 {@link 1 秒}，不能为 {@literal null}.  超时为零可用于无限期等待。 不支持零到一秒之间的持续时间。
 	 * @return
 	 * @see <a href="https://redis.io/commands/brpop">Redis Documentation: BRPOP</a>
@@ -138,7 +138,7 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	/**
 	 * 删除并返回存储在 {@code key} 的列表中的最后一个元素.
 	 *
-	 * @param key must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
 	 * @return
 	 * @see <a href="https://redis.io/commands/rpop">Redis Documentation: RPOP</a>
 	 * @see <a href="http://doc.redisfans.com/list/rpop.html">Redis 命令中文文档: RPOP</a>
@@ -198,9 +198,9 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	/**
 	 * 用于把 value 插入到列表 key 中参考值 pivot 的前面或后面。.
 	 *
-	 * @param key must not be {@literal null}.
-	 * @param pivot must not be {@literal null}.
-	 * @param value must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
+	 * @param pivot 不能为 {@literal null}.
+	 * @param value 不能为 {@literal null}.
 	 * @return 执行操作后的列表长度，列表中 pivot 参考值不存在的时候返回 -1
 	 * @see <a href="https://redis.io/commands/linsert">Redis Documentation: LINSERT</a>
 	 * @see <a href="http://doc.redisfans.com/list/linsert.html">Redis 命令中文文档: LINSERT</a>
@@ -224,8 +224,8 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	/**
 	 * 返回列表中 {@code key} 处指定值第一次出现的索引。 <br /> 需要 Redis 6.0.6 或更高版本.
 	 *
-	 * @param key must not be {@literal null}.
-	 * @param value must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
+	 * @param value 不能为 {@literal null}.
 	 * @return
 	 * @see <a href="https://redis.io/commands/lpos">Redis Documentation: LPOS</a>
 	 * @see <a href="http://doc.redisfans.com/list/lpos.html">Redis 命令中文文档: LPOS</a>
@@ -237,7 +237,7 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	/**
 	 * 将 {@code value} 添加到 {@code key} 之前.
 	 *
-	 * @param key must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
 	 * @param value
 	 * @return
 	 * @see <a href="https://redis.io/commands/lpush">Redis Documentation: LPUSH</a>
@@ -250,8 +250,8 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	/**
 	 * 将 {@code values} 添加到 {@code key} 之前.
 	 *
-	 * @param key must not be {@literal null}.
-	 * @param values must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
+	 * @param values 不能为 {@literal null}.
 	 * @return
 	 * @see <a href="https://redis.io/commands/lpush">Redis Documentation: LPUSH</a>
 	 * @see <a href="http://doc.redisfans.com/list/lpush.html">Redis 命令中文文档: LPUSH</a>
@@ -264,8 +264,8 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	/**
 	 * 将 {@code values} 添加到 {@code key} 之前.
 	 *
-	 * @param key must not be {@literal null}.
-	 * @param values must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
+	 * @param values 不能为 {@literal null}.
 	 * @return
 	 * @see <a href="https://redis.io/commands/lpush">Redis Documentation: LPUSH</a>
 	 * @see <a href="http://doc.redisfans.com/list/lpush.html">Redis 命令中文文档: LPUSH</a>
@@ -277,7 +277,7 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	/**
 	 * 仅当列表存在时才将 {@code value} 添加到 {@code key}.
 	 *
-	 * @param key must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
 	 * @param value
 	 * @return
 	 * @see <a href="https://redis.io/commands/lpushx">Redis Documentation: LPUSHX</a>
@@ -341,7 +341,7 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	/**
 	 * 将 {@code key} 处的列表修剪为 {@code start} 和 {@code end} 之间的元素.
 	 *
-	 * @param key must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
 	 * @param start
 	 * @param end
 	 * @see <a href="https://redis.io/commands/ltrim">Redis Documentation: LTRIM</a>
@@ -394,7 +394,7 @@ public class RedisListOperations<V> extends RedisGenericOperations<V> {
 	/**
 	 * 仅当列表存在时才将 {@code value} 附加到 {@code key}.
 	 *
-	 * @param key must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
 	 * @param value
 	 * @return
 	 * @see <a href="https://redis.io/commands/rpushx">Redis Documentation: RPUSHX</a>

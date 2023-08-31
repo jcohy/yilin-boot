@@ -198,7 +198,7 @@ public class RedisHashOperations<K, V> extends RedisGenericOperations<V> {
 	/**
 	 * 从存储在 {@code key} 的哈希值返回一个随机哈希键（也称为字段）.
 	 *
-	 * @param key must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
 	 * @return /
 	 * @see <a href="https://redis.io/commands/hrandfield">Redis Documentation: HRANDFIELD</a>
 	 * @see <a href="http://doc.redisfans.com/key/hrandfield.html">Redis 命令中文文档: HRANDFIELD</a>
@@ -210,7 +210,7 @@ public class RedisHashOperations<K, V> extends RedisGenericOperations<V> {
 	/**
 	 * 从存储在 {@code key} 的哈希中返回一个随机 entity.
 	 *
-	 * @param key must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
 	 * @return /
 	 * @see <a href="https://redis.io/commands/hrandfield">Redis Documentation: HRANDFIELD</a>
 	 * @see <a href="http://doc.redisfans.com/key/hrandfield.html">Redis 命令中文文档: HRANDFIELD</a>
@@ -223,7 +223,7 @@ public class RedisHashOperations<K, V> extends RedisGenericOperations<V> {
 	 * 从存储在 {@code key} 的哈希中返回随机哈希键（也称为字段）。 如果提供的 {@code count} 参数为正，则返回不同哈希键的列表，上限为 {@code count} 或哈希大小。
 	 * 如果 {@code count} 为负数，则行为会发生变化，并且允许该命令多次返回相同的哈希键。 在这种情况下，返回的字段数是指定计数的绝对值。
 	 *
-	 * @param key must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
 	 * @param count number of fields to return.
 	 * @return /
 	 * @see <a href="https://redis.io/commands/hrandfield">Redis Documentation: HRANDFIELD</a>
@@ -237,7 +237,7 @@ public class RedisHashOperations<K, V> extends RedisGenericOperations<V> {
 	 * 从存储在 {@code key} 的哈希中返回随机条目。 如果提供的 {@code count} 参数为正，则返回不同条目的列表，上限为 {@code count} 或哈希大小。
 	 * 如果 {@code count} 为负数，则行为会发生变化，并且允许命令多次返回相同的条目。 在这种情况下，返回的字段数是指定计数的绝对值.
 	 *
-	 * @param key must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
 	 * @param count number of fields to return.
 	 * @return {@literal null} 如果 key 不存在或在 管道/事务 中使用时。
 	 * @see <a href="https://redis.io/commands/hrandfield">Redis Documentation: HRANDFIELD</a>
@@ -251,7 +251,7 @@ public class RedisHashOperations<K, V> extends RedisGenericOperations<V> {
 	 * 使用 {@link Flux} 迭代 {@code key} 处哈希中的条目。
 	 * 由此产生的 {@link Flux} 充当游标，只要订阅者发出请求信号，它就会自行发出 {@code HSCAN} 命令.
 	 *
-	 * @param key must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
 	 * @return 如果键不存在，则通过一个或一个 {@link Flux#empty() empty flux} 发出 {@link java.util.Map.Entry }.
 	 * @throws IllegalArgumentException {@code key} is {@literal null}.
 	 * @see <a href="https://redis.io/commands/hscan">Redis Documentation: HSCAN</a>
@@ -265,8 +265,8 @@ public class RedisHashOperations<K, V> extends RedisGenericOperations<V> {
 	 * 使用 {@link Flux} 在给定 {@link ScanOptions} 的情况下迭代 {@code key} 处的哈希中的 Entry。
 	 * 由此产生的 {@link Flux} 充当游标，只要订阅者发出请求信号，它就会自行发出 {@code HSCAN} 命令.
 	 *
-	 * @param key must not be {@literal null}.
-	 * @param options must not be {@literal null}. Use {@link ScanOptions#NONE} instead.
+	 * @param key 不能为 {@literal null}.
+	 * @param options 不能为 {@literal null}. 使用 {@link ScanOptions#NONE} 替代.
 	 * @return 如果键不存在，则通过一个或一个 {@link Flux#empty() empty flux} 发出 {@link java.util.Map.Entry}。.
 	 * @throws IllegalArgumentException when one of the required arguments is {@literal null}.
 	 * @see <a href="https://redis.io/commands/hscan">Redis Documentation: HSCAN</a>

@@ -367,7 +367,7 @@ public class RedisStringOperations<V> {
 	/**
 	 * 获取存储在 {@code key} 中的值的长度.
 	 *
-	 * @param key must not be {@literal null}.
+	 * @param key 不能为 {@literal null}.
 	 * @return key 处字符串的长度，如果 key 不存在则为 0.
 	 * @see <a href="https://redis.io/commands/strlen">Redis Documentation: STRLEN</a>
 	 * @see <a href="http://doc.redisfans.com/string/strlen.html">Redis Documentation: STRLEN</a>
