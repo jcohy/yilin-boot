@@ -6,6 +6,7 @@ plugins {
 description = "YiLin Reactive Redis"
 
 dependencies {
+	api(project(":yilin-reactive-projects:yilin-reactive-utils"))
 	api("org.springframework.boot:spring-boot-starter-data-redis-reactive")
 	api("org.springframework.boot:spring-boot-starter-json")
 	api("com.alibaba.fastjson2:fastjson2")

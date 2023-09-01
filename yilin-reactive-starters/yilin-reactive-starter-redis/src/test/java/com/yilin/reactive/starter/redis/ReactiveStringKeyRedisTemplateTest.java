@@ -94,4 +94,21 @@ public class ReactiveStringKeyRedisTemplateTest {
 
 	}
 
+	@Test
+	void stringSetWithSupplier() {
+		template.stringOps().stringSet(() -> "Jcohy", "2")
+				.as(StepVerifier::create)
+				.expectNext(true)
+				.verifyComplete();
+	}
+
+	@Test
+	void hashMSet() {
+
+	}
+
+	@Test
+	void hashSet() {
+
+	}
 }
