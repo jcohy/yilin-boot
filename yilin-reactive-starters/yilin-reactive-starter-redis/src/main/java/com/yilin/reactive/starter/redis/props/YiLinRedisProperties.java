@@ -23,6 +23,7 @@ public class YiLinRedisProperties {
 	 */
 	private YiLinRedisLock lock;
 
+
 	public SerializerType getSerializerType() {
 		return serializerType;
 	}
