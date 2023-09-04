@@ -25,11 +25,12 @@ import com.yilin.reactive.utils.Maps;
  * @version 2023.0.1 2023/8/16:16:25
  * @since 2023.0.1
  */
-public class RedisStringOperations<V> {
+public class RedisStringOperations<V> extends RedisGenericOperations<V> {
 
 	private final ReactiveValueOperations<String, V> valueOps;
 
 	public RedisStringOperations(ReactiveRedisTemplate<String, V> reactiveRedisTemplate) {
+		super(reactiveRedisTemplate);
 		this.valueOps = reactiveRedisTemplate.opsForValue();
 	}
 

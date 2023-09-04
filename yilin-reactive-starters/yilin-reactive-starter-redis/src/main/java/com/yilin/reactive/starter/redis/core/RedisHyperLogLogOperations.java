@@ -13,11 +13,12 @@ import org.springframework.data.redis.core.ReactiveRedisTemplate;
  * @version 2023.0.1 2023/8/29:09:44
  * @since 2023.0.1
  */
-public class RedisHyperLogLogOperations<V> {
+public class RedisHyperLogLogOperations<V> extends RedisGenericOperations<V> {
 
 	private final ReactiveHyperLogLogOperations<String, V> hllOps;
 
 	public RedisHyperLogLogOperations(ReactiveRedisTemplate<String, V> reactiveRedisTemplate) {
+		super(reactiveRedisTemplate);
 		this.hllOps = reactiveRedisTemplate.opsForHyperLogLog();
 	}
 

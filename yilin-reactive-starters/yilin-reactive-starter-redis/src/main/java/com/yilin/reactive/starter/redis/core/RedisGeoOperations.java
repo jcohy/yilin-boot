@@ -31,11 +31,12 @@ import org.springframework.data.redis.domain.geo.GeoShape;
  * @version 2023.0.1 2023/8/29:09:40
  * @since 2023.0.1
  */
-public class RedisGeoOperations<V> {
+public class RedisGeoOperations<V> extends RedisGenericOperations<V> {
 
 	private final ReactiveGeoOperations<String, V> geoOps;
 
 	public RedisGeoOperations(ReactiveRedisTemplate<String, V> reactiveRedisTemplate) {
+		super(reactiveRedisTemplate);
 		this.geoOps = reactiveRedisTemplate.opsForGeo();
 	}
 

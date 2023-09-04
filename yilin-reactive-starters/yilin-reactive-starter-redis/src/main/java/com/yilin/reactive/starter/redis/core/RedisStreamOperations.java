@@ -36,11 +36,12 @@ import org.springframework.util.Assert;
  * @version 2023.0.1 2023/8/16:16:25
  * @since 2023.0.1
  */
-public class RedisStreamOperations<K, V> {
+public class RedisStreamOperations<K, V> extends RedisGenericOperations<V> {
 
 	private final ReactiveStreamOperations<String, K, V> streamOps;
 
 	public RedisStreamOperations(ReactiveRedisTemplate<String, V> reactiveRedisTemplate) {
+		super(reactiveRedisTemplate);
 		this.streamOps = reactiveRedisTemplate.opsForStream();
 	}
 
