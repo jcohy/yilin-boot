@@ -24,6 +24,7 @@ import com.yilin.reactive.configuration.processor.autoconfiguration.SpringReposi
 import com.yilin.reactive.configuration.processor.autoconfiguration.SpringServiceOne;
 import com.yilin.reactive.configuration.processor.autoconfiguration.SpringServiceTwo;
 import com.yilin.reactive.configuration.processor.autoconfiguration.TestSpringComponentProcessor;
+import com.yilin.reactive.test.TestCompiler;
 
 /**
  * Copyright: Copyright (c) 2023

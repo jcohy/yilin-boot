@@ -29,6 +29,7 @@ public class YiLinReactiveApplication {
 
 		@GetMapping("/index")
 		Flux<String> index() {
+
 //			return Flux.interval("Hello World!");
 			return Flux.interval(Duration.ofSeconds(1))
 					.map(i -> "Hello World!");

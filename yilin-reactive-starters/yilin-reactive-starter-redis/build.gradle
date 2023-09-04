@@ -1,0 +1,10 @@
+plugins {
+	id "com.yilin.module"
+}
+
+description = "YiLin Reactive Redis"
+
+dependencies {
+	api("org.springframework.boot:spring-boot-starter-data-redis-reactive")
+	testImplementation(project(":yilin-reactive-tests"))
+}

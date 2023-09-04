@@ -30,8 +30,7 @@ public class DatabaseConfig {
 						r2dbcProperties.getUsername(),
 						r2dbcProperties.getPassword()
 				)
-				.locations(flywayProperties.getLocations().stream()
-						.toArray(String[]::new))
+				.locations(flywayProperties.getLocations().toArray(String[]::new))
 				.baselineOnMigrate(true)
 				.load();
 	}

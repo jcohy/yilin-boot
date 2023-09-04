@@ -9,6 +9,7 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.plugins.JavaLibraryPlugin;
+import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.plugins.PluginContainer;
 
 /**
@@ -38,5 +39,9 @@ public class YiLinModulePlugin implements Plugin<Project> {
 		project.getConfigurations().getByName("dependencyManagement", (dependencyManagement) -> {
 			dependencyManagement.getDependencies().add(parent);
 		});
+		if (!project.getName().equals("yilin-reactive-commons")) {
+			project.getDependencies().add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, project.getDependencies().project(Collections.singletonMap("path",
+					":yilin-reactive-projects:yilin-reactive-commons")));
+		}
 	}
 }

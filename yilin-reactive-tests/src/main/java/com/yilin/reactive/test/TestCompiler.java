@@ -1,4 +1,4 @@
-package com.yilin.reactive.configuration.processor;
+package com.yilin.reactive.test;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,14 +15,12 @@ import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 
 /**
- * Copyright: Copyright (c) 2023
- * <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
+ * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  *
- * <p>
- * Description:
+ * <p> Description:
  *
  * @author jiac
- * @version 2023.0.1 2023/7/4:17:50
+ * @version 2023.0.1 2023/7/20:15:03
  * @since 2023.0.1
  */
 public class TestCompiler {
@@ -108,7 +106,5 @@ public class TestCompiler {
 				throw new IllegalStateException("Compilation failed");
 			}
 		}
-
 	}
-
 }

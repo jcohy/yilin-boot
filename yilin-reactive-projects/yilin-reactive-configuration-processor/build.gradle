@@ -2,8 +2,9 @@ plugins {
 	id "com.yilin.module"
 }
 
-description = "YiLin Boot Annotation Processor Generation spring.factories and Java SPI file"
+description = "YiLin Reactive Annotation Processor Generation spring.factories and Java SPI file"
 
 dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-web")
+	testImplementation(project(":yilin-reactive-tests"))
 }

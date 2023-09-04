@@ -1,0 +1,9 @@
+plugins {
+	id "com.yilin.module"
+}
+
+description = "YiLin Reactive Commons"
+
+dependencies {
+	testImplementation(project(":yilin-reactive-tests"))
+}

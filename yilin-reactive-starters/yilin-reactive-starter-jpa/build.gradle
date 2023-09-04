@@ -1,0 +1,13 @@
+plugins {
+	id "com.yilin.module"
+}
+
+description = "YiLin Reactive Jpa"
+
+dependencies {
+//	api(project(":yilin-reactive-projects:yilin-reactive-commons"))
+	api(project(":yilin-reactive-projects:yilin-reactive-persistent"))
+	api("org.springframework.boot:spring-boot-starter-data-r2dbc")
+	runtimeOnly("io.r2dbc:r2dbc-h2")
+	testImplementation(project(":yilin-reactive-tests"))
+}
