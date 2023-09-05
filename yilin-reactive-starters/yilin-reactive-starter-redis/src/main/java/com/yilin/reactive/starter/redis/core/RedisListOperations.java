@@ -21,6 +21,7 @@ import org.springframework.data.redis.core.ReactiveRedisTemplate;
  * @version 2023.0.1 2023/8/29:09:38
  * @since 2023.0.1
  */
+@SuppressWarnings({ "varargs", "unchecked" })
 public class RedisListOperations<V> extends RedisGenericOperations<V> {
 
 	private final ReactiveListOperations<String, V> listOps;

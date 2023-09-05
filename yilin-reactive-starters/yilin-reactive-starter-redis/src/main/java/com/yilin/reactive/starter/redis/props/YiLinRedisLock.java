@@ -30,8 +30,24 @@ public class YiLinRedisLock {
 	 */
 	private Integer timeout = 10000;
 
-	private Single single;
+	/**
+	 * 单机版或分布式版本.
+	 */
+	private LockModel mode = LockModel.SINGLE;
 
+	/**
+	 * 当 model 设置为 SINGLE 时需要设置此配置
+	 */
+	private String address = "redis://127.0.0.1:6379";
+
+	/**
+	 * 当 model 设置为 MULTI 时需要设置此配置.
+	 */
+	private String[] masterNodes;
+
+	/**
+	 * 连接池配置
+	 */
 	private Pool pool;
 
 	public Boolean getEnabled() {
@@ -70,14 +86,6 @@ public class YiLinRedisLock {
 		return this;
 	}
 
-	public Single getSingle() {
-		return this.single;
-	}
-
-	public YiLinRedisLock setSingle(Single single) {
-		this.single = single;
-		return this;
-	}
 
 	public Pool getPool() {
 		return this.pool;
@@ -88,20 +96,35 @@ public class YiLinRedisLock {
 		return this;
 	}
 
-	/**
-	 * 单机版配置.
-	 */
-	public static class Single {
-		private String address = "redis://127.0.0.1:6379";
+	public LockModel getMode() {
+		return mode;
+	}
 
-		public String getAddress() {
-			return address;
-		}
+	public YiLinRedisLock setMode(LockModel mode) {
+		this.mode = mode;
+		return this;
+	}
 
-		public Single setAddress(String address) {
-			this.address = address;
-			return this;
-		}
+	public String getAddress() {
+		return address;
+	}
+
+	public YiLinRedisLock setAddress(String address) {
+		this.address = address;
+		return this;
+	}
+
+	public String[] getMasterNodes() {
+		return masterNodes;
+	}
+
+	public YiLinRedisLock setMasterNodes(String[] masterNodes) {
+		this.masterNodes = masterNodes;
+		return this;
+	}
+
+	public enum LockModel {
+		SINGLE,MULTI
 	}
 
 	/**

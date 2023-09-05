@@ -2,6 +2,8 @@ package com.yilin.reactive.starter.redis;
 
 import java.nio.ByteBuffer;
 
+import org.redisson.api.RedissonReactiveClient;
+
 import org.springframework.data.redis.connection.ReactiveRedisConnection;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
@@ -11,6 +13,8 @@ import com.yilin.reactive.starter.redis.core.RedisGeoOperations;
 import com.yilin.reactive.starter.redis.core.RedisHashOperations;
 import com.yilin.reactive.starter.redis.core.RedisHyperLogLogOperations;
 import com.yilin.reactive.starter.redis.core.RedisListOperations;
+import com.yilin.reactive.starter.redis.core.RedisLockOperationSupport;
+import com.yilin.reactive.starter.redis.core.RedisLockOperations;
 import com.yilin.reactive.starter.redis.core.RedisSetOperations;
 import com.yilin.reactive.starter.redis.core.RedisSortedSetOperations;
 import com.yilin.reactive.starter.redis.core.RedisStreamOperations;
@@ -44,11 +48,13 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 
 	private final RedisSortedSetOperations<V> zsetOps;
 
+	private final RedisLockOperations lockOps;
+
 	private final ReactiveRedisConnection reactiveRedisConnection;
 
 	private final RedisSerializationContext<String, V> redisSerializationContext;
 
-	public ReactiveStringKeyRedisTemplate(ReactiveRedisTemplate<String, V> reactiveRedisTemplate) {
+	public ReactiveStringKeyRedisTemplate(ReactiveRedisTemplate<String, V> reactiveRedisTemplate, RedissonReactiveClient client) {
 		Assert.notNull(reactiveRedisTemplate, "reactiveRedisTemplate must be set!");
 		this.reactiveRedisTemplate = reactiveRedisTemplate;
 		this.geoOps = new RedisGeoOperations<>(reactiveRedisTemplate);
@@ -61,8 +67,8 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 		this.zsetOps = new RedisSortedSetOperations<>(reactiveRedisTemplate);
 		this.reactiveRedisConnection = reactiveRedisTemplate.getConnectionFactory().getReactiveConnection();
 		this.redisSerializationContext = reactiveRedisTemplate.getSerializationContext();
+		this.lockOps = new RedisLockOperationSupport(client);
 	}
-
 
 	public ReactiveRedisTemplate<String, V> reactiveRedisTemplate() {
 		return this.reactiveRedisTemplate;
@@ -98,6 +104,10 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 
 	public RedisSortedSetOperations<V> zSetOps() {
 		return this.zsetOps;
+	}
+
+	public RedisLockOperations lockOps() {
+		return this.lockOps;
 	}
 
 	public ReactiveRedisConnection redisConnection() {

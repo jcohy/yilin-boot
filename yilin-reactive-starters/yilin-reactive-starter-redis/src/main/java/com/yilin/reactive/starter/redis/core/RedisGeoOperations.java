@@ -31,6 +31,7 @@ import org.springframework.data.redis.domain.geo.GeoShape;
  * @version 2023.0.1 2023/8/29:09:40
  * @since 2023.0.1
  */
+@SuppressWarnings({ "varargs", "unchecked" })
 public class RedisGeoOperations<V> extends RedisGenericOperations<V> {
 
 	private final ReactiveGeoOperations<String, V> geoOps;
@@ -280,7 +281,7 @@ public class RedisGeoOperations<V> extends RedisGenericOperations<V> {
 	 * @param key 不能为 {@literal null}.
 	 * @param members 不能为 {@literal null}.
 	 * @return Number of elements removed.
-	 * @see RedisSortedSetOperations#zSetRem(String, Object...)
+	 * @see RedisSortedSetOperations#remove(String, Object...)
 	 */
 	@SafeVarargs
 	public final Mono<Long> remove(String key, V... members) {

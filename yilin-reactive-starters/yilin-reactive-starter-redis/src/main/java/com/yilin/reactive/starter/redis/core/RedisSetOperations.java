@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.ScanOptions;
  * @version 2023.0.1 2023/8/29:09:49
  * @since 2023.0.1
  */
+@SuppressWarnings({ "varargs", "unchecked" })
 public class RedisSetOperations<V> extends RedisGenericOperations<V> {
 
 	private final ReactiveSetOperations<String, V> setOps;
@@ -60,7 +61,7 @@ public class RedisSetOperations<V> extends RedisGenericOperations<V> {
 	 *
 	 * @param key 不能为 {@literal null}.
 	 * @param otherKey 不能为 {@literal null}.
-	 * @return
+	 * @return /
 	 * @see <a href="https://redis.io/commands/sdiff">Redis Documentation: SDIFF</a>
 	 * @see <a href="http://doc.redisfans.com/set/sdiff.html">Redis 命令中文文档: SDIFF</a>
 	 */

@@ -36,6 +36,7 @@ import org.springframework.util.Assert;
  * @version 2023.0.1 2023/8/16:16:25
  * @since 2023.0.1
  */
+@SuppressWarnings({ "varargs", "unchecked" })
 public class RedisStreamOperations<K, V> extends RedisGenericOperations<V> {
 
 	private final ReactiveStreamOperations<String, K, V> streamOps;
@@ -120,9 +121,8 @@ public class RedisStreamOperations<K, V> extends RedisGenericOperations<V> {
 	 * @see <a href="https://redis.io/commands/xadd">Redis Documentation: XADD</a>
 	 * @see <a href="http://doc.redisfans.com/key/xadd.html">Redis 命令中文文档: XADD</a>
 	 */
-	@SuppressWarnings("unchecked")
 	public Mono<RecordId> add(MapRecord<String, ? extends K, ? extends V> record) {
-		return add((Record) record);
+		return this.streamOps.add(record);
 	}
 
 	/**
@@ -403,7 +403,6 @@ public class RedisStreamOperations<K, V> extends RedisGenericOperations<V> {
 	 * @see <a href="https://redis.io/commands/xread">Redis Documentation: XREAD</a>
 	 * @see <a href="http://doc.redisfans.com/key/xread.html">Redis 命令中文文档: XREAD</a>
 	 */
-	@SuppressWarnings("unchecked")
 	public Flux<MapRecord<String, K, V>> read(StreamOffset<K> stream) {
 		Assert.notNull(stream, "StreamOffset must not be null");
 		return read(StreamReadOptions.empty(), new StreamOffset[] { stream });
@@ -540,7 +539,6 @@ public class RedisStreamOperations<K, V> extends RedisGenericOperations<V> {
 	 * @see <a href="https://redis.io/commands/xreadgroup">Redis Documentation: XREADGROUP</a>
 	 * @see <a href="http://doc.redisfans.com/key/xreadgroup.html">Redis 命令中文文档: XREADGROUP</a>
 	 */
-	@SuppressWarnings("unchecked")
 	public Flux<ObjectRecord<String, V>> read(Class<V> targetType, Consumer consumer, StreamReadOptions readOptions,
 			StreamOffset<String>... streams) {
 

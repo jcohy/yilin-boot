@@ -13,6 +13,7 @@ import org.springframework.data.redis.core.ReactiveRedisTemplate;
  * @version 2023.0.1 2023/8/29:09:44
  * @since 2023.0.1
  */
+@SuppressWarnings({ "varargs", "unchecked" })
 public class RedisHyperLogLogOperations<V> extends RedisGenericOperations<V> {
 
 	private final ReactiveHyperLogLogOperations<String, V> hllOps;
