@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 /**
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  *
- * <p> Description:
+ * <p> Description: 用来标识进行逻辑删除的字段.
  *
  * @author jiac
  * @version 2023.0.1 2023/8/2:09:30

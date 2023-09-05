@@ -2,6 +2,8 @@ package com.yilin.reactive.r2dbc.domain;
 
 import java.util.Objects;
 
+import com.yilin.reactive.r2dbc.annotations.LogicDelete;
+import com.yilin.reactive.r2dbc.annotations.TenantId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 
@@ -27,15 +29,17 @@ public class Person {
 
 	Long version;
 
-	@Column("deleted")
+	@LogicDelete
 	Integer deleted;
 
 	Integer status;
 
+	@TenantId
+	String tenantId;
 	public Person() {
 	}
 
-	public Person(Long id, String name, Integer age, Long version, Integer deleted, Integer status) {
+	public Person(Long id, String name, Integer age, Long version, Integer deleted, Integer status,String tenantId) {
 		this.id = id;
 		this.name = name;
 		this.age = age;
@@ -44,8 +48,12 @@ public class Person {
 		this.status = status;
 	}
 
+	public Person(Long id, String name, Integer age, Long version, Integer deleted, Integer status) {
+		this(id, name, age, version, deleted, status,"000000");
+	}
+
 	public Person(Long id, String name, Integer age, Long version) {
-		this(id, name, age, version, DeleteStatus.NORMAL.getStatus(), ServiceStatus.ENABLE.getStatus());
+		this(id, name, age, version, DeleteStatus.NORMAL.getStatus(), ServiceStatus.ENABLE.getStatus(),"000000");
 	}
 
 	public Long getId() {
@@ -110,9 +118,17 @@ public class Person {
 		return Objects.equals(id, person.id) && Objects.equals(name, person.name) && Objects.equals(age, person.age) && Objects.equals(version, person.version) && Objects.equals(deleted, person.deleted) && Objects.equals(status, person.status);
 	}
 
+	public String getTenantId() {
+		return tenantId;
+	}
+
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, age, version, deleted, status);
+		return Objects.hash(id, name, age, version, deleted, status,tenantId);
 	}
 
 	@Override
@@ -124,6 +140,7 @@ public class Person {
 				", version=" + version +
 				", deleted=" + deleted +
 				", status=" + status +
+				", tenantId=" + tenantId +
 				'}';
 	}
 }

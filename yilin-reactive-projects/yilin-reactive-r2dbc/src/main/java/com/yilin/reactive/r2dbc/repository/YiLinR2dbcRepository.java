@@ -74,19 +74,19 @@ public interface YiLinR2dbcRepository<T, ID> extends R2dbcRepository<T, ID> {
 	 */
 	Mono<Long> logicDeleteAll();
 
-	/**
-	 * 更改状态.
-	 * @param id id
-	 * @param status status
-	 * @return /
-	 */
-	Mono<Long> changeStatus(ID id, Integer status);
-
-	/**
-	 * 更改状态
-	 * @param id ids
-	 * @param status status
-	 * @return /
-	 */
-	Mono<Long> changeStatus(Publisher<ID> id, Integer status);
+//	/**
+//	 * 更改状态.
+//	 * @param id id
+//	 * @param status status
+//	 * @return /
+//	 */
+//	Mono<Long> changeStatus(ID id, Integer status);
+//
+//	/**
+//	 * 更改状态
+//	 * @param id ids
+//	 * @param status status
+//	 * @return /
+//	 */
+//	Mono<Long> changeStatus(Publisher<ID> id, Integer status);
 }

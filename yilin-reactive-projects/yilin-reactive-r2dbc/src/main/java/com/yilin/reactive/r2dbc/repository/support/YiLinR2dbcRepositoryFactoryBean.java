@@ -31,13 +31,9 @@ public class YiLinR2dbcRepositoryFactoryBean<T extends Repository<S, ID>, S, ID 
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
-	protected RepositoryFactorySupport getFactoryInstance(DatabaseClient client, ReactiveDataAccessStrategy dataAccessStrategy) {
-		return new YiLinR2dbcRepositoryFactory(client, dataAccessStrategy);
-	}
-
-	@Override
 	protected RepositoryFactorySupport getFactoryInstance(R2dbcEntityOperations operations) {
 		return new YiLinR2dbcRepositoryFactory(operations);
 	}
+
+
 }

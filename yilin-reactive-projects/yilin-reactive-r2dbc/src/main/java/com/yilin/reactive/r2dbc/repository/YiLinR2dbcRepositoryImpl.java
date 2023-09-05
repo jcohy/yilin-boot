@@ -1,6 +1,9 @@
 package com.yilin.reactive.r2dbc.repository;
 
+import com.yilin.reactive.r2dbc.annotations.LogicDelete;
+import com.yilin.reactive.r2dbc.annotations.TenantId;
 import org.reactivestreams.Publisher;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -19,6 +22,10 @@ import org.springframework.util.Assert;
 
 import com.yilin.reactive.persistent.enums.DeleteStatus;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Optional;
+
 /**
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  *
@@ -36,6 +43,10 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 
 	private final Lazy<RelationalPersistentProperty> idProperty;
 
+	private final Optional<String> delete;
+
+	private final Optional<String> tenantId;
+
 	public YiLinR2dbcRepositoryImpl(RelationalEntityInformation<T, ID> entity, R2dbcEntityOperations entityOperations,
 			R2dbcConverter converter) {
 		super(entity, entityOperations, converter);
@@ -46,23 +57,30 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 				converter.getMappingContext()
 						.getRequiredPersistentEntity(this.entity.getJavaType())
 						.getRequiredIdProperty());
+		this.delete = Arrays.stream(this.entity.getJavaType().getDeclaredFields())
+				.filter(field -> AnnotatedElementUtils.hasAnnotation(field,LogicDelete.class))
+				.map(Field::getName)
+				.findAny();
+		this.tenantId = Arrays.stream(this.entity.getJavaType().getDeclaredFields())
+				.filter(field -> AnnotatedElementUtils.hasAnnotation(field, TenantId.class))
+				.map(Field::getName)
+				.findAny();
 	}
 
 	@Override
 	@Transactional
 	public Mono<Long> logicDeleteById(ID id) {
 		Assert.notNull(id, "Id must not be null");
-
+		Assert.isTrue(delete.isPresent(), "@LogicDelete annotation must not be null");
 		return this.entityOperations
-				.update(getIdQuery(id), Update.update("deleted", DeleteStatus.DELETED.getStatus()), this.entity.getJavaType());
+				.update(getIdQuery(id), Update.update(delete.get(), DeleteStatus.DELETED.getStatus()), this.entity.getJavaType());
 	}
 
 	@Override
 	@Transactional
 	public Flux<Long> logicDeleteById(Publisher<ID> idPublisher) {
-
 		Assert.notNull(idPublisher, "The Id Publisher must not be null");
-
+		Assert.isTrue(delete.isPresent(), "@LogicDelete annotation must not be null");
 		return Flux.from(idPublisher).buffer().filter(ids -> !ids.isEmpty()).concatMap(ids -> {
 			if (ids.isEmpty()) {
 				return Flux.empty();
@@ -70,7 +88,7 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 
 			String idProperty = getIdProperty().getName();
 			return this.entityOperations.update(Query.query(Criteria.where(idProperty).in(ids)),
-					Update.update("deleted", DeleteStatus.DELETED.getStatus()),
+					Update.update(delete.get(), DeleteStatus.DELETED.getStatus()),
 					this.entity.getJavaType());
 		});
 	}
@@ -79,19 +97,18 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 	@Transactional
 	public Mono<Long> logicDelete(T objectToDelete) {
 		Assert.notNull(objectToDelete, "object to delete must not be null");
-
+		Assert.isTrue(delete.isPresent(), "@LogicDelete annotation must not be null");
 		return logicDeleteById(this.entity.getRequiredId(objectToDelete));
 	}
 
 	@Override
 	public Mono<Long> logicDeleteAllById(Iterable<? extends ID> ids) {
 		Assert.notNull(ids, "the iterable of Id's must not be null");
-
 		var idList = Streamable.of(ids).toList();
 		String idProperty = getIdProperty().getName();
 		return this.entityOperations
 				.update(Query.query(Criteria.where(idProperty).in(idList)),
-						Update.update("deleted", DeleteStatus.DELETED.getStatus()),
+						Update.update(delete.get(), DeleteStatus.DELETED.getStatus()),
 						this.entity.getJavaType());
 	}
 
@@ -114,34 +131,35 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 	@Override
 	@Transactional
 	public Mono<Long> logicDeleteAll() {
+		Assert.isTrue(delete.isPresent(), "@LogicDelete annotation must not be null");
 		return this.entityOperations.update(Query.empty(),
-				Update.update("deleted", DeleteStatus.DELETED.getStatus()),
+				Update.update(delete.get(), DeleteStatus.DELETED.getStatus()),
 				this.entity.getJavaType());
 	}
 
-	@Override
-	public Mono<Long> changeStatus(ID id, Integer status) {
-
-		Assert.notNull(id, "Id must not be null");
-
-		return this.entityOperations
-				.update(getIdQuery(id), Update.update("status", status), this.entity.getJavaType());
-	}
-
-	@Override
-	public Mono<Long> changeStatus(Publisher<ID> idPublisher, Integer status) {
-		Assert.notNull(idPublisher, "The Id Publisher must not be null");
-
-		return Mono.from(Flux.from(idPublisher).buffer().filter(ids -> !ids.isEmpty()).concatMap(ids -> {
-			if (ids.isEmpty()) {
-				return Flux.empty();
-			}
-			String idProperty = getIdProperty().getName();
-			return this.entityOperations.update(Query.query(Criteria.where(idProperty).in(ids)),
-					Update.update("status", status),
-					this.entity.getJavaType());
-		}));
-	}
+//	@Override
+//	public Mono<Long> changeStatus(ID id, Integer status) {
+//
+//		Assert.notNull(id, "Id must not be null");
+//
+//		return this.entityOperations
+//				.update(getIdQuery(id), Update.update("status", status), this.entity.getJavaType());
+//	}
+//
+//	@Override
+//	public Mono<Long> changeStatus(Publisher<ID> idPublisher, Integer status) {
+//		Assert.notNull(idPublisher, "The Id Publisher must not be null");
+//
+//		return Mono.from(Flux.from(idPublisher).buffer().filter(ids -> !ids.isEmpty()).concatMap(ids -> {
+//			if (ids.isEmpty()) {
+//				return Flux.empty();
+//			}
+//			String idProperty = getIdProperty().getName();
+//			return this.entityOperations.update(Query.query(Criteria.where(idProperty).in(ids)),
+//					Update.update("status", status),
+//					this.entity.getJavaType());
+//		}));
+//	}
 
 	private RelationalPersistentProperty getIdProperty() {
 		return this.idProperty.get();

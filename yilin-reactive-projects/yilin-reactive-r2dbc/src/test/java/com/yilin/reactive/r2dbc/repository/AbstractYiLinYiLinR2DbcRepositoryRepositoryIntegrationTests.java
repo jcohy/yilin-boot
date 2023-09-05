@@ -206,47 +206,47 @@ public abstract class AbstractYiLinYiLinR2DbcRepositoryRepositoryIntegrationTest
 				.verifyComplete();
 	}
 
-	@Test
-	void shouldChangeStatusWithId() {
+//	@Test
+//	void shouldChangeStatusWithId() {
+//
+//		Person person = new Person(null, "Jcohy", 12, 0L, 1, 1);
+//
+//		insertPersons(person);
+//
+//		this.repository.changeStatus(person.getId(), 2)
+//				.as(StepVerifier::create)
+//				.expectNextCount(1)
+//				.verifyComplete();
+//
+//		this.repository.findById(person.getId())
+//				.as(StepVerifier::create)
+//				.assertNext(actual -> {
+//					assertThat(actual.getStatus()).isEqualTo(2);
+//				})
+//				.verifyComplete();
+//	}
 
-		Person person = new Person(null, "Jcohy", 12, 0L, 1, 1);
-
-		insertPersons(person);
-
-		this.repository.changeStatus(person.getId(), 2)
-				.as(StepVerifier::create)
-				.expectNextCount(1)
-				.verifyComplete();
-
-		this.repository.findById(person.getId())
-				.as(StepVerifier::create)
-				.assertNext(actual -> {
-					assertThat(actual.getStatus()).isEqualTo(2);
-				})
-				.verifyComplete();
-	}
-
-	@Test
-	void shouldChangeStatusWithPublisher() {
-
-		Person person = new Person(null, "Jcohy", 12, 0L, 1, 1);
-		Person person2 = new Person(null, "YiLin", 1, 0L, 1, 1);
-
-		insertPersons(person, person2);
-
-		this.repository.changeStatus(Flux.just(person.getId(), person2.getId()), 2)
-				.as(StepVerifier::create)
-				.expectNextCount(1)
-				.verifyComplete();
-
-		this.repository.findAll()
-				.collectList()
-				.as(StepVerifier::create)
-				.consumeNextWith(actual -> {
-					assertThat(actual).hasSize(2).extracting(Person::getStatus).containsSequence(2, 2);
-				})
-				.verifyComplete();
-	}
+//	@Test
+//	void shouldChangeStatusWithPublisher() {
+//
+//		Person person = new Person(null, "Jcohy", 12, 0L, 1, 1);
+//		Person person2 = new Person(null, "YiLin", 1, 0L, 1, 1);
+//
+//		insertPersons(person, person2);
+//
+//		this.repository.changeStatus(Flux.just(person.getId(), person2.getId()), 2)
+//				.as(StepVerifier::create)
+//				.expectNextCount(1)
+//				.verifyComplete();
+//
+//		this.repository.findAll()
+//				.collectList()
+//				.as(StepVerifier::create)
+//				.consumeNextWith(actual -> {
+//					assertThat(actual).hasSize(2).extracting(Person::getStatus).containsSequence(2, 2);
+//				})
+//				.verifyComplete();
+//	}
 
 
 	private void insertPersons(Person... persons) {
