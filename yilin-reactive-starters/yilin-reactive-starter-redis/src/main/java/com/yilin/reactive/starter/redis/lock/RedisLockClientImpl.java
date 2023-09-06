@@ -16,11 +16,11 @@ public class RedisLockClientImpl implements RedisLockClient {
 
 	private final RLockReactive lock;
 
-	private final RedisLockCriteria criteria;
+	private final RedisLockConfigurer configurer;
 
-	public RedisLockClientImpl(RLockReactive lock, RedisLockCriteria criteria) {
+	public RedisLockClientImpl(RLockReactive lock, RedisLockConfigurer configurer) {
 		this.lock = lock;
-		this.criteria = criteria;
+		this.configurer = configurer;
 	}
 
 	@Override

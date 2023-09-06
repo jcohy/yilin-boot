@@ -403,10 +403,10 @@ public class RedisStreamOperations<K, V> extends RedisGenericOperations<V> {
 	 * @see <a href="https://redis.io/commands/xread">Redis Documentation: XREAD</a>
 	 * @see <a href="http://doc.redisfans.com/key/xread.html">Redis 命令中文文档: XREAD</a>
 	 */
-	public Flux<MapRecord<String, K, V>> read(StreamOffset<K> stream) {
-		Assert.notNull(stream, "StreamOffset must not be null");
-		return read(StreamReadOptions.empty(), new StreamOffset[] { stream });
-	}
+//	public Flux<MapRecord<String, K, V>> read(StreamOffset<String> stream) {
+//		Assert.notNull(stream, "StreamOffset must not be null");
+//		return read(StreamReadOptions.empty(), new StreamOffset[] { stream });
+//	}
 
 	/**
 	 * 从 {@link StreamOffset} 读取记录作为 {@link ObjectRecord}.

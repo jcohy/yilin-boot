@@ -13,7 +13,6 @@ import com.yilin.reactive.starter.redis.core.RedisGeoOperations;
 import com.yilin.reactive.starter.redis.core.RedisHashOperations;
 import com.yilin.reactive.starter.redis.core.RedisHyperLogLogOperations;
 import com.yilin.reactive.starter.redis.core.RedisListOperations;
-import com.yilin.reactive.starter.redis.core.RedisLockOperationSupport;
 import com.yilin.reactive.starter.redis.core.RedisLockOperations;
 import com.yilin.reactive.starter.redis.core.RedisSetOperations;
 import com.yilin.reactive.starter.redis.core.RedisSortedSetOperations;
@@ -67,7 +66,7 @@ public class ReactiveStringKeyRedisTemplate<K, V> {
 		this.zsetOps = new RedisSortedSetOperations<>(reactiveRedisTemplate);
 		this.reactiveRedisConnection = reactiveRedisTemplate.getConnectionFactory().getReactiveConnection();
 		this.redisSerializationContext = reactiveRedisTemplate.getSerializationContext();
-		this.lockOps = new RedisLockOperationSupport(client);
+		this.lockOps = new RedisLockOperations(client);
 	}
 
 	public ReactiveRedisTemplate<String, V> reactiveRedisTemplate() {

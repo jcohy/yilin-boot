@@ -1,143 +1,54 @@
 package com.yilin.reactive.starter.redis.core;
 
-import java.util.function.Supplier;
+import java.util.List;
+import java.util.function.Function;
 
 import org.redisson.api.RLockReactive;
-
-import com.yilin.reactive.starter.redis.lock.RedisLockCriteria;
+import org.redisson.api.RedissonReactiveClient;
 
 /**
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  * <p> Description:
  *
  * @author jiac
- * @version 2023.0.1 2023/9/4:11:59
+ * @version 2023.0.1 2023/9/5:16:49
  * @since 2023.0.1
  */
-public interface RedisLockOperations extends RedisReactiveOperations {
+public class RedisLockOperations implements RedisGenericLockOperations, RedisMultiLockOperations {
 
+	private final RedissonReactiveClient client;
 
-	/**
-	 * 可重入锁
-	 *
-	 * @param name 名称
-	 * @return 返回可重入锁
-	 */
-	RedissonGenericLock reentrant(String name);
-
-//	/**
-//	 * 获取公平锁.
-//	 *
-//	 * @param name 名称
-//	 * @return 返回公平锁
-//	 */
-//	RLockReactive fairLock(String name);
-//
-//	/**
-//	 * 获取读写锁.
-//	 *
-//	 * @param name 名称
-//	 * @return 返回读写锁
-//	 */
-//	RReadWriteLockReactive getReadWriteLock(String name);
-//
-//	/**
-//	 * 获取闭锁.
-//	 *
-//	 * @param name 名称
-//	 * @return 返回闭锁
-//	 */
-//	RCountDownLatchReactive getCountDownLatch(String name);
-//
-//	/**
-//	 * 获取联锁.
-//	 *
-//	 * @param locks 锁列表
-//	 * @return 返回联锁
-//	 */
-//	RLockReactive getMultiLock(RLockReactive... locks);
-//
-////	RFencedLock getRFencedLock();
-//
-//	/**
-//	 * 获取红锁.
-//	 * 该对象已被弃用。 请改用 RLockReactive 或 RFencedLock。
-//	 * @param locks 锁列表
-//	 * @return 返回红锁
-//	 */
-//	RLockReactive getRedLock(RLockReactive... locks);
-//
-//	/**
-//	 * 获取自旋锁.
-//	 * @param name 名称
-//	 * @return 返回红锁
-//	 */
-//	RLockReactive getSpinLock(String name);
-//
-//	/**
-//	 * 获取信号量.
-//	 *
-//	 * @param name 名称
-//	 * @return 返回信号量
-//	 */
-//	RSemaphoreReactive getSemaphore(String name);
-//
-//	/**
-//	 * 获取可过期信号量
-//	 *
-//	 * @param name 名称
-//	 * @return 返回可过期信号量
-//	 */
-//	RPermitExpirableSemaphoreReactive getPermitExpirableSemaphore(String name);
-//
-//
-//	/**
-//	 * 获取可重入锁.
-//	 *
-//	 * @param name 名称
-//	 * @return 返回可重入锁
-//	 */
-//	RLockReactive getLock(String name);
-
-
-	interface GenericLockTerminating {
-		//		GenericLockClient using();
-		GenericLockClient using();
+	public RedisLockOperations(RedissonReactiveClient client) {
+		this.client = client;
 	}
 
-	interface GenericLockCriteria extends GenericLockTerminating {
-
-		GenericLockTerminating apply(RedisLockCriteria criteria);
+	@Override
+	public RedissonGenericLock reentrant(String name) {
+		return new RedisGenericLockOperationsSupport(this.client).reentrant(name);
 	}
 
-	/**
-	 * 主要针对实现了 {@link RLockReactive} 对象的锁.
-	 */
-	interface RedissonGenericLock extends GenericLockCriteria {
+	@Override
+	public RedissonGenericLock fairLock(String name) {
+		return new RedisGenericLockOperationsSupport(this.client).fairLock(name);
 	}
 
-	interface GenericLockClient {
-		/**
-		 * 尝试获取锁.
-		 *
-		 * @return 是否成功
-		 * @throws InterruptedException /
-		 */
-		boolean tryLock() throws InterruptedException;
+	@Override
+	public RedissonGenericLock spinLock(String name) {
+		return new RedisGenericLockOperationsSupport(this.client).spinLock(name);
+	}
 
+	@Override
+	public RedissonReactiveMultiLock multiLock(RLockReactive... locks) {
+		return new RedisMultiLockOperationsSupport(this.client).multiLock(locks);
+	}
 
-		/**
-		 * 解锁.
-		 */
-		void unLock();
+	@Override
+	public RedissonReactiveMultiLock redLock(RLockReactive... locks) {
+		return new RedisMultiLockOperationsSupport(this.client).redLock(locks);
+	}
 
-		/**
-		 * 自定获取锁后执行方法.
-		 *
-		 * @param supplier 获取锁后的回调
-		 * @param <T> t
-		 * @return 返回的数据
-		 */
-		<T> T lock(Supplier<T> supplier);
+	@Override
+	public RedissonReactiveMultiLock multiLock(Function<RedisMultiLockConfigure, List<RLockReactive>> consumer) {
+		return new RedisMultiLockOperationsSupport(this.client).multiLock(consumer);
 	}
 }
