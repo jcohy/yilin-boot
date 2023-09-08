@@ -1,6 +1,7 @@
 package com.yilin.reactive.starter.redis.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -9,6 +10,7 @@ import org.redisson.api.RLockReactive;
 import org.redisson.api.RedissonReactiveClient;
 import reactor.core.publisher.Mono;
 
+import com.yilin.reactive.starter.redis.lock.GenericLockClient;
 import com.yilin.reactive.starter.redis.lock.RedisLockConfigurer;
 
 /**
@@ -31,60 +33,70 @@ public class RedisMultiLockOperationsSupport extends RedisGenericLockOperationsS
 	@Override
 	public RedissonReactiveMultiLock multiLock(RLockReactive... locks) {
 		this.redissonClient.getMultiLock(locks);
-		return new RedissonReactiveMultiLockSupport(this.redissonClient.getMultiLock(locks), null);
+		return new RedissonReactiveMultiLockSupport(this.redissonClient.getMultiLock(locks), Arrays.asList(locks), null);
 	}
 
 	@Override
 	public RedissonReactiveMultiLock redLock(RLockReactive... locks) {
-		return new RedissonReactiveMultiLockSupport(this.redissonClient.getMultiLock(locks), null);
+		return new RedissonReactiveMultiLockSupport(this.redissonClient.getMultiLock(locks), Arrays.asList(locks), null);
 	}
 
 
 	@Override
 	public RedissonReactiveMultiLock multiLock(Function<RedisMultiLockConfigure, List<RLockReactive>> locks) {
-		RedisMultiLockConfigureImpl redisMultiLockConfigure = new RedisMultiLockConfigureImpl(this.redissonClient);
-		locks.apply(redisMultiLockConfigure);
-		return new RedissonReactiveMultiLockSupport(this.redissonClient.getMultiLock(redisMultiLockConfigure.combine().toArray(new RLockReactive[0])), null);
+		List<RLockReactive> multiLock = locks.apply(new RedisMultiLockConfigureImpl(this.redissonClient));
+
+		return new RedissonReactiveMultiLockSupport(this.redissonClient.getMultiLock(multiLock.toArray(new RLockReactive[0])), multiLock, null);
 	}
 
 	static class RedissonReactiveMultiLockSupport implements RedissonReactiveMultiLock {
 
+		private final List<RLockReactive> locks;
+
 		private final RLockReactive lock;
 
 		private final RedisLockConfigurer configurer;
 
 
-		public RedissonReactiveMultiLockSupport(RLockReactive lock, RedisLockConfigurer configurer) {
+		public RedissonReactiveMultiLockSupport(RLockReactive lock, List<RLockReactive> locks, RedisLockConfigurer configurer) {
 			this.lock = lock;
+			this.locks = locks;
 			this.configurer = configurer;
 		}
 
 		@Override
-		public RedissonReactiveMultiLockClient using() {
-			return new RedissonReactiveMultiLockClientImpl(this.lock, configurer);
+		public GenericLockClient using() {
+			return new RedissonReactiveMultiLockClientImpl(this.lock, this.locks, configurer);
 		}
 
 		@Override
 		public RedissonReactiveMultiLockTerminating apply(RedisLockConfigurer configurer) {
-			return new RedissonReactiveMultiLockSupport(this.lock, configurer);
+			return new RedissonReactiveMultiLockSupport(this.lock, this.locks, configurer);
 		}
 	}
 
-	static class RedissonReactiveMultiLockClientImpl implements RedissonReactiveMultiLockClient {
+	static class RedissonReactiveMultiLockClientImpl implements GenericLockClient {
 
 		private final RLockReactive lock;
 
 		private final RedisLockConfigurer configurer;
 
-		public RedissonReactiveMultiLockClientImpl(RLockReactive lock, RedisLockConfigurer configurer) {
+		private final List<RLockReactive> locks;
+
+		public RedissonReactiveMultiLockClientImpl(RLockReactive lock, List<RLockReactive> locks, RedisLockConfigurer configurer) {
 			this.lock = lock;
+			this.locks = locks;
 			this.configurer = configurer;
 		}
 
 		@Override
 		public <T> Mono<T> synchronize(Supplier<Mono<T>> executableSupplier) {
-			System.out.println(configurer.toString());
-			return null;
+			var name = locks.stream().map(RLockReactive::getName)
+					.reduce("", (a, b) -> a + "-" + b);
+			return synchronize(this.lock,
+					name,
+					this.configurer,
+					executableSupplier);
 		}
 
 		@Override

@@ -4,12 +4,11 @@ import java.util.function.Supplier;
 
 import org.redisson.api.RLockReactive;
 import org.redisson.api.RedissonReactiveClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
 import org.springframework.util.Assert;
 
+import com.yilin.reactive.starter.redis.lock.GenericLockClient;
 import com.yilin.reactive.starter.redis.lock.RedisLockConfigurer;
 
 /**
@@ -67,9 +66,7 @@ public class RedisGenericLockOperationsSupport implements RedisGenericLockOperat
 		}
 	}
 
-	static class GenericLockClientImpl implements GenericLockClient {
-
-		private static final Logger log = LoggerFactory.getLogger(GenericLockClientImpl.class);
+	static class GenericLockClientImpl implements com.yilin.reactive.starter.redis.lock.GenericLockClient {
 
 		private final RLockReactive lock;
 
@@ -80,28 +77,14 @@ public class RedisGenericLockOperationsSupport implements RedisGenericLockOperat
 			this.configurer = configurer;
 		}
 
+
 		@Override
 		public <T> Mono<T> synchronize(Supplier<Mono<T>> executableSupplier) {
 			var name = lock.getName();
-			var threadId = this.configurer.threadId();
-			return lock.tryLock(this.configurer.waitTime(), this.configurer.leaseTime(), this.configurer.timeUnit(), threadId)
-					.doOnSubscribe(subscription -> log.info("Locked Resource, name = {}, threadId = {}", name, threadId))
-					.flatMap(acquired -> {
-						if (acquired) {
-							return executableSupplier.get()
-									.flatMap(result -> {
-										return lock.unlock().thenReturn(result);
-									});
-						}
-						else {
-							return Mono.error(new RuntimeException("Couldn't get redis lock"));
-						}
-					})
-					.doFinally(signalType -> {
-						Mono.fromRunnable(() -> log.info("Unlocked Resource, name = {}, threadId = {}", name, threadId))
-								.then(lock.forceUnlock())
-								.subscribe();
-					});
+			return synchronize(this.lock,
+					name,
+					this.configurer,
+					executableSupplier);
 		}
 
 		@Override

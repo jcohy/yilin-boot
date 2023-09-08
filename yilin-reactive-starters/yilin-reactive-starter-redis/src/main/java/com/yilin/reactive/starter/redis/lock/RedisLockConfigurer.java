@@ -1,6 +1,5 @@
 package com.yilin.reactive.starter.redis.lock;
 
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -33,19 +32,12 @@ public class RedisLockConfigurer {
 	 */
 	private TimeUnit timeUnit = TimeUnit.SECONDS;
 
-	private long threadId = ThreadLocalRandom.current().nextLong();
-
 	public static RedisLockConfigurer crete() {
 		return new RedisLockConfigurer();
 	}
 
 	public RedisLockConfigurer name(String name) {
 		this.name = name;
-		return this;
-	}
-
-	public RedisLockConfigurer threadId(long threadId) {
-		this.threadId = threadId;
 		return this;
 	}
 
@@ -68,10 +60,6 @@ public class RedisLockConfigurer {
 		return this.name;
 	}
 
-	public long threadId() {
-		return this.threadId;
-	}
-
 	public long waitTime() {
 		return this.waitTime;
 	}
@@ -91,7 +79,6 @@ public class RedisLockConfigurer {
 				", waitTime=" + waitTime +
 				", leaseTime=" + leaseTime +
 				", timeUnit=" + timeUnit +
-				", threadId=" + threadId +
 				'}';
 	}
 }

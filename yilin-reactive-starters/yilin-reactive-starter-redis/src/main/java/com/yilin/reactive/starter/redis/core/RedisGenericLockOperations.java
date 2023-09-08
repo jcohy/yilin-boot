@@ -1,10 +1,8 @@
 package com.yilin.reactive.starter.redis.core;
 
-import java.util.function.Supplier;
-
 import org.redisson.api.RLockReactive;
-import reactor.core.publisher.Mono;
 
+import com.yilin.reactive.starter.redis.lock.GenericLockClient;
 import com.yilin.reactive.starter.redis.lock.RedisLockConfigurer;
 
 /**
@@ -57,18 +55,5 @@ public interface RedisGenericLockOperations extends RedisReactiveOperations {
 	 * 主要针对实现了 {@link RLockReactive} 对象的锁.
 	 */
 	interface RedissonGenericLock extends GenericLockConfigurer {
-	}
-
-	interface GenericLockClient {
-
-		/**
-		 * 自定获取锁后执行方法.
-		 *
-		 * @param executableSupplier 获取锁后的回调
-		 * @return 返回的数据
-		 */
-		<T> Mono<T> synchronize(Supplier<Mono<T>> executableSupplier);
-
-		RLockReactive getReactiveLock();
 	}
 }

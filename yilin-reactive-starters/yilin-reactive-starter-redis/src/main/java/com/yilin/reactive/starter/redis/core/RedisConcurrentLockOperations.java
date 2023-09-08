@@ -21,7 +21,7 @@ public interface RedisConcurrentLockOperations {
 	 * @param name 名称
 	 * @return 返回闭锁
 	 */
-	RCountDownLatchReactive getCountDownLatch(String name);
+	RCountDownLatchReactive countDownLatch(String name);
 
 
 	/**
@@ -30,7 +30,7 @@ public interface RedisConcurrentLockOperations {
 	 * @param name 名称
 	 * @return 返回信号量
 	 */
-	RSemaphoreReactive getSemaphore(String name);
+	RSemaphoreReactive semaphore(String name);
 
 	/**
 	 * 获取可过期信号量
@@ -38,7 +38,7 @@ public interface RedisConcurrentLockOperations {
 	 * @param name 名称
 	 * @return 返回可过期信号量
 	 */
-	RPermitExpirableSemaphoreReactive getPermitExpirableSemaphore(String name);
+	RPermitExpirableSemaphoreReactive permitExpirableSemaphore(String name);
 
 	/**
 	 * 获取读写锁.
@@ -46,5 +46,5 @@ public interface RedisConcurrentLockOperations {
 	 * @param name 名称
 	 * @return 返回读写锁
 	 */
-	RReadWriteLockReactive getReadWriteLock(String name);
+	RReadWriteLockReactive readWriteLock(String name);
 }
