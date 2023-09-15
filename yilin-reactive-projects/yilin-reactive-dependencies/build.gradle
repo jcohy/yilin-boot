@@ -27,9 +27,6 @@ dependencies {
 				[group: 'io.protostuff', name: 'protostuff-runtime', version: "1.6.0"]
 		)
 		api("com.google.code.gson:gson:2.10.1")
-
-		// redis
-//		api ("org.redisson:redisson:3.11.6")
 		api("org.redisson:redisson-spring-boot-starter:3.18.1")
 	}
 
