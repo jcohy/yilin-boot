@@ -117,3 +117,8 @@ IDEA codestyle 在 idea 目录下
 ----
 
 构建的文档在 `build/distributions` 目录下。
+
+BZMPOP.adoc
+
+BZPOPMAX.adoc BZPOPMIN.adoc ZINTERCARD.adoc ZMPOP XAUTOCLAIM XCLAIM CREATECONSUMER XGROUP SETID XSETID
+
