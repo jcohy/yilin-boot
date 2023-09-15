@@ -15,6 +15,7 @@ dependencies {
 	testImplementation("io.r2dbc:r2dbc-spi-test:1.0.0.RELEASE")
 	testImplementation("io.r2dbc:r2dbc-mssql")
 	testImplementation("com.github.jasync-sql:jasync-mysql:2.2.0")
+	implementation 'com.google.code.findbugs:annotations:3.0.1'
 //	testImplementation("io.r2dbc:oracle-r2dbc")
 //	testImplementation("io.r2dbc:r2dbc-spi-test")
 	//

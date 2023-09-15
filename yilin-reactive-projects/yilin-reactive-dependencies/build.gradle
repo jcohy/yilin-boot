@@ -9,7 +9,7 @@ javaPlatform {
 dependencies {
 
 	api platform("org.springframework.security:spring-security-bom:6.0.0")
-
+	api platform("org.testcontainers:testcontainers-bom:1.18.3")
 	constraints {
 
 		// yilin-reactive-projects
@@ -17,6 +17,20 @@ dependencies {
 		api 'io.r2dbc:r2dbc-mssql:1.0.0.RELEASE'
 		// commons utils
 
+		// json
+		api(
+				[group: 'com.alibaba.fastjson2', name: 'fastjson2', version: "2.0.38"],
+				[group: 'com.alibaba.fastjson2', name: 'fastjson2-extension-spring6', version: "2.0.38"]
+		)
+		api(
+				[group: 'io.protostuff', name: 'protostuff-core', version: "1.6.0"],
+				[group: 'io.protostuff', name: 'protostuff-runtime', version: "1.6.0"]
+		)
+		api("com.google.code.gson:gson:2.10.1")
+
+		// redis
+//		api ("org.redisson:redisson:3.11.6")
+		api("org.redisson:redisson-spring-boot-starter:3.18.1")
 	}
 
 }
