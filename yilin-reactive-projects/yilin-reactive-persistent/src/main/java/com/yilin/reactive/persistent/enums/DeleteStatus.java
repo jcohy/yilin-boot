@@ -13,14 +13,14 @@ package com.yilin.reactive.persistent.enums;
 public enum DeleteStatus {
 
 	/**
-	 * 正常状态.
-	 */
-	NORMAL(1),
-
-	/**
 	 * 删除状态.
 	 */
-	DELETED(0);
+	DELETED(1),
+
+	/**
+	 * 未删除.
+	 */
+	NORMAL(0);
 
 	private final int status;
 
