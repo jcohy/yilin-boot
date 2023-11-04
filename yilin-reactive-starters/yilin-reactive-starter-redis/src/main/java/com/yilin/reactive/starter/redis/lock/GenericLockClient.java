@@ -7,6 +7,7 @@ import org.redisson.api.RLockReactive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 /**
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
@@ -37,6 +38,7 @@ public interface GenericLockClient {
 						return Mono.error(new RuntimeException("Couldn't get redis lock"));
 					}
 				})
+				.publishOn(Schedulers.boundedElastic())
 				.doFinally(signalType -> {
 					Mono.fromRunnable(() -> log.info("Unlocked Resource, name = {}, threadId = {}", name, threadId))
 							.then(lock.unlock(threadId))

@@ -240,7 +240,7 @@ public class FileUtils {
 	 */
 	public static String formatFileSize(long fileS) {
 		DecimalFormat df = new DecimalFormat("#.00");
-		String fileSizeString = "";
+		String fileSizeString;
 		String wrongSize = "0B";
 		if (fileS == 0) {
 			return wrongSize;

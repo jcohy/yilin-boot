@@ -1,4 +1,4 @@
-package com.yilin.reactive.starter.redis;
+package com.yilin.reactive.starter.redis.lock;
 
 import java.time.Duration;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,8 +23,8 @@ import reactor.util.context.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 
+import com.yilin.reactive.starter.redis.AbstractRedisReactiveTestSupport;
 import com.yilin.reactive.starter.redis.core.RedisLockOperations;
-import com.yilin.reactive.starter.redis.lock.RedisLockConfigurer;
 
 /**
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>

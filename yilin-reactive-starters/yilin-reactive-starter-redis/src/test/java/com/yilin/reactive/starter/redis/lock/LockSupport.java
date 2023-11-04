@@ -1,4 +1,4 @@
-package com.yilin.reactive.starter.redis;
+package com.yilin.reactive.starter.redis.lock;
 
 import java.util.concurrent.atomic.AtomicLong;
 

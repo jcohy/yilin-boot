@@ -60,12 +60,6 @@ public class ReactiveStringKeyRedisTemplateTest extends AbstractRedisReactiveTes
 				.as(StepVerifier::create)
 				.expectNext(true)
 				.verifyComplete();
-//		template.scanKeys("*",1,5)
-//						.subscribe(System.out::println);
-//		template.scanKeys("*",1,5)
-//				.as(StepVerifier::create)
-//				.expectNextCount(5)
-//				.verifyComplete();
 	}
 
 	@Test
