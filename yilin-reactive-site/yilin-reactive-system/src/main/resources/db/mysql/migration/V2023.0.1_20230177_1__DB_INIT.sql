@@ -1,4 +1,68 @@
 -- ----------------------------
+-- Table structure for yilin_user
+-- ----------------------------
+CREATE TABLE `auth_user`
+(
+    `id`                       bigint                                                        NOT NULL COMMENT '主键',
+    `username`                 varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '账号',
+    `nickname`                 varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '昵称',
+    `real_name`                varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '真名',
+    `password`                 varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '密码（MD5+盐）',
+    `salt`                     varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '盐',
+    `avatar`                   varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '头像',
+    `phone`                    varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '手机',
+    `email`                    varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '' COMMENT '邮箱',
+    `sex`                      int                                                           NOT NULL DEFAULT '0' COMMENT '性别,0:未知，1，男，2，女',
+    `last_login_date`          datetime(0)                                                   NULL     DEFAULT NULL COMMENT '最后登录时间',
+    `last_password_reset_date` datetime(0)                                                   NULL     DEFAULT NULL COMMENT '密码最后修改时间',
+    `tenant_id`                varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL DEFAULT '000000' COMMENT '用户所属租户',
+    `birthday`                 datetime(0)                                                   NULL     DEFAULT NULL COMMENT '出生日期',
+    `is_sys`                   tinyint                                                       NOT NULL DEFAULT '1' COMMENT '是否是系统保留，系统保留对普通用户不可见',
+    `locked`                   tinyint                                                       NOT NULL DEFAULT '1' COMMENT '锁定状态。1:正常，0:锁定',
+    `status`                   tinyint                                                       NOT NULL DEFAULT '1' COMMENT '状态。1：启用，0:禁用',
+    `create_by`                bigint                                                        NOT NULL COMMENT '创建人',
+    `create_time`              datetime(0)                                                   NOT NULL COMMENT '创建时间',
+    `update_by`                bigint                                                        NOT NULL COMMENT '修改人',
+    `update_time`              datetime(0)                                                   NOT NULL COMMENT '修改时间',
+    `deleted`                  int                                                           NOT NULL COMMENT '是否已删除',
+    `delete_time`              datetime(0)                                                   NULL     DEFAULT NULL COMMENT '修改时间',
+    UNIQUE KEY (`username`) USING BTREE,
+    UNIQUE KEY (`phone`) USING BTREE,
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '用户表';
+
+-- ----------------------------
+-- Table structure for yilin_role
+-- ----------------------------
+CREATE TABLE `auth_role`
+(
+    `id`          bigint                                                        NOT NULL COMMENT '主键',
+    `name`        varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL     DEFAULT NULL COMMENT '角色名',
+    `alias`       varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL     DEFAULT NULL COMMENT '角色别名',
+    `code`        varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL     DEFAULT NULL COMMENT '角色编码，以 ROLE_ 为前缀的英文',
+    `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL     DEFAULT NULL COMMENT '描述',
+    `tenant_id`   varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL     DEFAULT '000000' COMMENT '角色所属机构',
+    `status`      tinyint                                                       NOT NULL DEFAULT '1' COMMENT '状态。1：启用，0:禁用',
+    `is_sys`      tinyint                                                       NOT NULL DEFAULT '1' COMMENT '是否是系统保留，系统保留对普通用户不可见',
+    `parent_id`   bigint                                                        NULL     DEFAULT 0 COMMENT '父主键',
+    `sort`        int                                                           NULL     DEFAULT NULL COMMENT '排序',
+    `create_by`   bigint                                                        NOT NULL COMMENT '创建人',
+    `create_time` datetime(0)                                                   NOT NULL COMMENT '创建时间',
+    `update_by`   bigint                                                        NOT NULL COMMENT '修改人',
+    `update_time` datetime(0)                                                   NOT NULL COMMENT '修改时间',
+    `deleted`     int                                                           NOT NULL COMMENT '是否已删除',
+    `delete_time` datetime(0)                                                   NULL     DEFAULT NULL COMMENT '修改时间',
+    UNIQUE KEY (`name`) USING BTREE,
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '角色表';
+
+
+
+-- ----------------------------
 -- Table structure for yilin_dept
 -- ----------------------------
 CREATE TABLE `yilin_dept`
@@ -209,23 +273,6 @@ CREATE TABLE `yilin_region`
   COLLATE = utf8mb4_general_ci COMMENT = '行政区划表';
 
 -- ----------------------------
--- Table structure for yilin_role
--- ----------------------------
-CREATE TABLE `yilin_role`
-(
-    `id`         bigint                                                        NOT NULL COMMENT '主键',
-    `tenant_id`  varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '000000' COMMENT '租户ID',
-    `parent_id`  bigint                                                        NULL DEFAULT 0 COMMENT '父主键',
-    `role_name`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色名',
-    `sort`       int                                                           NULL DEFAULT NULL COMMENT '排序',
-    `role_alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色别名',
-    `is_deleted` int                                                           NULL DEFAULT 0 COMMENT '是否已删除',
-    PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB
-  CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_general_ci COMMENT = '角色表';
-
--- ----------------------------
 -- Table structure for yilin_role_menu
 -- ----------------------------
 CREATE TABLE `yilin_role_menu`
@@ -359,38 +406,7 @@ CREATE TABLE `yilin_tenant`
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '租户表';
 
--- ----------------------------
--- Table structure for yilin_user
--- ----------------------------
-CREATE TABLE `yilin_user`
-(
-    `id`          bigint                                                         NOT NULL COMMENT '主键',
-    `tenant_id`   varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci   NULL DEFAULT '000000' COMMENT '租户ID',
-    `code`        varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci   NULL DEFAULT NULL COMMENT '用户编号',
-    `user_type`   int                                                            NULL DEFAULT NULL COMMENT '用户平台',
-    `account`     varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci   NULL DEFAULT NULL COMMENT '账号',
-    `password`    varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci   NULL DEFAULT NULL COMMENT '密码',
-    `name`        varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci   NULL DEFAULT NULL COMMENT '昵称',
-    `real_name`   varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci   NULL DEFAULT NULL COMMENT '真名',
-    `avatar`      varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '头像',
-    `email`       varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci   NULL DEFAULT NULL COMMENT '邮箱',
-    `phone`       varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci   NULL DEFAULT NULL COMMENT '手机',
-    `birthday`    datetime(0)                                                    NULL DEFAULT NULL COMMENT '生日',
-    `sex`         int                                                            NULL DEFAULT NULL COMMENT '性别',
-    `role_id`     varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色id',
-    `dept_id`     varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '部门id',
-    `post_id`     varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '岗位id',
-    `create_user` bigint                                                         NULL DEFAULT NULL COMMENT '创建人',
-    `create_dept` bigint                                                         NULL DEFAULT NULL COMMENT '创建部门',
-    `create_time` datetime(0)                                                    NULL DEFAULT NULL COMMENT '创建时间',
-    `update_user` bigint                                                         NULL DEFAULT NULL COMMENT '修改人',
-    `update_time` datetime(0)                                                    NULL DEFAULT NULL COMMENT '修改时间',
-    `status`      int                                                            NULL DEFAULT NULL COMMENT '状态',
-    `is_deleted`  int                                                            NULL DEFAULT 0 COMMENT '是否已删除',
-    PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB
-  CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_general_ci COMMENT = '用户表';
+
 
 -- ----------------------------
 -- Table structure for yilin_user_app
