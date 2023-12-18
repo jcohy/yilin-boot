@@ -2,11 +2,15 @@ package com.yilin.reactive.r2dbc.repository.support;
 
 import java.io.Serializable;
 
+import jakarta.annotation.Nonnull;
+
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations;
 import org.springframework.data.r2dbc.core.ReactiveDataAccessStrategy;
 import org.springframework.data.r2dbc.repository.support.R2dbcRepositoryFactoryBean;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.r2dbc.core.DatabaseClient;
 
 /**
@@ -30,8 +34,11 @@ public class YiLinR2dbcRepositoryFactoryBean<T extends Repository<S, ID>, S, ID 
 		super(repositoryInterface);
 	}
 
+
+	@Nonnull
 	@Override
-	protected RepositoryFactorySupport getFactoryInstance(R2dbcEntityOperations operations) {
+	protected RepositoryFactorySupport getFactoryInstance(@Nonnull R2dbcEntityOperations operations) {
+
 		return new YiLinR2dbcRepositoryFactory(operations);
 	}
 

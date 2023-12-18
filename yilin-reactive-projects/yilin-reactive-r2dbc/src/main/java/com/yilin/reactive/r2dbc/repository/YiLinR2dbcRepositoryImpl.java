@@ -1,7 +1,5 @@
 package com.yilin.reactive.r2dbc.repository;
 
-import com.yilin.reactive.r2dbc.annotations.LogicDelete;
-import com.yilin.reactive.r2dbc.annotations.TenantId;
 import org.reactivestreams.Publisher;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import reactor.core.publisher.Flux;
@@ -20,6 +18,8 @@ import org.springframework.data.util.Streamable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.yilin.reactive.persistent.annotations.LogicDelete;
+import com.yilin.reactive.persistent.annotations.TenantId;
 import com.yilin.reactive.persistent.enums.DeleteStatus;
 
 import java.lang.reflect.Field;
@@ -58,7 +58,7 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 						.getRequiredPersistentEntity(this.entity.getJavaType())
 						.getRequiredIdProperty());
 		this.delete = Arrays.stream(this.entity.getJavaType().getDeclaredFields())
-				.filter(field -> AnnotatedElementUtils.hasAnnotation(field,LogicDelete.class))
+				.filter(field -> AnnotatedElementUtils.hasAnnotation(field, LogicDelete.class))
 				.map(Field::getName)
 				.findAny();
 		this.tenantId = Arrays.stream(this.entity.getJavaType().getDeclaredFields())

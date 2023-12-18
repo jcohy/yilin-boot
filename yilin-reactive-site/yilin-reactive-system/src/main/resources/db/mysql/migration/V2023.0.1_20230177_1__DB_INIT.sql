@@ -222,10 +222,7 @@ CREATE TABLE sys_dict
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '字典表';
 
--- ----------------------------
--- Table structure for yilin_dict_biz
--- ----------------------------
-CREATE TABLE yilin_dict_biz
+CREATE TABLE sys_dict_biz
 (
     id         bigint                                                        NOT NULL COMMENT '主键',
     tenant_id  varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '租户ID',
@@ -242,10 +239,7 @@ CREATE TABLE yilin_dict_biz
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '业务字典表';
 
--- ----------------------------
--- Table structure for yilin_log
--- ----------------------------
-CREATE TABLE yilin_log
+CREATE TABLE sys_log
 (
     id           bigint                                                         NOT NULL COMMENT '编号',
     tenant_id    varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci   NULL DEFAULT '000000' COMMENT '租户ID',
@@ -270,15 +264,7 @@ CREATE TABLE yilin_log
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '接口日志表';
 
--- ----------------------------
--- Table structure for yilin_menu
--- ----------------------------
-
-
--- ----------------------------
--- Table structure for yilin_notice
--- ----------------------------
-CREATE TABLE yilin_notice
+CREATE TABLE sys_notice
 (
     id           bigint                                                         NOT NULL COMMENT '主键',
     tenant_id    varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci   NULL DEFAULT '000000' COMMENT '租户ID',
@@ -298,10 +284,7 @@ CREATE TABLE yilin_notice
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '通知公告表';
 
--- ----------------------------
--- Table structure for yilin_oss
--- ----------------------------
-CREATE TABLE yilin_oss
+CREATE TABLE sys_oss
 (
     id          bigint                                                        NOT NULL COMMENT '主键',
     tenant_id   varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '000000' COMMENT '租户ID',
@@ -326,10 +309,7 @@ CREATE TABLE yilin_oss
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '对象存储表';
 
--- ----------------------------
--- Table structure for yilin_param
--- ----------------------------
-CREATE TABLE yilin_param
+CREATE TABLE sys_param
 (
     id          bigint                                                        NOT NULL COMMENT '主键',
     param_name  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '参数名',
@@ -348,10 +328,7 @@ CREATE TABLE yilin_param
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '参数表';
 
--- ----------------------------
--- Table structure for yilin_region
--- ----------------------------
-CREATE TABLE yilin_region
+CREATE TABLE sys_region
 (
     code          varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '区划编号',
     parent_code   varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '父区划编号',
@@ -375,15 +352,7 @@ CREATE TABLE yilin_region
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '行政区划表';
 
--- ----------------------------
--- Table structure for yilin_role_menu
--- ----------------------------
-
-
--- ----------------------------
--- Table structure for yilin_role_scope
--- ----------------------------
-CREATE TABLE yilin_role_scope
+CREATE TABLE sys_role_scope
 (
     id             bigint NOT NULL COMMENT '主键',
     scope_category int    NULL DEFAULT NULL COMMENT '权限类型(1:数据权限、2:接口权限)',
@@ -394,10 +363,7 @@ CREATE TABLE yilin_role_scope
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '角色数据权限关联表';
 
--- ----------------------------
--- Table structure for yilin_scope_api
--- ----------------------------
-CREATE TABLE yilin_scope_api
+CREATE TABLE sys_scope_api
 (
     id            bigint                                                        NOT NULL COMMENT '主键',
     menu_id       bigint                                                        NULL DEFAULT NULL COMMENT '菜单主键',
@@ -418,10 +384,7 @@ CREATE TABLE yilin_scope_api
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '接口权限表';
 
--- ----------------------------
--- Table structure for yilin_scope_data
--- ----------------------------
-CREATE TABLE yilin_scope_data
+CREATE TABLE sys_scope_data
 (
     id            bigint                                                         NOT NULL COMMENT '主键',
     menu_id       bigint                                                         NULL DEFAULT NULL COMMENT '菜单主键',
@@ -445,10 +408,7 @@ CREATE TABLE yilin_scope_data
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '数据权限表';
 
--- ----------------------------
--- Table structure for yilin_sms
--- ----------------------------
-CREATE TABLE yilin_sms
+CREATE TABLE sys_sms
 (
     id          bigint                                                        NOT NULL COMMENT '主键',
     tenant_id   varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '000000' COMMENT '租户ID',
@@ -472,10 +432,7 @@ CREATE TABLE yilin_sms
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '短信配置表';
 
--- ----------------------------
--- Table structure for yilin_user_app
--- ----------------------------
-CREATE TABLE yilin_user_app
+CREATE TABLE auth_user_app
 (
     id       bigint                                                        NOT NULL COMMENT '主键',
     user_id  bigint                                                        NULL DEFAULT 0 COMMENT '用户ID',
@@ -485,15 +442,7 @@ CREATE TABLE yilin_user_app
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '用户平台拓展表';
 
--- ----------------------------
--- Table structure for yilin_user_dept
--- ----------------------------
-
-
--- ----------------------------
--- Table structure for yilin_user_oauth
--- ----------------------------
-CREATE TABLE yilin_user_oauth
+CREATE TABLE auth_user_oauth
 (
     id        bigint                                                         NOT NULL COMMENT '主键',
     tenant_id varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci   NULL DEFAULT NULL COMMENT '租户ID',
@@ -514,10 +463,7 @@ CREATE TABLE yilin_user_oauth
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '用户第三方认证表';
 
--- ----------------------------
--- Table structure for yilin_user_other
--- ----------------------------
-CREATE TABLE yilin_user_other
+CREATE TABLE auth_user_other
 (
     id       bigint                                                        NOT NULL COMMENT '主键',
     user_id  bigint                                                        NULL DEFAULT 0 COMMENT '用户ID',
@@ -527,10 +473,7 @@ CREATE TABLE yilin_user_other
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '用户平台拓展表';
 
--- ----------------------------
--- Table structure for yilin_user_web
--- ----------------------------
-CREATE TABLE yilin_user_web
+CREATE TABLE auth_user_web
 (
     id       bigint                                                        NOT NULL COMMENT '主键',
     user_id  bigint                                                        NULL DEFAULT 0 COMMENT '用户ID',
@@ -539,5 +482,3 @@ CREATE TABLE yilin_user_web
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '用户平台拓展表';
-
-SET FOREIGN_KEY_CHECKS = 1;

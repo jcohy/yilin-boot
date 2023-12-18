@@ -16,8 +16,8 @@ public interface InsertService<T,ID> {
 
 	/**
 	 * 添加一条数据.
-	 * @param domain
-	 * @return
+	 * @param domain 实体
+	 * @return /
 	 */
 	Publisher<T> insert(T domain);
 }

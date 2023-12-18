@@ -2,11 +2,9 @@ package com.yilin.reactive.r2dbc.domain;
 
 import java.util.Objects;
 
-import com.yilin.reactive.r2dbc.annotations.LogicDelete;
-import com.yilin.reactive.r2dbc.annotations.TenantId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
 
+import com.yilin.reactive.persistent.annotations.TenantId;
 import com.yilin.reactive.persistent.enums.DeleteStatus;
 import com.yilin.reactive.persistent.enums.ServiceStatus;
 
@@ -29,7 +27,6 @@ public class Person {
 
 	Long version;
 
-	@LogicDelete
 	Integer deleted;
 
 	Integer status;

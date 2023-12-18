@@ -11,9 +11,9 @@ import org.springframework.data.relational.core.mapping.RelationalPersistentEnti
 import org.springframework.data.relational.core.mapping.RelationalPersistentProperty;
 import org.springframework.data.repository.core.RepositoryMetadata;
 
-import com.yilin.reactive.r2dbc.annotations.LogicDelete;
-import com.yilin.reactive.r2dbc.annotations.Status;
-import com.yilin.reactive.r2dbc.annotations.TenantId;
+import com.yilin.reactive.persistent.annotations.LogicDelete;
+import com.yilin.reactive.persistent.annotations.Status;
+import com.yilin.reactive.persistent.annotations.TenantId;
 
 /**
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>

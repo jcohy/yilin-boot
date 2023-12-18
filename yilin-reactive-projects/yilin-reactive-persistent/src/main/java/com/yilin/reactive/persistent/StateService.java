@@ -21,6 +21,6 @@ public interface StateService<T, ID> {
 	 * @param status state
 	 * @return /
 	 */
-	Publisher<Boolean> changeState(List<Long> ids, Integer status);
+	Publisher<Boolean> state(List<Long> ids, Integer status);
 
 }
