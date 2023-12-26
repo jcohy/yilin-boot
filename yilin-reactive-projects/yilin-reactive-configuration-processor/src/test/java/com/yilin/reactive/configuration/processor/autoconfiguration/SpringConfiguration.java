@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
  * <p> Description:
  *
  * @author jiac
- * @version 2023.0.1 2023/7/11:11:36
+ * @version 2023.0.1 2023/7/11 11:36
  * @since 2023.0.1
  */
 @Configuration

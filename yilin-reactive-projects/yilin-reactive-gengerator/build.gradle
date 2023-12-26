@@ -1,0 +1,11 @@
+plugins {
+	id "com.yilin.module"
+}
+
+description = "yilin Boot Common Persistent"
+
+dependencies {
+	api ("com.baomidou:mybatis-plus-generator")
+	api ("org.apache.velocity:velocity")
+}
+

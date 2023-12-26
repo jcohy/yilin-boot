@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import jakarta.annotation.Nonnull;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations;
 import org.springframework.data.r2dbc.core.ReactiveDataAccessStrategy;
 import org.springframework.data.r2dbc.repository.support.R2dbcRepositoryFactoryBean;
@@ -35,12 +36,14 @@ public class YiLinR2dbcRepositoryFactoryBean<T extends Repository<S, ID>, S, ID 
 	}
 
 
-	@Nonnull
 	@Override
 	protected RepositoryFactorySupport getFactoryInstance(@Nonnull R2dbcEntityOperations operations) {
-
 		return new YiLinR2dbcRepositoryFactory(operations);
 	}
 
 
+	@Override
+	public void setCustomImplementation(Object customImplementation) {
+		super.setCustomImplementation(customImplementation);
+	}
 }

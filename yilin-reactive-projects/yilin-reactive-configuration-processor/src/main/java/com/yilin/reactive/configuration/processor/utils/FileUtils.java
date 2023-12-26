@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  * Description:
  *
  * @author jiac
- * @version 2023.0.1 2023/7/7:10:00
+ * @version 2023.0.1 2023/7/7 10:00
  * @since 2023.0.1
  */
 public class FileUtils {

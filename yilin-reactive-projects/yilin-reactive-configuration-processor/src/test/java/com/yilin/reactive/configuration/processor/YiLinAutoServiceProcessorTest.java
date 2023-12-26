@@ -25,7 +25,7 @@ import com.yilin.reactive.test.TestCompiler;
  * Description:
  *
  * @author jiac
- * @version 2023.0.1 2023/7/4:17:46
+ * @version 2023.0.1 2023/7/4 17:46
  * @since 2023.0.1
  */
 class YiLinAutoServiceProcessorTest {

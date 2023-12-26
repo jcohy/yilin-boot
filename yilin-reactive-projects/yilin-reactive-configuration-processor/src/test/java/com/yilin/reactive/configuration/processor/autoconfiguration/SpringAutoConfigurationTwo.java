@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
  * Description:
  *
  * @author jiac
- * @version 2023.0.1 2023/7/7:10:03
+ * @version 2023.0.1 2023/7/7 10:03
  * @since 2023.0.1
  */
 @AutoConfiguration

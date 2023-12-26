@@ -17,7 +17,7 @@ import com.yilin.reactive.configuration.processor.utils.Constants;
  * Description:
  *
  * @author jiac
- * @version 2023.0.1 2023/7/4:17:49
+ * @version 2023.0.1 2023/7/4 17:49
  * @since 2023.0.1
  */
 @SupportedAnnotationTypes({ "com.yilin.reactive.configuration.processor.annotations.YiLinAutoService" })

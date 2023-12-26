@@ -28,6 +28,8 @@ dependencies {
 		)
 		api("com.google.code.gson:gson:2.10.1")
 		api("org.redisson:redisson-spring-boot-starter:3.18.1")
+
+		api ("org.apache.velocity:velocity:1.7")
 	}
 
 }

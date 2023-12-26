@@ -30,7 +30,7 @@ import com.yilin.reactive.configuration.processor.utils.Elements;
  *     <li>@Repository </li>
  * </ul>
  * @author jiac
- * @version 2023.0.1 2023/7/3:23:20
+ * @version 2023.0.1 2023/7/3 23:20
  * @since 2023.0.1
  */
 @SupportedAnnotationTypes({

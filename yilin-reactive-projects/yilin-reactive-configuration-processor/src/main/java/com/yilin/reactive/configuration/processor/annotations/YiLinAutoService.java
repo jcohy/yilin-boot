@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
  * </ul>
  *
  * @author jiac
- * @version 2023.0.1 2023/7/3:23:18
+ * @version 2023.0.1 2023/7/3 23:18
  * @since 2023.0.1
  */
 @Documented

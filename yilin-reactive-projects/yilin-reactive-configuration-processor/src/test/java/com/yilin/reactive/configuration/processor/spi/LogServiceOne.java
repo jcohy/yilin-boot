@@ -10,7 +10,7 @@ import com.yilin.reactive.configuration.processor.annotations.YiLinAutoService;
  * Description:
  *
  * @author jiac
- * @version 2023.0.1 2023/7/7:09:44
+ * @version 2023.0.1 2023/7/7 09:44
  * @since 2023.0.1
  */
 @YiLinAutoService(value = LogService.class, name = "LogServiceOne")

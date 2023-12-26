@@ -4,7 +4,7 @@
  * <p> Description:
  *
  * @author jiac
- * @version 2023.0.1 2023/7/20:14:58
+ * @version 2023.0.1 2023/7/20 14:58
  * @since 2023.0.1
  */
 package com.yilin.reactive.commons;
