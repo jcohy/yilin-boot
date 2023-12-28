@@ -12,8 +12,8 @@ import java.util.function.Consumer;
  *
  * <p> Description: 同步读取.
  *
- * @author jiac
- * @version 2023.0.1 2023/7/21:10:36
+ * @author jcohy
+ * @version 2023.0.1 2023/7/21 10:36
  * @since 2023.0.1
  */
 public class SynchronousFilesReader implements FilesReader {

@@ -17,8 +17,8 @@ import org.springframework.util.Assert;
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  * <p> Description:Hash 类型的获取与设置
  *
- * @author jiac
- * @version 2023.0.1 2023/8/29:09:42
+ * @author jcohy
+ * @version 2023.0.1 2023/8/29 09:42
  * @since 2023.0.1
  */
 public class RedisHashOperations<K, V> extends RedisGenericOperations<V> {

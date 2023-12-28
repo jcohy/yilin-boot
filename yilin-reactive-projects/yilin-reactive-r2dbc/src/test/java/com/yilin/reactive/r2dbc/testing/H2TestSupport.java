@@ -12,8 +12,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
  *
  * <p> Description:
  *
- * @author jiac
- * @version 2023.0.1 2023/7/27:10:38
+ * @author jcohy
+ * @version 2023.0.1 2023/7/27 10:38
  * @since 2023.0.1
  */
 public class H2TestSupport {

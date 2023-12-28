@@ -11,8 +11,8 @@ import com.yilin.reactive.r2dbc.testing.H2TestSupport;
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  * <p> Description:
  *
- * @author jiac
- * @version 2023.0.1 2023/7/28:15:37
+ * @author jcohy
+ * @version 2023.0.1 2023/7/28 15:37
  * @since 2023.0.1
  */
 public class H2YiLinYiLinR2DbcRepositoryRepositoryIntegrationTests extends AbstractYiLinYiLinR2DbcRepositoryRepositoryIntegrationTests {

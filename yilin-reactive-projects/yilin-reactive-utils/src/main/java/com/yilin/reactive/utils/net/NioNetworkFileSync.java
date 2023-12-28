@@ -17,8 +17,8 @@ import java.util.function.Consumer;
  *
  * <p> Description:
  *
- * @author jiac
- * @version 2023.0.1 2023/7/21:11:35
+ * @author jcohy
+ * @version 2023.0.1 2023/7/21 11:35
  * @since 2023.0.1
  */
 public class NioNetworkFileSync implements NetworkFileSync {

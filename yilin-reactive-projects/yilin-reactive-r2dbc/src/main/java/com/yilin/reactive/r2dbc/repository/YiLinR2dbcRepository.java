@@ -13,8 +13,8 @@ import org.springframework.data.repository.NoRepositoryBean;
  *
  * <p> Description:
  *
- * @author jiac
- * @version 2023.0.1 2023/7/27:10:47
+ * @author jcohy
+ * @version 2023.0.1 2023/7/27 10:47
  * @since 2023.0.1
  */
 @NoRepositoryBean

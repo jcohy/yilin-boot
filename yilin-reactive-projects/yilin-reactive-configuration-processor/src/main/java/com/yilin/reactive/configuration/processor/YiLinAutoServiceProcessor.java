@@ -25,7 +25,7 @@ import com.yilin.reactive.configuration.processor.value.ValueExtractor;
  * Description: 处理 @YiLinAutoService 注解，并将其作为 {@link java.util.ServiceLoader#load(Class)}
  * 服务类文件.
  *
- * @author jiac
+ * @author jcohy
  * @version 2023.0.1 2023/7/3 23:20
  * @since 2023.0.1
  */

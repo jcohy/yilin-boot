@@ -7,6 +7,7 @@ description = "System Core Module"
 
 dependencies {
 	api("org.springframework.boot:spring-boot-starter-webflux")
+//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	api("org.flywaydb:flyway-core")
 	implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
 	implementation("io.asyncer:r2dbc-mysql")

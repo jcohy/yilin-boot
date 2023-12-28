@@ -57,7 +57,7 @@
  * <p> Description:
  *
  * @author  jiac
- * @version 2023.0.1 ${DATE}:${TIME}
+ * @version 2023.0.1 ${DATE} ${TIME}
  * @since  2023.0.1
  */
 ----

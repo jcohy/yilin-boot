@@ -16,8 +16,8 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  * <p> Description:
  *
- * @author jiac
- * @version 2023.0.1 2023/8/11:14:33
+ * @author jcohy
+ * @version 2023.0.1 2023/8/11 14:33
  * @since 2023.0.1
  */
 @AutoConfiguration(before = ReactiveRedisTemplate.class)

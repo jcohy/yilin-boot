@@ -7,8 +7,8 @@ import java.io.File;
  *
  * <p> Description:
  *
- * @author jiac
- * @version 2023.0.1 2023/7/20:15:57
+ * @author jcohy
+ * @version 2023.0.1 2023/7/20 15:57
  * @since 2023.0.1
  */
 public class SettingsFile {

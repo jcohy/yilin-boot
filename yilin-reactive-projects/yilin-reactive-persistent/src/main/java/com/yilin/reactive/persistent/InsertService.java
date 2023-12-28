@@ -8,9 +8,9 @@ import org.reactivestreams.Publisher;
  * <p>
  * Copyright © 2023 <a href="https://www.jcohy.com" target= "_blank">https://www.jcohy.com</a>
  *
- * @author jiac
- * @version 1.0.0 2023/7/13 14:49
- * @since 1.0.0
+ * @author jcohy
+ * @version 2023.0.1 2023/7/13 14:49
+ * @since 2023.0.1
  */
 public interface InsertService<T,ID> {
 

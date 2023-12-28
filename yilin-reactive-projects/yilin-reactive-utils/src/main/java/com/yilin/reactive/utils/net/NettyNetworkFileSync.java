@@ -27,8 +27,8 @@ import org.slf4j.LoggerFactory;
  *
  * <p> Description:
  *
- * @author jiac
- * @version 2023.0.1 2023/7/21:11:36
+ * @author jcohy
+ * @version 2023.0.1 2023/7/21 11:36
  * @since 2023.0.1
  */
 public class NettyNetworkFileSync implements NetworkFileSync {

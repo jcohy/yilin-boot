@@ -23,8 +23,8 @@ import com.yilin.reactive.starter.redis.core.RedisStringOperations;
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  * <p> Description: key 为 String，尽量使用 redis 命令作为方法名.
  *
- * @author jiac
- * @version 2023.0.1 2023/8/15:17:46
+ * @author jcohy
+ * @version 2023.0.1 2023/8/15 17:46
  * @since 2023.0.1
  */
 public class ReactiveStringKeyRedisTemplate<K, V> {

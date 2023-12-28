@@ -12,8 +12,8 @@ import org.springframework.data.redis.serializer.SerializationException;
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  * <p> Description:
  *
- * @author jiac
- * @version 2023.0.1 2023/8/11:14:59
+ * @author jcohy
+ * @version 2023.0.1 2023/8/11 14:59
  * @since 2023.0.1
  */
 public class FastJson2RedisSerializer<T> implements RedisSerializer<T> {

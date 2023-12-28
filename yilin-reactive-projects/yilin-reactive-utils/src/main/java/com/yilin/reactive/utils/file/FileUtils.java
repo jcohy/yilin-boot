@@ -26,9 +26,9 @@ import java.util.stream.Collectors;
  * Copyright © 2023
  * <a href="https://www.jcohy.com" target= "_blank">https://www.jcohy.com</a>
  *
- * @author jiac
- * @version 1.0.0 2023/4/25 22:55
- * @since 1.0.0
+ * @author jcohy
+ * @version 2023.0.1 2023/4/25 22:55
+ * @since 2023.0.1
  */
 public class FileUtils {
 

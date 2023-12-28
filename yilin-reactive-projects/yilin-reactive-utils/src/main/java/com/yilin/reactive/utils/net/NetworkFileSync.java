@@ -7,8 +7,8 @@ import java.util.function.Consumer;
  *
  * <p> Description: 网络读取.
  *
- * @author jiac
- * @version 2023.0.1 2023/7/21:11:30
+ * @author jcohy
+ * @version 2023.0.1 2023/7/21 11:30
  * @since 2023.0.1
  */
 public interface NetworkFileSync {

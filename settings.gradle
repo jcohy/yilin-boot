@@ -1,18 +1,22 @@
 rootProject.name = "yilin-reactive"
 
-include 'yilin-reactive-projects:yilin-reactive-commons'
-include 'yilin-reactive-projects:yilin-reactive-configuration-processor'
-include 'yilin-reactive-projects:yilin-reactive-dependencies'
-include 'yilin-reactive-projects:yilin-reactive-utils'
-include 'yilin-reactive-projects:yilin-reactive-r2dbc'
-include 'yilin-reactive-projects:yilin-reactive-persistent'
+//include 'yilin-reactive-projects:yilin-reactive-commons'
+//include 'yilin-reactive-projects:yilin-reactive-configuration-processor'
+//include 'yilin-reactive-projects:yilin-reactive-dependencies'
+//include 'yilin-reactive-projects:yilin-reactive-utils'
+//include 'yilin-reactive-projects:yilin-reactive-r2dbc'
+//include 'yilin-reactive-projects:yilin-reactive-persistent'
+
+file("${rootDir}/yilin-reactive-projects").eachDirMatch(~/yilin-reactive.*/) {
+	include ":yilin-reactive-projects:${it.name}"
+}
 
 file("${rootDir}/yilin-reactive-starters").eachDirMatch(~/yilin-reactive-starter.*/) {
-	include "yilin-reactive-starters:${it.name}"
+	include ":yilin-reactive-starters:${it.name}"
 }
 
 file("${rootDir}/yilin-reactive-site").eachDirMatch(~/yilin-reactive.*/) {
-	include "yilin-reactive-site:${it.name}"
+	include ":yilin-reactive-site:${it.name}"
 }
 
 include 'yilin-reactive-tests'

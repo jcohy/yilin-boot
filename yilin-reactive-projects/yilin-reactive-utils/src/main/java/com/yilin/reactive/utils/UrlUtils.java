@@ -13,9 +13,9 @@ import java.nio.charset.StandardCharsets;
  * <a href="https://www.jcohy.com" target= "_blank">https://www.jcohy.com</a>
  * </p>
  *
- * @author jiac
- * @version 1.0.0 2022/12/20 13:10
- * @since 1.0.0
+ * @author jcohy
+ * @version 2023.0.1 2022/12/20 13:10
+ * @since 2023.0.1
  */
 public class UrlUtils {
 

@@ -17,8 +17,8 @@ import com.yilin.reactive.starter.redis.lock.RedisLockConfigurer;
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  * <p> Description: 联锁
  *
- * @author jiac
- * @version 2023.0.1 2023/9/6:10:01
+ * @author jcohy
+ * @version 2023.0.1 2023/9/6 10:01
  * @since 2023.0.1
  */
 public class RedisMultiLockOperationsSupport extends RedisGenericLockOperationsSupport implements RedisMultiLockOperations {

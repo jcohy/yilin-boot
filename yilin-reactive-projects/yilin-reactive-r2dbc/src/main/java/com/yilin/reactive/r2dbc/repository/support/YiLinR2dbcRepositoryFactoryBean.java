@@ -19,8 +19,8 @@ import org.springframework.r2dbc.core.DatabaseClient;
  *
  * <p> Description:
  *
- * @author jiac
- * @version 2023.0.1 2023/7/31:16:46
+ * @author jcohy
+ * @version 2023.0.1 2023/7/31 16:46
  * @since 2023.0.1
  */
 public class YiLinR2dbcRepositoryFactoryBean<T extends Repository<S, ID>, S, ID extends Serializable> extends R2dbcRepositoryFactoryBean<T, S, ID> {

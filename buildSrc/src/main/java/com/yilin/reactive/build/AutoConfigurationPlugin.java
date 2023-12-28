@@ -12,7 +12,7 @@ import org.gradle.api.plugins.JavaPlugin;
  *
  * <p> Description: 引入自动配置处理器
  *
- * @author jiac
+ * @author jcohy
  * @version 2023.0.1 2023/7/3 22:36
  * @since 2023.0.1
  */

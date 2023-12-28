@@ -9,8 +9,8 @@ import org.reactivestreams.Publisher;
  *
  * <p> Description:
  *
- * @author jiac
- * @version 2023.0.1 2023/7/20:14:50
+ * @author jcohy
+ * @version 2023.0.1 2023/7/20 14:50
  * @since 2023.0.1
  */
 public interface StateService<T, ID> {

@@ -17,7 +17,7 @@ import org.gradle.api.plugins.PluginContainer;
  *
  * <p> Description: 为所有的项目模块添加约定
  *
- * @author jiac
+ * @author jcohy
  * @version 2023.0.1 2023/7/3 22:36
  * @since 2023.0.1
  */

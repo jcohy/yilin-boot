@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
  * <li>使用这个注解的类必须要实现 value 参数定义的接口 { @code value()}
  * </ul>
  *
- * @author jiac
+ * @author jcohy
  * @version 2023.0.1 2023/7/3 23:18
  * @since 2023.0.1
  */

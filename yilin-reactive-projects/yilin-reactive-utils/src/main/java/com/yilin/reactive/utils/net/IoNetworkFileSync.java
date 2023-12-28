@@ -10,8 +10,8 @@ import java.util.function.Consumer;
  *
  * <p> Description:
  *
- * @author jiac
- * @version 2023.0.1 2023/7/21:11:32
+ * @author jcohy
+ * @version 2023.0.1 2023/7/21 11:32
  * @since 2023.0.1
  */
 public class IoNetworkFileSync implements NetworkFileSync {

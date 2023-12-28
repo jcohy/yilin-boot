@@ -8,8 +8,8 @@ import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
  *
  * <p> Description: R2DBC 集成测试基类.
  *
- * @author jiac
- * @version 2023.0.1 2023/7/27:10:06
+ * @author jcohy
+ * @version 2023.0.1 2023/7/27 10:06
  * @since 2023.0.1
  */
 @DataR2dbcTest
