@@ -21,8 +21,8 @@ import com.yilin.reactive.starter.redis.serializer.StringRedisSerializer;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/8/10 17:13
- * @since 2023.0.1
+ * @version 2024.0.1 2023/8/10 17:13
+ * @since 2024.0.1
  */
 @AutoConfiguration(before = RedisReactiveAutoConfiguration.class)
 @EnableConfigurationProperties(YiLinRedisProperties.class)

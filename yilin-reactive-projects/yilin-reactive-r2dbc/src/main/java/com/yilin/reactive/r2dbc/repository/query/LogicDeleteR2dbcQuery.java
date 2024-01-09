@@ -15,8 +15,8 @@ import org.springframework.r2dbc.core.PreparedOperation;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/8/2 17:00
- * @since 2023.0.1
+ * @version 2024.0.1 2023/8/2 17:00
+ * @since 2024.0.1
  */
 public class LogicDeleteR2dbcQuery extends AbstractR2dbcQuery {
 

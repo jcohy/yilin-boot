@@ -14,8 +14,8 @@ import java.nio.charset.StandardCharsets;
  * </p>
  *
  * @author jcohy
- * @version 2023.0.1 2022/12/20 13:10
- * @since 2023.0.1
+ * @version 2024.0.1 2022/12/20 13:10
+ * @since 2024.0.1
  */
 public class UrlUtils {
 

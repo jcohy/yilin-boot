@@ -6,8 +6,8 @@ package com.yilin.reactive.persistent;
  * <p> Description: 基础的 CURD.
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/20 14:51
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/20 14:51
+ * @since 2024.0.1
  */
 public interface CrudService<T, ID>
 		extends InsertService<T, ID>, UpdateService<T, ID>, DeleteService<ID>, SelectService<T, ID> {

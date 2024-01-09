@@ -26,8 +26,8 @@ import com.yilin.reactive.configuration.processor.value.ValueExtractor;
  * 服务类文件.
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/3 23:20
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/3 23:20
+ * @since 2024.0.1
  */
 @SupportedAnnotationTypes({ "com.yilin.reactive.configuration.processor.annotations.YiLinAutoService" })
 public class YiLinAutoServiceProcessor extends AbstractConfigureAnnotationProcessor {

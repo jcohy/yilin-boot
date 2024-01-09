@@ -13,8 +13,8 @@ import org.gradle.api.plugins.JavaPlugin;
  * <p> Description: 引入自动配置处理器
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/3 22:36
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/3 22:36
+ * @since 2024.0.1
  */
 public class AutoConfigurationPlugin implements Plugin<Project> {
 

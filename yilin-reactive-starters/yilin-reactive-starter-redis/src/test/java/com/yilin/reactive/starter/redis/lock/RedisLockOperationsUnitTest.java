@@ -31,8 +31,8 @@ import com.yilin.reactive.starter.redis.core.RedisLockOperations;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/9/6 14:40
- * @since 2023.0.1
+ * @version 2024.0.1 2023/9/6 14:40
+ * @since 2024.0.1
  */
 public class RedisLockOperationsUnitTest extends AbstractRedisReactiveTestSupport {
 

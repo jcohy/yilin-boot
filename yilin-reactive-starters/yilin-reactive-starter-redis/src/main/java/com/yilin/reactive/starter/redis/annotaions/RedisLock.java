@@ -14,8 +14,8 @@ import com.yilin.reactive.starter.redis.lock.LockType;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/9/1 16:51
- * @since 2023.0.1
+ * @version 2024.0.1 2023/9/1 16:51
+ * @since 2024.0.1
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

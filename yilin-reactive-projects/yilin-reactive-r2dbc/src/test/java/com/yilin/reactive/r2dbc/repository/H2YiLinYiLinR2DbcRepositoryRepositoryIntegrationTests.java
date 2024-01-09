@@ -12,8 +12,8 @@ import com.yilin.reactive.r2dbc.testing.H2TestSupport;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/28 15:37
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/28 15:37
+ * @since 2024.0.1
  */
 public class H2YiLinYiLinR2DbcRepositoryRepositoryIntegrationTests extends AbstractYiLinYiLinR2DbcRepositoryRepositoryIntegrationTests {
 

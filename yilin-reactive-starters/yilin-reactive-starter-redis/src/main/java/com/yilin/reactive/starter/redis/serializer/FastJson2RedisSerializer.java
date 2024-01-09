@@ -13,8 +13,8 @@ import org.springframework.data.redis.serializer.SerializationException;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/8/11 14:59
- * @since 2023.0.1
+ * @version 2024.0.1 2023/8/11 14:59
+ * @since 2024.0.1
  */
 public class FastJson2RedisSerializer<T> implements RedisSerializer<T> {
 

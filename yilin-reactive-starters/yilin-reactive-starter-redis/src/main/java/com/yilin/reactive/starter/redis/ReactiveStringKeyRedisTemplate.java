@@ -24,8 +24,8 @@ import com.yilin.reactive.starter.redis.core.RedisStringOperations;
  * <p> Description: key 为 String，尽量使用 redis 命令作为方法名.
  *
  * @author jcohy
- * @version 2023.0.1 2023/8/15 17:46
- * @since 2023.0.1
+ * @version 2024.0.1 2023/8/15 17:46
+ * @since 2024.0.1
  */
 public class ReactiveStringKeyRedisTemplate<K, V> {
 

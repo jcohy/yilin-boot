@@ -28,8 +28,8 @@ import org.springframework.data.redis.domain.geo.GeoShape;
  * <p> Description:Geo 类型的获取与设置
  *
  * @author jcohy
- * @version 2023.0.1 2023/8/29 09:40
- * @since 2023.0.1
+ * @version 2024.0.1 2023/8/29 09:40
+ * @since 2024.0.1
  */
 @SuppressWarnings({ "varargs", "unchecked" })
 public class RedisGeoOperations<V> extends RedisGenericOperations<V> {

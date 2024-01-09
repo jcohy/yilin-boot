@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * <p> Description:
  *
  * @author  jiac
- * @version 2023.0.1 2023/12/26 14:20
+ * @version 2024.0.1 2023/12/26 14:20
  * @since  2023.0.1
  */
 @SpringBootApplication

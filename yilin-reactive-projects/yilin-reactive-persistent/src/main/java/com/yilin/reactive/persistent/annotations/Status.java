@@ -12,8 +12,8 @@ import java.lang.annotation.Target;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/12/18 17:06
- * @since 2023.0.1
+ * @version 2024.0.1 2023/12/18 17:06
+ * @since 2024.0.1
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

@@ -17,8 +17,8 @@ import java.util.*;
  * <a href="https://www.jcohy.com" target= "_blank">https://www.jcohy.com</a>
  *
  * @author jcohy
- * @version 2023.0.1 2022/12/ 10:34
- * @since 2023.0.1
+ * @version 2024.0.1 2022/12/ 10:34
+ * @since 2024.0.1
  */
 public class ClassPathUtils {
 

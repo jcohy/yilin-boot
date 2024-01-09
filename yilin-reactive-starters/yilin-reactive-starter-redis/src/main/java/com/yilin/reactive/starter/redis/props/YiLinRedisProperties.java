@@ -7,8 +7,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/8/10 17:14
- * @since 2023.0.1
+ * @version 2024.0.1 2023/8/10 17:14
+ * @since 2024.0.1
  */
 @ConfigurationProperties("yilin.redis")
 public class YiLinRedisProperties {

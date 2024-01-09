@@ -10,8 +10,8 @@ import org.redisson.api.RSemaphoreReactive;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/9/5 17:05
- * @since 2023.0.1
+ * @version 2024.0.1 2023/9/5 17:05
+ * @since 2024.0.1
  */
 public interface RedisConcurrentLockOperations {
 

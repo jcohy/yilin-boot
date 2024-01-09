@@ -21,8 +21,8 @@ import java.lang.annotation.Target;
  * </ul>
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/3 23:18
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/3 23:18
+ * @since 2024.0.1
  */
 @Documented
 @Retention(java.lang.annotation.RetentionPolicy.SOURCE)

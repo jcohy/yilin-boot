@@ -16,8 +16,8 @@ import com.yilin.reactive.starter.redis.lock.RedisLockConfigurer;
  * <p> Description: Redisson 基本锁操作.
  *
  * @author jcohy
- * @version 2023.0.1 2023/9/4 16:34
- * @since 2023.0.1
+ * @version 2024.0.1 2023/9/4 16:34
+ * @since 2024.0.1
  */
 public class RedisGenericLockOperationsSupport implements RedisGenericLockOperations {
 

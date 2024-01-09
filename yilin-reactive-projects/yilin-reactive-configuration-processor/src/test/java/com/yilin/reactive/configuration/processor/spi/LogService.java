@@ -8,8 +8,8 @@ package com.yilin.reactive.configuration.processor.spi;
  * Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/7 09:44
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/7 09:44
+ * @since 2024.0.1
  */
 public interface LogService {
 

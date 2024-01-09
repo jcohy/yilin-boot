@@ -18,8 +18,8 @@ import com.yilin.reactive.starter.redis.lock.RedisLockConfigurer;
  * <p> Description: 联锁
  *
  * @author jcohy
- * @version 2023.0.1 2023/9/6 10:01
- * @since 2023.0.1
+ * @version 2024.0.1 2023/9/6 10:01
+ * @since 2024.0.1
  */
 public class RedisMultiLockOperationsSupport extends RedisGenericLockOperationsSupport implements RedisMultiLockOperations {
 

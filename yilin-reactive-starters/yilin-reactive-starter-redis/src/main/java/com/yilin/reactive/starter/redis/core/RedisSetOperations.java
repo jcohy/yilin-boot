@@ -15,8 +15,8 @@ import org.springframework.data.redis.core.ScanOptions;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/8/29 09:49
- * @since 2023.0.1
+ * @version 2024.0.1 2023/8/29 09:49
+ * @since 2024.0.1
  */
 @SuppressWarnings({ "varargs", "unchecked" })
 public class RedisSetOperations<V> extends RedisGenericOperations<V> {

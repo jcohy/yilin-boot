@@ -17,8 +17,8 @@ import com.yilin.reactive.r2dbc.repository.YiLinR2dbcRepositoryImpl;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/31 16:50
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/31 16:50
+ * @since 2024.0.1
  */
 public class YiLinR2dbcRepositoryFactory extends R2dbcRepositoryFactory {
 

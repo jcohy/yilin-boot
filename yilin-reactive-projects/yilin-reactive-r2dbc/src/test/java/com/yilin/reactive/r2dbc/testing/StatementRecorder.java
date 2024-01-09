@@ -33,8 +33,8 @@ import org.springframework.r2dbc.core.Parameter;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/8/9 18:47
- * @since 2023.0.1
+ * @version 2024.0.1 2023/8/9 18:47
+ * @since 2024.0.1
  */
 @SuppressWarnings("deprecation")
 public class StatementRecorder implements ConnectionFactory {

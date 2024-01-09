@@ -26,8 +26,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/28 15:22
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/28 15:22
+ * @since 2024.0.1
  */
 @EnableR2dbcRepositories(considerNestedRepositories = true, basePackages = { "com.yilin.reactive.r2dbc" },
 		repositoryFactoryBeanClass = YiLinR2dbcRepositoryFactoryBean.class)

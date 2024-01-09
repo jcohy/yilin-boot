@@ -26,8 +26,8 @@ import org.springframework.test.context.DynamicPropertySource;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/8/18 16:03
- * @since 2023.0.1
+ * @version 2024.0.1 2023/8/18 16:03
+ * @since 2024.0.1
  */
 
 public class ReactiveStringKeyRedisTemplateTest extends AbstractRedisReactiveTestSupport {

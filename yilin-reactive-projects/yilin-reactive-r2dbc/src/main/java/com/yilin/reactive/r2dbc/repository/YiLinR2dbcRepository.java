@@ -14,8 +14,8 @@ import org.springframework.data.repository.NoRepositoryBean;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/27 10:47
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/27 10:47
+ * @since 2024.0.1
  */
 @NoRepositoryBean
 public interface YiLinR2dbcRepository<T, ID> extends R2dbcRepository<T, ID> {

@@ -13,8 +13,8 @@ import com.yilin.reactive.starter.redis.lock.RedisLockConfigurer;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/9/5 17:03
- * @since 2023.0.1
+ * @version 2024.0.1 2023/9/5 17:03
+ * @since 2024.0.1
  */
 public interface RedisMultiLockOperations {
 

@@ -18,8 +18,8 @@ import java.nio.charset.StandardCharsets;
  * <a href="https://www.jcohy.com" target= "_blank">https://www.jcohy.com</a>
  *
  * @author jcohy
- * @version 2023.0.1 2022/12/29 19:01
- * @since 2023.0.1
+ * @version 2024.0.1 2022/12/29 19:01
+ * @since 2024.0.1
  */
 public class ClassPathResource implements Comparable<ClassPathResource> {
 

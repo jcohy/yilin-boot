@@ -10,8 +10,8 @@ import java.util.function.Consumer;
  * <p> Description: 文件读取接口.
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/21 10:35
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/21 10:35
+ * @since 2024.0.1
  */
 public interface FilesReader {
 	void start(File source, Consumer<byte[]> handler) throws IOException;

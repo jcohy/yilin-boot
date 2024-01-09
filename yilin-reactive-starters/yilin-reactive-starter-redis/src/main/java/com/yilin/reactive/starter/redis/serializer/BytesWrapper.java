@@ -5,8 +5,8 @@ package com.yilin.reactive.starter.redis.serializer;
  * <p> Description: redis 序列化辅助类.单纯的泛型无法定义通用schema，原因是无法通过泛型 T 得到 Class.
  *
  * @author jcohy
- * @version 2023.0.1 2023/8/11 14:40
- * @since 2023.0.1
+ * @version 2024.0.1 2023/8/11 14:40
+ * @since 2024.0.1
  */
 public class BytesWrapper<T> {
 

@@ -18,8 +18,8 @@ import org.springframework.data.redis.core.ReactiveRedisTemplate;
  * <p> Description: List 命令操作
  *
  * @author jcohy
- * @version 2023.0.1 2023/8/29 09:38
- * @since 2023.0.1
+ * @version 2024.0.1 2023/8/29 09:38
+ * @since 2024.0.1
  */
 @SuppressWarnings({ "varargs", "unchecked" })
 public class RedisListOperations<V> extends RedisGenericOperations<V> {

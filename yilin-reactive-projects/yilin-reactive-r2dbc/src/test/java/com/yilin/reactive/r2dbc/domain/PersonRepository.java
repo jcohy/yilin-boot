@@ -7,8 +7,8 @@ import com.yilin.reactive.r2dbc.repository.YiLinR2dbcRepository;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/8/9 16:52
- * @since 2023.0.1
+ * @version 2024.0.1 2023/8/9 16:52
+ * @since 2024.0.1
  */
 public interface PersonRepository extends YiLinR2dbcRepository<Person, Long> {
 }

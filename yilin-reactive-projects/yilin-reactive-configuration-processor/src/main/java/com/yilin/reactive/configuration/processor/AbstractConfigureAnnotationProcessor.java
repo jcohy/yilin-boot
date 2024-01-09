@@ -31,8 +31,8 @@ import javax.tools.StandardLocation;
  * Description: 抽象注解处理器
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/3 23:24
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/3 23:24
+ * @since 2024.0.1
  */
 public abstract class AbstractConfigureAnnotationProcessor extends AbstractProcessor {
 

@@ -11,8 +11,8 @@ import com.yilin.reactive.r2dbc.repository.support.YiLinR2dbcRepositoryFactoryBe
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/31 10:10
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/31 10:10
+ * @since 2024.0.1
  */
 @AutoConfiguration
 @EnableR2dbcRepositories(considerNestedRepositories = true, basePackages = { "com.yilin.reactive" },

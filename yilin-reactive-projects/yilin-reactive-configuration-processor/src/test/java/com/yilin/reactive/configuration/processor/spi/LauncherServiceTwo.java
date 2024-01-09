@@ -10,8 +10,8 @@ import com.yilin.reactive.configuration.processor.annotations.YiLinAutoService;
  * Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/4 17:52
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/4 17:52
+ * @since 2024.0.1
  */
 @YiLinAutoService(value = LauncherService.class, name = "LauncherServiceTwo")
 public class LauncherServiceTwo implements LauncherService {

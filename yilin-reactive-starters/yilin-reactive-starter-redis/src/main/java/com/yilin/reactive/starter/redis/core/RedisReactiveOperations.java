@@ -5,8 +5,8 @@ package com.yilin.reactive.starter.redis.core;
  * <p> Description:顶级接口抽象，定义 Redis 操作抽象。
  *
  * @author jcohy
- * @version 2023.0.1 2023/9/4 12:00
- * @since 2023.0.1
+ * @version 2024.0.1 2023/9/4 12:00
+ * @since 2024.0.1
  */
 public interface RedisReactiveOperations {
 }

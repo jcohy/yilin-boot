@@ -19,8 +19,8 @@ import org.slf4j.LoggerFactory;
  * <a href="https://www.jcohy.com" target= "_blank">https://www.jcohy.com</a>
  *
  * @author jcohy
- * @version 2023.0.1 2023/3/7 10:50
- * @since 2023.0.1
+ * @version 2024.0.1 2023/3/7 10:50
+ * @since 2024.0.1
  */
 public class JarFileClassPathResourceScanner implements ClassPathResourceScanner {
 

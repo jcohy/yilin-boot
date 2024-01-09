@@ -5,8 +5,8 @@ package com.yilin.reactive.starter.redis.lock;
  * <p> Description: 锁类型
  *
  * @author jcohy
- * @version 2023.0.1 2023/9/1 16:54
- * @since 2023.0.1
+ * @version 2024.0.1 2023/9/1 16:54
+ * @since 2024.0.1
  */
 public enum LockType {
 

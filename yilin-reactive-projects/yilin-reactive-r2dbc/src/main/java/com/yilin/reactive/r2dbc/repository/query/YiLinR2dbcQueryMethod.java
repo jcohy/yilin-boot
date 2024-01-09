@@ -20,8 +20,8 @@ import com.yilin.reactive.persistent.annotations.TenantId;
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/8/3 16:57
- * @since 2023.0.1
+ * @version 2024.0.1 2023/8/3 16:57
+ * @since 2024.0.1
  */
 public class YiLinR2dbcQueryMethod extends R2dbcQueryMethod {
 

@@ -16,8 +16,8 @@ import com.yilin.reactive.configuration.processor.utils.Elements;
  * Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/4 17:35
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/4 17:35
+ * @since 2024.0.1
  */
 public abstract class AbstractValueExtractor implements ValueExtractor {
 

@@ -18,8 +18,8 @@ import org.gradle.api.plugins.PluginContainer;
  * <p> Description: 文档构建
  *
  * @author jcohy
- * @version 2023.0.1 2023/7/3 22:35
- * @since 2023.0.1
+ * @version 2024.0.1 2023/7/3 22:35
+ * @since 2024.0.1
  */
 public class AsciidoctorDocsPlugins implements Plugin<Project> {
 
