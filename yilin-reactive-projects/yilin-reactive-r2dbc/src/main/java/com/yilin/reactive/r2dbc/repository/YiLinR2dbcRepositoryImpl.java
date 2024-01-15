@@ -5,6 +5,10 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.r2dbc.convert.R2dbcConverter;
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations;
 import org.springframework.data.r2dbc.repository.support.SimpleR2dbcRepository;
@@ -24,6 +28,7 @@ import com.yilin.reactive.persistent.enums.DeleteStatus;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -65,6 +70,69 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 				.filter(field -> AnnotatedElementUtils.hasAnnotation(field, TenantId.class))
 				.map(Field::getName)
 				.findAny();
+	}
+
+	@Override
+	public R2dbcEntityOperations getR2dbcEntityOperations() {
+		return this.entityOperations;
+	}
+
+
+	@Override
+	@SuppressWarnings("*")
+	public Mono<Page<T>> pageByQuery(Criteria criteria, Pageable pageable) {
+		final Query query = Query.query(criteria);
+		return this.entityOperations.count(query, entity.getJavaType())
+				.flatMap(total ->
+				this.entityOperations.select(query.with(pageable), entity.getJavaType())
+						.collectList()
+						.map(list -> new PageImpl<>(list, pageable, total)));
+	}
+
+	@Override
+	public Mono<Long> countByQuery(Criteria criteria) {
+		final Query query = Query.query(criteria);
+		return this.entityOperations.count(query, entity.getJavaType());
+	}
+
+	@Override
+	public Flux<T> findByQuery(Criteria criteria) {
+		final Query query = Query.query(criteria);
+		return this.entityOperations.select(query, entity.getJavaType());
+	}
+
+	@Override
+	public Flux<T> findByQuery(Criteria criteria, Sort sort) {
+		final Query query = Query.query(criteria).sort(sort);
+		return this.entityOperations.select(query, entity.getJavaType());
+	}
+
+	@Override
+	public Flux<T> findByQuery(Criteria criteria, int limit) {
+		final Query query = Query.query(criteria).limit(limit);
+		return this.entityOperations.select(query, entity.getJavaType());
+	}
+
+	@Override
+	public Flux<T> findByQuery(Criteria criteria, Sort sort, int limit) {
+		final Query query = Query.query(criteria).sort(sort).limit(limit);
+		return this.entityOperations.select(query, entity.getJavaType());
+	}
+
+	@Override
+	public Flux<T> findByQuery(Query query) {
+		return this.entityOperations.select(query, entity.getJavaType());
+	}
+
+	@Override
+	public Mono<T> findOneByQuery(Query query) {
+		return this.entityOperations.selectOne(query, entity.getJavaType());
+	}
+
+	@Override
+	public Mono<T> findOneByQuery(Criteria criteria) {
+		final Query query = Query.query(criteria);
+		return this.entityOperations.selectOne(query, entity.getJavaType());
 	}
 
 	@Override
@@ -111,6 +179,7 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 						Update.update(delete.get(), DeleteStatus.DELETED.getStatus()),
 						this.entity.getJavaType());
 	}
+
 
 	@Override
 	@Transactional

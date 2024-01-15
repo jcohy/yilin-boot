@@ -10,7 +10,9 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
+import org.springframework.data.relational.core.query.Criteria;
 import org.springframework.r2dbc.core.DatabaseClient;
 
 import com.yilin.reactive.r2dbc.YiLinR2dbcRepositoryIntegrationTestSupport;
@@ -202,6 +204,37 @@ public abstract class AbstractYiLinYiLinR2DbcRepositoryRepositoryIntegrationTest
 				.as(StepVerifier::create)
 				.consumeNextWith(actual -> {
 					assertThat(actual).hasSize(2).extracting(Person::getDeleted).containsSequence(0, 0);
+				})
+				.verifyComplete();
+	}
+
+	// todo
+	@Test
+	void shouldPageByQuery() {
+
+		Person person1 = new Person(null, "Jcohy", 12, 0L);
+		Person person2 = new Person(null, "YiLin", 13, 0L);
+		Person person3 = new Person(null, "Jcohy", 18, 0L);
+		Person person4 = new Person(null, "Jcohy2", 23, 0L);
+		Person person5 = new Person(null, "Jcohy3", 58, 0L);
+		repository.saveAll(Arrays.asList(person1, person2,person3,person4,person5)) //
+				.as(StepVerifier::create) //
+				.expectNextCount(5) //
+				.verifyComplete();
+
+
+
+		this.repository.pageByQuery(Criteria.where("age").lessThan(20), Pageable.ofSize(10))
+				.as(StepVerifier::create)
+				.consumeNextWith(page -> {
+					assertThat(page.getTotalElements()).isEqualTo(3);
+				})
+				.verifyComplete();
+
+		this.repository.pageByQuery(Criteria.where("name").like("Jcohy"), Pageable.ofSize(3))
+				.as(StepVerifier::create)
+				.consumeNextWith(page -> {
+					assertThat(page.getTotalElements()).isEqualTo(3);
 				})
 				.verifyComplete();
 	}

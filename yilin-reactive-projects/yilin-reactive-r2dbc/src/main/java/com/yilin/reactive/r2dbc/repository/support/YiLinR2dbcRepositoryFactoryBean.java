@@ -9,6 +9,7 @@ import org.springframework.data.r2dbc.core.R2dbcEntityOperations;
 import org.springframework.data.r2dbc.core.ReactiveDataAccessStrategy;
 import org.springframework.data.r2dbc.repository.support.R2dbcRepositoryFactoryBean;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -41,6 +42,10 @@ public class YiLinR2dbcRepositoryFactoryBean<T extends Repository<S, ID>, S, ID 
 		return new YiLinR2dbcRepositoryFactory(operations);
 	}
 
+	@Override
+	public RepositoryInformation getRepositoryInformation() {
+		return super.getRepositoryInformation();
+	}
 
 	@Override
 	public void setCustomImplementation(Object customImplementation) {

@@ -5,7 +5,7 @@ plugins {
 description = "yilin Boot Common Persistent"
 
 dependencies {
-	api ("com.baomidou:mybatis-plus-generator")
+//	api ("com.baomidou:mybatis-plus-generator")
 	api ("org.apache.velocity:velocity")
 }
 

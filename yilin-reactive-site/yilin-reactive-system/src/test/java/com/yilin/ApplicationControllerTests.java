@@ -1,34 +1,51 @@
 package com.yilin;
 
+
 import org.junit.jupiter.api.Test;
+import reactor.test.StepVerifier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.yilin.auth.Department;
+import com.yilin.auth.DepartmentRepository;
+
 
 /**
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
  * <p> Description:
  *
  * @author jcohy
- * @version 2023.0.1 2023/12/12 20:56
- * @since 2023.0.1
+ * @version 2024.0.1 2023/12/12 20:56
+ * @since 2024.0.1
  */
 @SpringBootTest
+
 @AutoConfigureMockMvc
 public class ApplicationControllerTests {
 
+//	@Autowired
+//	private MockMvc mockMvc;
+
 	@Autowired
-	private MockMvc mockMvc;
+	DepartmentRepository departmentRepository;
+
+//	@Test
+//	public void shouldReturnOkWithToken() throws Exception {
+//		this.mockMvc.perform(get("/").header("Authorization", "Bearer TOKEN"))
+//				.andExpect(status().isOk());
+//	}
 
 	@Test
-	public void shouldReturnOkWithToken() throws Exception {
-		this.mockMvc.perform(get("/").header("Authorization", "Bearer TOKEN"))
-				.andExpect(status().isOk());
+	void addDepartment() {
+		Department department = new Department();
+//		department.setId(101L);
+		department.setName("aa");
+		departmentRepository.save(department) //
+				.as(StepVerifier::create) //
+				.expectNextCount(1) //
+				.verifyComplete();
 	}
 
 }

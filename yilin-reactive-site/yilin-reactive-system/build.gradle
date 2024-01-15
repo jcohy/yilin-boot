@@ -7,6 +7,7 @@ description = "System Core Module"
 
 dependencies {
 	api("org.springframework.boot:spring-boot-starter-webflux")
+	api(project(":yilin-reactive-projects:yilin-reactive-r2dbc"))
 //	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	api("org.flywaydb:flyway-core")
 	implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
@@ -14,4 +15,5 @@ dependencies {
 	implementation("com.mysql:mysql-connector-j")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.flywaydb:flyway-mysql")
+	testImplementation("io.projectreactor:reactor-test")
 }
