@@ -1,6 +1,7 @@
 package com.yilin.reactive.r2dbc.repository;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,9 +11,12 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 import org.springframework.data.relational.core.query.Criteria;
+import org.springframework.data.relational.core.query.CriteriaDefinition.Comparator;
+import org.springframework.data.relational.core.sql.SqlIdentifier;
 import org.springframework.r2dbc.core.DatabaseClient;
 
 import com.yilin.reactive.r2dbc.YiLinR2dbcRepositoryIntegrationTestSupport;
@@ -22,6 +26,7 @@ import com.yilin.reactive.r2dbc.repository.support.YiLinR2dbcRepositoryFactoryBe
 import com.yilin.reactive.r2dbc.testing.H2TestSupport;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.data.relational.core.query.Criteria.where;
 
 /**
  * Copyright: Copyright (c) 2023 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
@@ -212,26 +217,32 @@ public abstract class AbstractYiLinYiLinR2DbcRepositoryRepositoryIntegrationTest
 	@Test
 	void shouldPageByQuery() {
 
-		Person person1 = new Person(null, "Jcohy", 12, 0L);
-		Person person2 = new Person(null, "YiLin", 13, 0L);
-		Person person3 = new Person(null, "Jcohy", 18, 0L);
-		Person person4 = new Person(null, "Jcohy2", 23, 0L);
-		Person person5 = new Person(null, "Jcohy3", 58, 0L);
-		repository.saveAll(Arrays.asList(person1, person2,person3,person4,person5)) //
+		Flux<Person> flux = insertSomePerson(5,"Jcohy")
+				.concatWith(insertSomePerson(5,"YILIn"))
+				.concatWith(insertSomePerson(5,"Jcc"))
+				.concatWith(insertSomePerson(5,"Jiac"));
+
+		repository.saveAll(flux) //
 				.as(StepVerifier::create) //
-				.expectNextCount(5) //
+				.expectNextCount(20) //
 				.verifyComplete();
 
 
-
-		this.repository.pageByQuery(Criteria.where("age").lessThan(20), Pageable.ofSize(10))
+		this.repository.pageByQuery(Criteria.where("name").like("J%"), PageRequest.of(0,10))
 				.as(StepVerifier::create)
 				.consumeNextWith(page -> {
-					assertThat(page.getTotalElements()).isEqualTo(3);
+					assertThat(page.getTotalElements()).isEqualTo(10);
 				})
 				.verifyComplete();
 
-		this.repository.pageByQuery(Criteria.where("name").like("Jcohy"), Pageable.ofSize(3))
+		this.repository.pageByQuery(Criteria.where("name").like("Jcohy%"), PageRequest.of(0,10))
+				.as(StepVerifier::create)
+				.consumeNextWith(page -> {
+					assertThat(page.getTotalElements()).isEqualTo(5);
+				})
+				.verifyComplete();
+
+		this.repository.pageByQuery(Criteria.where("name").like("Jcohy%"), PageRequest.of(0,3))
 				.as(StepVerifier::create)
 				.consumeNextWith(page -> {
 					assertThat(page.getTotalElements()).isEqualTo(3);
@@ -239,6 +250,10 @@ public abstract class AbstractYiLinYiLinR2DbcRepositoryRepositoryIntegrationTest
 				.verifyComplete();
 	}
 
+
+	Flux<Person> insertSomePerson(int count,String name) {
+		return Flux.fromStream(IntStream.range(0, count).mapToObj(value -> new Person(null, name + value, value, 1L)));
+	}
 //	@Test
 //	void shouldChangeStatusWithId() {
 //

@@ -10,6 +10,7 @@ import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yilin.reactive.r2dbc.EnableYiLinR2dbcRepository;
 import com.yilin.reactive.r2dbc.repository.support.YiLinR2dbcRepositoryFactoryBean;
 
 /**
@@ -22,8 +23,7 @@ import com.yilin.reactive.r2dbc.repository.support.YiLinR2dbcRepositoryFactoryBe
  * @since 2024.0.1
  */
 @SpringBootApplication
-@EnableR2dbcRepositories(considerNestedRepositories = true, basePackages = { "com.yilin" },
-		repositoryFactoryBeanClass = YiLinR2dbcRepositoryFactoryBean.class)
+@EnableYiLinR2dbcRepository
 public class YiLinReactiveApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(YiLinReactiveApplication.class, args);

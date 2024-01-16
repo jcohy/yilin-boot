@@ -81,12 +81,10 @@ public class YiLinR2dbcRepositoryImpl<T, ID> extends SimpleR2dbcRepository<T, ID
 	@Override
 	@SuppressWarnings("*")
 	public Mono<Page<T>> pageByQuery(Criteria criteria, Pageable pageable) {
-		final Query query = Query.query(criteria);
-		return this.entityOperations.count(query, entity.getJavaType())
-				.flatMap(total ->
-				this.entityOperations.select(query.with(pageable), entity.getJavaType())
-						.collectList()
-						.map(list -> new PageImpl<>(list, pageable, total)));
+		final Query query = Query.query(criteria).with(pageable);
+		return this.entityOperations.select(query.with(pageable), entity.getJavaType())
+				.collectList()
+				.map(list -> new PageImpl<>(list, pageable, list.size()));
 	}
 
 	@Override

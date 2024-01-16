@@ -11,4 +11,5 @@ import com.yilin.reactive.r2dbc.repository.YiLinR2dbcRepository;
  * @since 2024.0.1
  */
 public interface DepartmentRepository extends YiLinR2dbcRepository<Department,Long> {
+
 }
